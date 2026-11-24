@@ -19,6 +19,7 @@
       --subtle: #86868b;
       --accent: #0071e3;
       --accent-hover: #0077ed;
+      --accent-soft: rgba(0, 113, 227, 0.1);
       --success: #34c759;
       --warning: #ff9500;
       --danger: #ff3b30;
@@ -56,7 +57,7 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Slim Frosted Glass Navbar (Always Single Row) */
+    /* Slim Frosted Glass Navbar (Always Single Row, No Database Button) */
     .topbar {
       background: rgba(255, 255, 255, 0.78);
       backdrop-filter: saturate(180%) blur(20px);
@@ -135,48 +136,11 @@
       background: var(--danger);
     }
 
-    /* Right Controls */
     .topbar-controls {
       display: flex;
       align-items: center;
       gap: 6px;
       flex-shrink: 0;
-    }
-
-    .sync-status-btn {
-      font: inherit;
-      font-size: 0.78rem;
-      font-weight: 500;
-      height: 30px;
-      padding: 0 10px;
-      border-radius: 999px;
-      border: 1px solid var(--border-strong);
-      background: var(--surface);
-      color: var(--muted);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      cursor: pointer;
-      transition: background 0.15s ease, color 0.15s ease;
-    }
-
-    .sync-status-btn.icon-only {
-      width: 30px;
-      padding: 0;
-      border-color: transparent;
-      background: transparent;
-      color: var(--subtle);
-    }
-
-    .sync-status-btn:hover {
-      color: var(--ink);
-      background: rgba(0, 0, 0, 0.05);
-    }
-
-    .sync-status-btn:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
     }
 
     /* iOS Segmented Switch */
@@ -234,7 +198,7 @@
       }
     }
 
-    /* Alert Banner (Only visible on actual error) */
+    /* Alert Banner (Only visible on actual connection error) */
     .sync-banner {
       background: #fff2f1;
       border: 1px solid rgba(255, 59, 48, 0.2);
@@ -243,11 +207,6 @@
       padding: 12px var(--space-4);
       margin-bottom: var(--space-4);
       font-size: 0.85rem;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-2);
     }
 
     /* Event Pills Bar */
@@ -313,8 +272,8 @@
       font: inherit;
       font-size: 0.9375rem;
       font-weight: 600;
-      min-height: 42px;
-      padding: 9px 18px;
+      min-height: 40px;
+      padding: 8px 16px;
       border-radius: 12px;
       border: 1px solid transparent;
       cursor: pointer;
@@ -350,9 +309,9 @@
     }
 
     .btn-pill-sm {
-      min-height: 33px;
-      padding: 5px 13px;
-      font-size: 0.82rem;
+      min-height: 32px;
+      padding: 4px 12px;
+      font-size: 0.8125rem;
       border-radius: 999px;
       flex-shrink: 0;
     }
@@ -364,6 +323,20 @@
     }
 
     .btn-secondary:hover:not(:disabled) {
+      background: #e8e8ed;
+    }
+
+    .btn-ghost-action {
+      background: var(--surface-subtle);
+      color: var(--ink);
+      min-height: 30px;
+      padding: 4px 10px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border-radius: 8px;
+    }
+
+    .btn-ghost-action:hover:not(:disabled) {
       background: #e8e8ed;
     }
 
@@ -489,6 +462,13 @@
       white-space: pre-line;
     }
 
+    .admin-hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
     .specs-strip {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -534,65 +514,221 @@
         margin-bottom: var(--space-5);
       }
       .workspace-grid {
-        grid-template-columns: 1.12fr 0.88fr;
+        grid-template-columns: 1.14fr 0.86fr;
         gap: var(--space-5);
       }
     }
 
-    /* Forms (16px font prevents iOS auto-zoom) */
+    /* Forms (16px font prevents iOS auto-zoom, compact height fits single mobile screen) */
     .form-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 14px;
+      gap: 10px;
     }
 
-    @media (min-width: 600px) {
-      .form-grid-2 {
-        grid-template-columns: 1fr 1fr;
-      }
-      .form-grid-3 {
-        grid-template-columns: repeat(3, 1fr);
-      }
+    /* Always 2-column even on mobile for compact date/time & sliders */
+    .form-row-compact-2 {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 10px;
+      align-items: end;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
 
     .field {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 4px;
+      min-width: 0;
     }
 
     .field label {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 500;
       color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
     }
 
-    .field input,
+    .val-badge {
+      font-weight: 600;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .field input:not([type="range"]),
+    .field select,
     .field textarea {
       font: inherit;
       font-size: 1rem;
-      min-height: 44px;
-      padding: 10px 14px;
-      border-radius: 12px;
+      height: 38px;
+      padding: 6px 12px;
+      border-radius: 10px;
       border: 1px solid var(--border-strong);
       background: var(--surface);
       color: var(--ink);
       width: 100%;
+      min-width: 0;
       transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
 
-    .field textarea {
-      resize: vertical;
-      min-height: 80px;
+    .field input[type="date"] {
+      padding: 5px 9px;
+      font-size: 0.94rem;
     }
 
-    .field input:focus,
+    .field select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%236e6e73' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 15px;
+      padding-right: 32px;
+    }
+
+    .field textarea {
+      height: auto;
+      min-height: 62px;
+      padding: 8px 12px;
+      resize: vertical;
+    }
+
+    .field input:not([type="range"]):focus,
+    .field select:focus,
     .field textarea:focus {
       outline: none;
       border-color: var(--accent);
-      box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.14);
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.14);
     }
 
+    /* Compact Sliders + Capacity Panel inside Event Modal */
+    .compact-specs-box {
+      background: var(--surface-subtle);
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .sliders-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .slider-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .slider-field label {
+      font-size: 0.76rem;
+      font-weight: 500;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .slider-field input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 999px;
+      margin: 6px 0 2px;
+      cursor: pointer;
+    }
+
+    .slider-field input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid #ffffff;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+      transition: transform 0.1s ease;
+    }
+
+    .slider-field input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid #ffffff;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+    }
+
+    .slider-field input[type="range"]:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    .capacity-inline-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+
+    .capacity-inline-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .capacity-inline-sub {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--subtle);
+      font-weight: 400;
+    }
+
+    .capacity-inline-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .capacity-inline-input {
+      font: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      width: 72px;
+      height: 34px;
+      padding: 4px 8px;
+      text-align: center;
+      border-radius: 8px;
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .capacity-inline-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.14);
+    }
+
+    /* Inline Player Sign-up */
     .inline-signup {
       display: flex;
       gap: 8px;
@@ -604,8 +740,8 @@
       min-width: 0;
       font: inherit;
       font-size: 1rem;
-      min-height: 44px;
-      padding: 10px 14px;
+      min-height: 42px;
+      padding: 8px 14px;
       border-radius: 12px;
       border: 1px solid transparent;
       background: var(--surface-subtle);
@@ -622,8 +758,8 @@
 
     .form-error {
       color: var(--danger);
-      font-size: 0.82rem;
-      margin: -4px 0 12px 0;
+      font-size: 0.8rem;
+      margin: -2px 0 10px 0;
     }
 
     .capacity-text {
@@ -641,7 +777,7 @@
       background: #fef3c7;
     }
 
-    /* Player List */
+    /* Player List & Inline Manual Cost Override */
     .player-list {
       list-style: none;
       margin: 0;
@@ -655,9 +791,10 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: var(--space-2);
-      padding: 10px 10px 10px 14px;
+      gap: 8px;
+      padding: 9px 10px 9px 14px;
       border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
     }
 
     .player-row:last-child {
@@ -667,8 +804,9 @@
     .player-info {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 9px;
       min-width: 0;
+      flex: 1;
     }
 
     .player-index {
@@ -693,12 +831,103 @@
       white-space: nowrap;
     }
 
+    .player-right-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .player-share-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
     .player-share {
       font-weight: 600;
       font-variant-numeric: tabular-nums;
       color: var(--ink);
-      margin-left: auto;
       font-size: 0.88rem;
+    }
+
+    .share-mode-tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: #fef3c7;
+      color: #b45309;
+    }
+
+    /* Admin inline share editor */
+    .admin-share-editor {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      padding: 2px 6px;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .admin-share-editor.is-manual {
+      border-color: #f59e0b;
+      background: #fffbeb;
+    }
+
+    .admin-share-editor:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.14);
+    }
+
+    .currency-prefix {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--subtle);
+    }
+
+    .manual-share-input {
+      font: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      width: 74px;
+      height: 28px;
+      border: none;
+      background: transparent;
+      color: var(--ink);
+      text-align: right;
+      padding: 0 2px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .manual-share-input::placeholder {
+      color: var(--muted);
+      font-weight: 500;
+      opacity: 0.85;
+    }
+
+    .manual-share-input:focus {
+      outline: none;
+    }
+
+    .reset-share-btn {
+      font: inherit;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 5px;
+      border: none;
+      background: rgba(245, 158, 11, 0.18);
+      color: #92400e;
+      cursor: pointer;
+      line-height: 1.3;
+    }
+
+    .reset-share-btn:hover {
+      background: rgba(245, 158, 11, 0.3);
     }
 
     .list-empty {
@@ -715,15 +944,15 @@
       background: var(--surface-subtle);
       border-radius: var(--radius);
       padding: 14px 16px;
-      margin-top: var(--space-4);
+      margin-top: var(--space-3);
     }
 
     .summary-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 5px 0;
-      font-size: 0.875rem;
+      padding: 4px 0;
+      font-size: 0.86rem;
       color: var(--muted);
       font-variant-numeric: tabular-nums;
     }
@@ -731,7 +960,7 @@
     .summary-row.total {
       border-top: 1px solid var(--border);
       margin-top: 6px;
-      padding-top: 10px;
+      padding-top: 9px;
       color: var(--ink);
       font-weight: 600;
       font-size: 0.94rem;
@@ -742,7 +971,7 @@
       background: var(--ink);
       color: #ffffff;
       border-radius: var(--radius);
-      padding: 16px 18px;
+      padding: 14px 18px;
       display: flex;
       align-items: baseline;
       justify-content: space-between;
@@ -751,13 +980,13 @@
     }
 
     .per-person-label {
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       font-weight: 500;
-      color: rgba(255, 255, 255, 0.76);
+      color: rgba(255, 255, 255, 0.78);
     }
 
     .per-person-amount {
-      font-size: 1.65rem;
+      font-size: 1.55rem;
       font-weight: 700;
       letter-spacing: -0.025em;
       color: #ffffff;
@@ -765,30 +994,13 @@
     }
 
     .admin-hint {
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: var(--subtle);
-      margin: 0 0 12px 0;
+      margin: 0 0 10px 0;
+      line-height: 1.45;
     }
 
-    .config-help {
-      background: var(--surface-subtle);
-      border-radius: var(--radius-sm);
-      padding: var(--space-3) var(--space-4);
-      font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.55;
-    }
-
-    .config-help code {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.76rem;
-      background: rgba(0, 0, 0, 0.06);
-      color: var(--ink);
-      padding: 2px 5px;
-      border-radius: 4px;
-    }
-
-    /* Modals (iOS Sheet on Mobile, Centered Dialog on Desktop) */
+    /* Compact Single-Screen Modal */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -811,19 +1023,19 @@
 
     .modal {
       background: var(--surface);
-      border-radius: 22px 22px 0 0;
+      border-radius: 20px 20px 0 0;
       box-shadow: 0 24px 48px rgba(0, 0, 0, 0.18);
       width: 100%;
-      max-width: 520px;
-      max-height: 92vh;
+      max-width: 480px;
+      max-height: 95vh;
       overflow-y: auto;
-      padding: var(--space-5) var(--space-5) calc(var(--space-6) + env(safe-area-inset-bottom, 0px));
+      padding: 16px 18px calc(16px + env(safe-area-inset-bottom, 0px));
     }
 
     @media (min-width: 600px) {
       .modal {
-        border-radius: 22px;
-        padding: var(--space-6);
+        border-radius: 20px;
+        padding: 20px 22px;
       }
     }
 
@@ -831,12 +1043,12 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: var(--space-4);
+      margin-bottom: 10px;
     }
 
     .modal-title {
       margin: 0;
-      font-size: 1.125rem;
+      font-size: 1.05rem;
       font-weight: 700;
       letter-spacing: -0.02em;
     }
@@ -845,8 +1057,8 @@
       display: flex;
       justify-content: flex-end;
       gap: 8px;
-      margin-top: var(--space-5);
-      padding-top: var(--space-4);
+      margin-top: 12px;
+      padding-top: 10px;
       border-top: 1px solid var(--border);
     }
   </style>
@@ -864,20 +1076,11 @@
         </div>
         <div class="brand-title-wrap">
           <h1 class="brand-title">ก๊วนตีแบด</h1>
-          <span id="firebaseSyncDot" class="sync-dot" title="สถานะการเชื่อมต่อ"></span>
+          <span id="firebaseSyncDot" class="sync-dot" title="สถานะการซิงก์ข้อมูลเรียลไทม์"></span>
         </div>
       </div>
 
       <div class="topbar-controls">
-        <button type="button" id="firebaseStatusBtn" class="sync-status-btn icon-only" title="ตั้งค่าฐานข้อมูล Firebase" hidden>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
-            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
-          </svg>
-          <span id="firebaseStatusText" hidden>ตั้งค่า</span>
-        </button>
-
         <div class="role-switch" role="tablist" aria-label="เลือกมุมมองการใช้งาน">
           <button type="button" id="rolePlayerBtn" class="role-btn active" role="tab" aria-selected="true">
             ลงชื่อ
@@ -894,9 +1097,6 @@
     <!-- Shown ONLY when an actual Firebase error occurs -->
     <div id="firebaseErrorBanner" class="sync-banner" role="alert" hidden>
       <span id="firebaseErrorText"></span>
-      <button type="button" id="firebaseFixBtn" class="btn btn-secondary btn-pill-sm">
-        ตรวจสอบการเชื่อมต่อ
-      </button>
     </div>
 
     <!-- Event Selector Bar -->
@@ -935,7 +1135,10 @@
             <h2 id="activeEventTitle" class="event-name"></h2>
             <p id="activeEventNote" class="event-note" hidden></p>
           </div>
-          <div id="adminEventActions" hidden>
+          <div id="adminEventActions" class="admin-hero-actions" hidden>
+            <button type="button" id="editEventBtn" class="btn btn-ghost-action">
+              แก้ไข
+            </button>
             <button type="button" id="deleteEventBtn" class="btn btn-danger-ghost">
               ลบอีเวนต์
             </button>
@@ -959,7 +1162,7 @@
       </section>
 
       <div class="workspace-grid">
-        <!-- Left Column: Player Sign-up -->
+        <!-- Left Column: Player Sign-up & Per-Player Cost Override -->
         <section class="card" aria-labelledby="signupHeading">
           <h3 id="signupHeading" class="section-title">
             <span>รายชื่อผู้เล่น</span>
@@ -982,6 +1185,10 @@
             <p id="signupError" class="form-error" hidden></p>
           </form>
 
+          <p id="manualEditHint" class="admin-hint" hidden>
+            แอดมินสามารถพิมพ์แก้ยอดเงินรายคนในช่องท้ายชื่อได้ ระบบจะนำยอดที่เหลือไปหารเฉลี่ยให้คนอื่นอัตโนมัติ
+          </p>
+
           <div id="playerListEmpty" class="list-empty">
             ยังไม่มีผู้ลงชื่อ พิมพ์ชื่อเล่นด้านบนเพื่อประเดิมคนแรกได้เลย
           </div>
@@ -999,7 +1206,7 @@
             <p class="admin-hint">
               กรอกค่าเช่าสนามและค่าลูกแบดหลังตีเสร็จ ระบบจะหารยอดต่อคนให้อัตโนมัติ
             </p>
-            <div class="form-grid form-grid-2">
+            <div class="form-grid-2">
               <div class="field">
                 <label for="courtCostInput">ค่าสนามรวม (บาท)</label>
                 <input
@@ -1041,8 +1248,12 @@
                 <span id="displayShuttleCost">฿0.00</span>
               </div>
               <div class="summary-row">
-                <span>จำนวนคนหาร</span>
+                <span>จำนวนคนหารทั้งหมด</span>
                 <span id="displayPlayerCount">0 คน</span>
+              </div>
+              <div id="manualSummaryRow" class="summary-row" hidden>
+                <span id="manualSummaryLabel">หักยอดกำหนดเอง</span>
+                <span id="displayManualSum">฿0.00</span>
               </div>
               <div class="summary-row total">
                 <span>ยอดรวมทั้งหมด</span>
@@ -1051,7 +1262,7 @@
             </div>
 
             <div class="per-person-highlight">
-              <span class="per-person-label">จ่ายคนละ</span>
+              <span id="perPersonLabel" class="per-person-label">จ่ายคนละ</span>
               <span id="displayPerPerson" class="per-person-amount">฿0.00</span>
             </div>
           </div>
@@ -1060,7 +1271,7 @@
     </div>
   </main>
 
-  <!-- Create Event Modal (Admin) -->
+  <!-- Compact Create / Edit Event Modal (Admin) -->
   <div id="createEventModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="createModalTitle" hidden>
     <div class="modal">
       <div class="modal-header">
@@ -1072,122 +1283,124 @@
 
       <form id="createEventForm" novalidate>
         <div class="form-grid">
+          <!-- Venue Dropdown + Optional Custom Court Addition -->
           <div class="field">
-            <label for="eventLocationInput">สถานที่ / ชื่อสนามแบด *</label>
+            <label for="eventLocationSelect">สถานที่ / สนามแบดมินตัน *</label>
+            <select id="eventLocationSelect" required></select>
+          </div>
+
+          <div id="customLocationField" class="field" hidden>
             <input
               type="text"
               id="eventLocationInput"
-              placeholder="เช่น สนามแบดมินตันสุขุมวิท คอร์ท 3-4"
+              placeholder="พิมพ์ชื่อสนามแบดใหม่ (บันทึกเข้าดรอปดาวน์อัตโนมัติ)..."
               maxlength="100"
-              required
+              aria-label="ชื่อสนามแบดมินตันใหม่"
             >
           </div>
 
-          <div class="form-grid form-grid-2">
+          <!-- Compact Date & Hour-Only Selector on 1 Row -->
+          <div class="form-row-compact-2">
             <div class="field">
               <label for="eventDateInput">วันที่ *</label>
               <input type="date" id="eventDateInput" required>
             </div>
             <div class="field">
-              <label for="eventTimeInput">เวลาเริ่ม *</label>
-              <input type="time" id="eventTimeInput" required>
+              <label for="eventTimeSelect">เวลาเริ่ม (ชม.) *</label>
+              <select id="eventTimeSelect" required>
+                <option value="06:00">06:00 น.</option>
+                <option value="07:00">07:00 น.</option>
+                <option value="08:00">08:00 น.</option>
+                <option value="09:00">09:00 น.</option>
+                <option value="10:00">10:00 น.</option>
+                <option value="11:00">11:00 น.</option>
+                <option value="12:00">12:00 น.</option>
+                <option value="13:00">13:00 น.</option>
+                <option value="14:00">14:00 น.</option>
+                <option value="15:00">15:00 น.</option>
+                <option value="16:00">16:00 น.</option>
+                <option value="17:00">17:00 น.</option>
+                <option value="18:00">18:00 น.</option>
+                <option value="19:00" selected>19:00 น.</option>
+                <option value="20:00">20:00 น.</option>
+                <option value="21:00">21:00 น.</option>
+                <option value="22:00">22:00 น.</option>
+                <option value="23:00">23:00 น.</option>
+              </select>
             </div>
           </div>
 
-          <div class="form-grid form-grid-3">
-            <div class="field">
-              <label for="eventCourtsInput">จำนวนสนาม *</label>
-              <input
-                type="number"
-                id="eventCourtsInput"
-                min="1"
-                max="50"
-                step="1"
-                placeholder="2"
-                required
-              >
+          <!-- Compact Sliders (Courts & Hours) + Auto Capacity (6 x Courts) -->
+          <div class="compact-specs-box">
+            <div class="sliders-grid">
+              <div class="slider-field">
+                <label for="eventCourtsInput">
+                  <span>จำนวนสนาม</span>
+                  <span id="courtsValueBadge" class="val-badge">2 สนาม</span>
+                </label>
+                <input
+                  type="range"
+                  id="eventCourtsInput"
+                  min="1"
+                  max="10"
+                  step="1"
+                  value="2"
+                >
+              </div>
+              <div class="slider-field">
+                <label for="eventHoursInput">
+                  <span>จำนวนชั่วโมง</span>
+                  <span id="hoursValueBadge" class="val-badge">2 ชม.</span>
+                </label>
+                <input
+                  type="range"
+                  id="eventHoursInput"
+                  min="1"
+                  max="6"
+                  step="0.5"
+                  value="2"
+                >
+              </div>
             </div>
-            <div class="field">
-              <label for="eventHoursInput">ชม. ต่อสนาม *</label>
-              <input
-                type="number"
-                id="eventHoursInput"
-                min="0.5"
-                max="24"
-                step="0.5"
-                placeholder="2"
-                required
-              >
-            </div>
-            <div class="field">
-              <label for="eventMaxPlayersInput">รับได้กี่คน *</label>
-              <input
-                type="number"
-                id="eventMaxPlayersInput"
-                min="1"
-                max="200"
-                step="1"
-                placeholder="12"
-                required
-              >
+
+            <div class="capacity-inline-row">
+              <div>
+                <span class="capacity-inline-label">จำนวนคนที่รองรับ *</span>
+                <span class="capacity-inline-sub">ค่าเริ่มต้นอัตโนมัติ 6 คน × จำนวนสนาม</span>
+              </div>
+              <div class="capacity-inline-input-wrap">
+                <input
+                  type="number"
+                  id="eventMaxPlayersInput"
+                  class="capacity-inline-input"
+                  min="1"
+                  max="200"
+                  step="1"
+                  value="12"
+                  required
+                >
+                <span style="font-size: 0.8rem; color: var(--muted);">คน</span>
+              </div>
             </div>
           </div>
 
+          <!-- Additional Details (Kept as requested) -->
           <div class="field">
             <label for="eventDetailsInput">รายละเอียดเพิ่มเติม (ถ้ามี)</label>
             <textarea
               id="eventDetailsInput"
+              rows="2"
               placeholder="เช่น เจอกันหน้าคอร์ทก่อนเวลา 15 นาที..."
               maxlength="300"
             ></textarea>
           </div>
         </div>
 
-        <p id="createEventError" class="form-error" style="margin-top: 12px;" hidden></p>
+        <p id="createEventError" class="form-error" style="margin-top: 8px;" hidden></p>
 
         <div class="modal-actions">
-          <button type="button" id="cancelModalBtn" class="btn btn-secondary">ยกเลิก</button>
-          <button type="submit" class="btn btn-primary">สร้างอีเวนต์</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Firebase Configuration Modal (Admin) -->
-  <div id="firebaseModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="firebaseModalTitle" hidden>
-    <div class="modal">
-      <div class="modal-header">
-        <h2 id="firebaseModalTitle" class="modal-title">การเชื่อมต่อฐานข้อมูล</h2>
-        <button type="button" id="closeFirebaseModalBtn" class="btn btn-danger-ghost" aria-label="ปิดหน้าต่าง">
-          ✕
-        </button>
-      </div>
-
-      <form id="firebaseConfigForm" novalidate>
-        <div class="form-grid">
-          <div class="config-help">
-            ซิงก์ข้อมูลเรียลไทม์ผ่าน <strong>Firebase Realtime Database</strong> โดยวางลิงก์ฐานข้อมูล (<code>.firebasedatabase.app</code> หรือ <code>.firebaseio.com</code>) ด้านล่าง
-          </div>
-
-          <div class="field">
-            <label for="firebaseConfigInput">Realtime Database URL</label>
-            <textarea
-              id="firebaseConfigInput"
-              rows="3"
-              placeholder="วางลิงก์ฐานข้อมูล (.firebasedatabase.app หรือ .firebaseio.com)"
-              required
-            ></textarea>
-          </div>
-        </div>
-
-        <p id="firebaseModalError" class="form-error" style="margin-top: 12px;" hidden></p>
-
-        <div class="modal-actions">
-          <button type="button" id="disconnectFirebaseBtn" class="btn btn-danger-ghost" style="margin-right: auto;" hidden>
-            ตัดการเชื่อมต่อ
-          </button>
-          <button type="button" id="cancelFirebaseModalBtn" class="btn btn-secondary">ปิด</button>
-          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" id="cancelModalBtn" class="btn btn-secondary" style="min-height: 36px; padding: 6px 14px; font-size: 0.875rem;">ยกเลิก</button>
+          <button type="submit" id="submitModalBtn" class="btn btn-primary" style="min-height: 36px; padding: 6px 16px; font-size: 0.875rem;">สร้างอีเวนต์</button>
         </div>
       </form>
     </div>
@@ -1195,29 +1408,36 @@
 
   <script>
     (function () {
-      const DEFAULT_FIREBASE_CONFIG = {
-        databaseURL: 'https://badminton-e75c0-default-rtdb.asia-southeast1.firebasedatabase.app/'
-      };
+      const FIREBASE_DATABASE_URL = 'https://badminton-e75c0-default-rtdb.asia-southeast1.firebasedatabase.app';
 
       const STORAGE_KEY = 'badminton_club_events_v1';
-      const FIREBASE_CONFIG_STORAGE_KEY = 'badminton_club_firebase_config_v1';
+      const VENUES_STORAGE_KEY = 'badminton_club_venues_v1';
+      const DB_ROOT_PATH = 'badminton_club_v1';
       const DB_EVENTS_PATH = 'badminton_club_v1/events';
+      const DB_VENUES_PATH = 'badminton_club_v1/venues';
+
+      // Sample venues visibly labeled per data integrity rules when no saved venues exist yet
+      const SAMPLE_VENUES = [
+        'คอร์ทแบดมินตัน สนาม 1 (ตัวอย่าง)',
+        'คอร์ทแบดมินตัน สนาม 2 (ตัวอย่าง)'
+      ];
 
       let state = {
-        role: 'player', // Clean default view for mobile/friends; 1-tap toggle to 'admin'
+        role: 'player', // 'player' | 'admin'
         events: [],
+        venues: [],
         activeEventId: null,
         confirmDeleteId: null,
-        syncMode: 'local', // 'local' | 'connecting' | 'connected' | 'error'
+        editingEventId: null,
+        syncMode: 'connecting', // 'local' | 'connecting' | 'connected' | 'error'
         syncError: '',
-        hasSavedBrowserConfig: false,
         isSubmittingSignup: false
       };
 
-      let activeFirebaseConfig = null;
       let restEventSource = null;
       let fallbackPollTimer = null;
       let expenseSyncTimer = null;
+      let manualShareTimers = {};
       let connectionSeq = 0;
 
       function loadState() {
@@ -1228,6 +1448,13 @@
             if (parsed && Array.isArray(parsed.events)) {
               state.events = parsed.events;
               state.activeEventId = parsed.activeEventId || (state.events[0] ? state.events[0].id : null);
+            }
+          }
+          const rawVenues = window.localStorage.getItem(VENUES_STORAGE_KEY);
+          if (rawVenues) {
+            const parsedVenues = JSON.parse(rawVenues);
+            if (Array.isArray(parsedVenues)) {
+              state.venues = parsedVenues.filter((v) => typeof v === 'string' && v.trim() !== '');
             }
           }
         } catch (err) {}
@@ -1242,93 +1469,14 @@
               activeEventId: state.activeEventId
             })
           );
+          window.localStorage.setItem(VENUES_STORAGE_KEY, JSON.stringify(state.venues));
         } catch (err) {}
       }
 
-      function normalizeFirebaseConfig(cfg) {
-        if (!cfg || typeof cfg !== 'object') return null;
-        const dbUrl = String(cfg.databaseURL || '').trim().replace(/\/+$/, '');
-        if (!dbUrl) return null;
-        if (!/^https:\/\/[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(firebaseio\.com|firebasedatabase\.app)$/i.test(dbUrl)) {
-          return null;
-        }
-        return { databaseURL: dbUrl };
-      }
-
-      function loadSavedFirebaseConfig() {
-        try {
-          const raw = window.localStorage.getItem(FIREBASE_CONFIG_STORAGE_KEY);
-          if (raw) {
-            const parsed = JSON.parse(raw);
-            const normalized = normalizeFirebaseConfig(parsed);
-            if (normalized) {
-              state.hasSavedBrowserConfig = true;
-              return normalized;
-            }
-          }
-        } catch (err) {}
-
-        if (DEFAULT_FIREBASE_CONFIG && DEFAULT_FIREBASE_CONFIG.databaseURL.trim()) {
-          return normalizeFirebaseConfig(DEFAULT_FIREBASE_CONFIG);
-        }
-        return null;
-      }
-
-      function saveBrowserFirebaseConfig(configObj) {
-        try {
-          if (configObj) {
-            window.localStorage.setItem(FIREBASE_CONFIG_STORAGE_KEY, JSON.stringify(configObj));
-            state.hasSavedBrowserConfig = true;
-          } else {
-            window.localStorage.removeItem(FIREBASE_CONFIG_STORAGE_KEY);
-            state.hasSavedBrowserConfig = false;
-          }
-        } catch (err) {}
-      }
-
-      function parseFirebaseInput(rawText) {
-        const trimmed = (rawText || '').trim();
-        if (!trimmed) {
-          return { error: 'กรุณาวางลิงก์ Realtime Database URL' };
-        }
-
-        if (!trimmed.includes('{')) {
-          const withScheme = /^https?:\/\//i.test(trimmed) ? trimmed : 'https://' + trimmed;
-          const cleanedUrl = withScheme
-            .replace(/\/+$/, '')
-            .replace(/\/badminton_club.*$/i, '')
-            .replace(/\.json$/i, '');
-          const normalized = normalizeFirebaseConfig({ databaseURL: cleanedUrl });
-          if (!normalized) {
-            return {
-              error: 'รูปแบบลิงก์ไม่ถูกต้อง กรุณาใช้ลิงก์ที่ลงท้ายด้วย .firebasedatabase.app หรือ .firebaseio.com'
-            };
-          }
-          return { config: normalized };
-        }
-
-        const extractField = (fieldName) => {
-          const regex = new RegExp('["\']?' + fieldName + '["\']?\\s*:\\s*["\']([^"\']+)["\']');
-          const match = trimmed.match(regex);
-          return match ? match[1].trim() : '';
-        };
-
-        const extractedUrl = extractField('databaseURL');
-        if (!extractedUrl) {
-          return {
-            error: 'ไม่พบค่า databaseURL ในข้อความที่วาง กรุณาคัดลอกลิงก์จากเมนู Realtime Database'
-          };
-        }
-
-        const normalized = normalizeFirebaseConfig({
-          databaseURL: extractedUrl.replace(/\/+$/, '')
-        });
-        if (!normalized) {
-          return {
-            error: 'ค่า databaseURL ไม่ถูกต้อง กรุณาตรวจสอบว่าลงท้ายด้วย .firebaseio.com หรือ .firebasedatabase.app'
-          };
-        }
-        return { config: normalized };
+      function parseOptionalMoney(val) {
+        if (val === undefined || val === null || val === '') return null;
+        const num = Number(val);
+        return Number.isFinite(num) && num >= 0 ? num : null;
       }
 
       function normalizePlayersList(rawPlayers) {
@@ -1346,7 +1494,8 @@
           .map((p, idx) => ({
             id: String(p.id),
             name: String(p.name).trim(),
-            joinedAt: Number(p.joinedAt) || idx
+            joinedAt: Number(p.joinedAt) || idx,
+            manualCost: parseOptionalMoney(p.manualCost)
           }))
           .sort((a, b) => a.joinedAt - b.joinedAt);
       }
@@ -1357,6 +1506,14 @@
         }
         const match = String(ev.id || '').match(/^ev_(\d+)_/);
         return match ? Number(match[1]) : 0;
+      }
+
+      function normalizeHourString(timeStr) {
+        if (!timeStr) return '19:00';
+        const match = String(timeStr).trim().match(/^(\d{1,2})/);
+        if (!match) return '19:00';
+        const hr = Math.min(23, Math.max(0, parseInt(match[1], 10)));
+        return String(hr).padStart(2, '0') + ':00';
       }
 
       function normalizeEventsFromFirebase(rawVal) {
@@ -1377,16 +1534,29 @@
             createdAt: extractCreatedTimestamp(ev),
             location: String(ev.location || ''),
             date: String(ev.date || ''),
-            time: String(ev.time || ''),
+            time: normalizeHourString(ev.time),
             courts: Number(ev.courts) || 1,
             hoursPerCourt: Number(ev.hoursPerCourt) || 1,
-            maxPlayers: Number(ev.maxPlayers) || 1,
+            maxPlayers: Number(ev.maxPlayers) || 6,
             details: ev.details ? String(ev.details) : '',
             players: normalizePlayersList(ev.players),
             courtCost: ev.courtCost !== undefined && ev.courtCost !== null && ev.courtCost !== '' ? Number(ev.courtCost) : '',
             shuttleCost: ev.shuttleCost !== undefined && ev.shuttleCost !== null && ev.shuttleCost !== '' ? Number(ev.shuttleCost) : ''
           }))
           .sort((a, b) => a.createdAt - b.createdAt);
+      }
+
+      function normalizeVenuesFromFirebase(rawVenues) {
+        if (!rawVenues) return [];
+        const vals = Array.isArray(rawVenues) ? rawVenues : Object.values(rawVenues);
+        const unique = [];
+        vals.forEach((v) => {
+          const name = typeof v === 'string' ? v.trim() : (v && typeof v.name === 'string' ? v.name.trim() : '');
+          if (name && !unique.includes(name)) {
+            unique.push(name);
+          }
+        });
+        return unique;
       }
 
       function serializePlayersMap(players) {
@@ -1397,7 +1567,8 @@
               map[String(p.id)] = {
                 id: String(p.id),
                 name: String(p.name),
-                joinedAt: Number(p.joinedAt) || idx + 1
+                joinedAt: Number(p.joinedAt) || idx + 1,
+                manualCost: p.manualCost === null || p.manualCost === undefined || p.manualCost === '' ? '' : Number(p.manualCost)
               };
             }
           });
@@ -1411,10 +1582,10 @@
           createdAt: extractCreatedTimestamp(ev) || Date.now(),
           location: String(ev.location || ''),
           date: String(ev.date || ''),
-          time: String(ev.time || ''),
+          time: normalizeHourString(ev.time),
           courts: Number(ev.courts) || 1,
           hoursPerCourt: Number(ev.hoursPerCourt) || 1,
-          maxPlayers: Number(ev.maxPlayers) || 1,
+          maxPlayers: Number(ev.maxPlayers) || 6,
           details: ev.details ? String(ev.details) : '',
           players: serializePlayersMap(ev.players),
           courtCost: ev.courtCost === '' || ev.courtCost === null || ev.courtCost === undefined ? '' : Number(ev.courtCost),
@@ -1427,28 +1598,16 @@
         if (msg.includes('permission_denied') || msg.includes('permission denied') || msg.includes('401') || msg.includes('403')) {
           return 'ไม่มีสิทธิ์อ่าน/เขียนฐานข้อมูล — กรุณาเปิดสิทธิ์ .read และ .write ในแท็บ Rules ของ Firebase';
         }
-        return 'การเชื่อมต่อฐานข้อมูลขัดข้อง กรุณาตรวจสอบอินเทอร์เน็ตหรือลิงก์ Firebase';
+        return 'การซิงก์ข้อมูลฐานข้อมูลขัดข้องชั่วคราว กรุณาตรวจสอบอินเทอร์เน็ต';
       }
 
-      function cleanupFirebaseConnection() {
-        connectionSeq += 1;
-        if (expenseSyncTimer) {
-          clearTimeout(expenseSyncTimer);
-          expenseSyncTimer = null;
+      function applyRemoteRoot(rawRoot) {
+        const rootObj = rawRoot && typeof rawRoot === 'object' ? rawRoot : {};
+        state.events = normalizeEventsFromFirebase(rootObj.events);
+        const remoteVenues = normalizeVenuesFromFirebase(rootObj.venues);
+        if (remoteVenues.length > 0) {
+          state.venues = remoteVenues;
         }
-        if (fallbackPollTimer) {
-          clearInterval(fallbackPollTimer);
-          fallbackPollTimer = null;
-        }
-        if (restEventSource) {
-          try { restEventSource.close(); } catch (e) {}
-          restEventSource = null;
-        }
-      }
-
-      function applyRemoteEvents(rawVal) {
-        const normalized = normalizeEventsFromFirebase(rawVal);
-        state.events = normalized;
         if (!state.activeEventId || !state.events.some((ev) => ev.id === state.activeEventId)) {
           state.activeEventId = state.events[0] ? state.events[0].id : null;
         }
@@ -1458,12 +1617,8 @@
         render();
       }
 
-      function getEventsEndpoint(config) {
-        return config.databaseURL + '/' + DB_EVENTS_PATH + '.json';
-      }
-
-      function fetchLatestEvents(config, seq) {
-        return fetch(getEventsEndpoint(config), { cache: 'no-store' })
+      function fetchLatestRoot(seq) {
+        return fetch(FIREBASE_DATABASE_URL + '/' + DB_ROOT_PATH + '.json', { cache: 'no-store' })
           .then(function (res) {
             if (!res.ok) {
               throw new Error(res.status === 401 || res.status === 403 ? 'permission_denied' : 'http_' + res.status);
@@ -1472,34 +1627,25 @@
           })
           .then(function (data) {
             if (seq !== connectionSeq) return;
-            applyRemoteEvents(data);
+            applyRemoteRoot(data);
           });
       }
 
-      function connectFirebase(config) {
-        cleanupFirebaseConnection();
-        activeFirebaseConfig = config;
-
-        if (!config || !config.databaseURL) {
-          state.syncMode = 'local';
-          state.syncError = '';
-          render();
-          return;
-        }
-
+      function connectFirebase() {
+        connectionSeq += 1;
         const mySeq = connectionSeq;
         state.syncMode = 'connecting';
         state.syncError = '';
         render();
 
-        const endpoint = getEventsEndpoint(config);
+        const rootEndpoint = FIREBASE_DATABASE_URL + '/' + DB_ROOT_PATH + '.json';
 
-        fetchLatestEvents(config, mySeq)
+        fetchLatestRoot(mySeq)
           .then(function () {
             if (mySeq !== connectionSeq) return;
 
             if (typeof window.EventSource === 'function') {
-              const es = new window.EventSource(endpoint);
+              const es = new window.EventSource(rootEndpoint);
               restEventSource = es;
 
               const handleStreamUpdate = function (evt) {
@@ -1507,11 +1653,11 @@
                 try {
                   const parsed = JSON.parse(evt.data);
                   if (parsed && parsed.path === '/' && evt.type === 'put') {
-                    applyRemoteEvents(parsed.data);
+                    applyRemoteRoot(parsed.data);
                     return;
                   }
                 } catch (e) {}
-                fetchLatestEvents(config, mySeq).catch(function () {});
+                fetchLatestRoot(mySeq).catch(function () {});
               };
 
               es.addEventListener('put', handleStreamUpdate);
@@ -1524,7 +1670,7 @@
               });
             } else {
               fallbackPollTimer = setInterval(function () {
-                fetchLatestEvents(config, mySeq).catch(function () {});
+                fetchLatestRoot(mySeq).catch(function () {});
               }, 4000);
             }
           })
@@ -1536,10 +1682,6 @@
           });
       }
 
-      function isFirebaseActive() {
-        return Boolean(activeFirebaseConfig && activeFirebaseConfig.databaseURL);
-      }
-
       // Formatting Helpers
       function formatCurrency(amount) {
         const safe = Number.isFinite(amount) ? amount : 0;
@@ -1549,10 +1691,18 @@
         });
       }
 
+      function formatPlainNumber(amount) {
+        const safe = Number.isFinite(amount) ? amount : 0;
+        return Number.isInteger(Math.round(safe * 100) / 100)
+          ? String(Math.round(safe))
+          : safe.toFixed(2);
+      }
+
       function formatThaiDate(dateStr, timeStr) {
         if (!dateStr) return '-';
+        const cleanTime = normalizeHourString(timeStr);
         const parts = dateStr.split('-');
-        if (parts.length !== 3) return dateStr + (timeStr ? ' · ' + timeStr + ' น.' : '');
+        if (parts.length !== 3) return dateStr + (cleanTime ? ' · ' + cleanTime + ' น.' : '');
         const year = parseInt(parts[0], 10);
         const month = parseInt(parts[1], 10) - 1;
         const day = parseInt(parts[2], 10);
@@ -1563,7 +1713,7 @@
           month: 'short',
           year: 'numeric'
         });
-        return timeStr ? `${thaiDate} · ${timeStr} น.` : thaiDate;
+        return cleanTime ? `${thaiDate} · ${cleanTime} น.` : thaiDate;
       }
 
       function formatShortTabDate(dateStr) {
@@ -1578,15 +1728,90 @@
         return state.events.find((ev) => ev.id === state.activeEventId) || null;
       }
 
+      // Collect all known venues from saved venues + existing events
+      function getKnownVenues() {
+        const list = [];
+        state.venues.forEach((v) => {
+          if (v && !list.includes(v)) list.push(v);
+        });
+        state.events.forEach((ev) => {
+          if (ev.location && !list.includes(ev.location)) list.push(ev.location);
+        });
+        return list;
+      }
+
+      function saveVenueIfNeeded(venueName) {
+        const trimmed = (venueName || '').trim();
+        if (!trimmed || SAMPLE_VENUES.includes(trimmed)) return;
+        if (!state.venues.includes(trimmed)) {
+          state.venues.push(trimmed);
+          saveState();
+          fetch(FIREBASE_DATABASE_URL + '/' + DB_VENUES_PATH + '.json', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(state.venues)
+          }).catch(function () {});
+        }
+      }
+
+      // Expense Split Engine (Auto + Manual Overrides + Remainder Auto-Split)
+      function calculateSplitCosts(activeEvent) {
+        const players = activeEvent ? activeEvent.players : [];
+        const playerCount = players.length;
+        const courtCost = Number(activeEvent && activeEvent.courtCost) || 0;
+        const shuttleCost = Number(activeEvent && activeEvent.shuttleCost) || 0;
+        const totalCost = courtCost + shuttleCost;
+
+        if (playerCount === 0) {
+          return {
+            totalCost,
+            courtCost,
+            shuttleCost,
+            shares: {},
+            autoPerPerson: 0,
+            manualCount: 0,
+            autoCount: 0,
+            manualSum: 0,
+            overAllocated: false
+          };
+        }
+
+        const manualPlayers = players.filter((p) => p.manualCost !== null && p.manualCost !== undefined);
+        const autoPlayers = players.filter((p) => p.manualCost === null || p.manualCost === undefined);
+
+        const manualSum = manualPlayers.reduce((sum, p) => sum + Number(p.manualCost || 0), 0);
+        const overAllocated = manualSum > totalCost + 0.001;
+        const remainingCost = Math.max(0, totalCost - manualSum);
+        const autoPerPerson = autoPlayers.length > 0 ? remainingCost / autoPlayers.length : 0;
+
+        const shares = {};
+        players.forEach((p) => {
+          if (p.manualCost !== null && p.manualCost !== undefined) {
+            shares[p.id] = Number(p.manualCost);
+          } else {
+            shares[p.id] = autoPerPerson;
+          }
+        });
+
+        return {
+          totalCost,
+          courtCost,
+          shuttleCost,
+          shares,
+          autoPerPerson,
+          manualCount: manualPlayers.length,
+          autoCount: autoPlayers.length,
+          manualSum,
+          overAllocated
+        };
+      }
+
       // DOM Elements
       const rolePlayerBtn = document.getElementById('rolePlayerBtn');
       const roleAdminBtn = document.getElementById('roleAdminBtn');
-      const firebaseStatusBtn = document.getElementById('firebaseStatusBtn');
       const firebaseSyncDot = document.getElementById('firebaseSyncDot');
-      const firebaseStatusText = document.getElementById('firebaseStatusText');
       const firebaseErrorBanner = document.getElementById('firebaseErrorBanner');
       const firebaseErrorText = document.getElementById('firebaseErrorText');
-      const firebaseFixBtn = document.getElementById('firebaseFixBtn');
 
       const eventsBar = document.getElementById('eventsBar');
       const eventTabs = document.getElementById('eventTabs');
@@ -1598,6 +1823,7 @@
       const activeEventTitle = document.getElementById('activeEventTitle');
       const activeEventNote = document.getElementById('activeEventNote');
       const adminEventActions = document.getElementById('adminEventActions');
+      const editEventBtn = document.getElementById('editEventBtn');
       const deleteEventBtn = document.getElementById('deleteEventBtn');
       const specDateTime = document.getElementById('specDateTime');
       const specCourts = document.getElementById('specCourts');
@@ -1609,6 +1835,7 @@
       const playerNameInput = document.getElementById('playerNameInput');
       const signupSubmitBtn = document.getElementById('signupSubmitBtn');
       const signupError = document.getElementById('signupError');
+      const manualEditHint = document.getElementById('manualEditHint');
       const playerListEmpty = document.getElementById('playerListEmpty');
       const playerList = document.getElementById('playerList');
 
@@ -1622,34 +1849,35 @@
       const displayCourtCost = document.getElementById('displayCourtCost');
       const displayShuttleCost = document.getElementById('displayShuttleCost');
       const displayPlayerCount = document.getElementById('displayPlayerCount');
+      const manualSummaryRow = document.getElementById('manualSummaryRow');
+      const manualSummaryLabel = document.getElementById('manualSummaryLabel');
+      const displayManualSum = document.getElementById('displayManualSum');
       const displayTotalCost = document.getElementById('displayTotalCost');
+      const perPersonLabel = document.getElementById('perPersonLabel');
       const displayPerPerson = document.getElementById('displayPerPerson');
 
       const createEventModal = document.getElementById('createEventModal');
+      const createModalTitle = document.getElementById('createModalTitle');
       const createEventForm = document.getElementById('createEventForm');
       const closeModalBtn = document.getElementById('closeModalBtn');
       const cancelModalBtn = document.getElementById('cancelModalBtn');
+      const submitModalBtn = document.getElementById('submitModalBtn');
       const createEventError = document.getElementById('createEventError');
 
+      const eventLocationSelect = document.getElementById('eventLocationSelect');
+      const customLocationField = document.getElementById('customLocationField');
       const eventLocationInput = document.getElementById('eventLocationInput');
       const eventDateInput = document.getElementById('eventDateInput');
-      const eventTimeInput = document.getElementById('eventTimeInput');
+      const eventTimeSelect = document.getElementById('eventTimeSelect');
       const eventCourtsInput = document.getElementById('eventCourtsInput');
       const eventHoursInput = document.getElementById('eventHoursInput');
+      const courtsValueBadge = document.getElementById('courtsValueBadge');
+      const hoursValueBadge = document.getElementById('hoursValueBadge');
       const eventMaxPlayersInput = document.getElementById('eventMaxPlayersInput');
       const eventDetailsInput = document.getElementById('eventDetailsInput');
 
-      const firebaseModal = document.getElementById('firebaseModal');
-      const firebaseConfigForm = document.getElementById('firebaseConfigForm');
-      const firebaseConfigInput = document.getElementById('firebaseConfigInput');
-      const firebaseModalError = document.getElementById('firebaseModalError');
-      const closeFirebaseModalBtn = document.getElementById('closeFirebaseModalBtn');
-      const cancelFirebaseModalBtn = document.getElementById('cancelFirebaseModalBtn');
-      const disconnectFirebaseBtn = document.getElementById('disconnectFirebaseBtn');
-
-      function renderSyncIndicator(isAdmin) {
+      function renderSyncIndicator() {
         firebaseSyncDot.className = 'sync-dot';
-
         if (state.syncMode === 'connected') {
           firebaseSyncDot.classList.add('connected');
           firebaseSyncDot.title = 'ซิงก์ข้อมูลเรียลไทม์แล้ว';
@@ -1659,43 +1887,114 @@
         } else if (state.syncMode === 'error') {
           firebaseSyncDot.classList.add('error');
           firebaseSyncDot.title = 'การเชื่อมต่อฐานข้อมูลขัดข้อง';
-        } else {
-          firebaseSyncDot.title = 'โหมดบันทึกในเครื่อง';
-        }
-
-        // Clean Apple-style behavior: hide setup button completely in Player view,
-        // and show only a subtle icon in Admin view once already connected
-        if (!isAdmin) {
-          firebaseStatusBtn.hidden = true;
-        } else if (state.syncMode === 'connected' || state.syncMode === 'connecting') {
-          firebaseStatusBtn.hidden = false;
-          firebaseStatusBtn.classList.add('icon-only');
-          firebaseStatusText.hidden = true;
-        } else {
-          firebaseStatusBtn.hidden = false;
-          firebaseStatusBtn.classList.remove('icon-only');
-          firebaseStatusText.hidden = false;
-          firebaseStatusText.textContent = state.syncMode === 'error' ? 'ตั้งค่า' : 'เชื่อมต่อ';
         }
 
         if (state.syncError) {
           firebaseErrorText.textContent = state.syncError;
           firebaseErrorBanner.hidden = false;
-          firebaseFixBtn.hidden = false;
         } else {
           firebaseErrorBanner.hidden = true;
         }
       }
 
+      // Live in-place DOM update for calculated shares so mobile keyboard never loses focus
+      function updateCalculatedAmountsInDOM(activeEvent) {
+        if (!activeEvent) return;
+        const split = calculateSplitCosts(activeEvent);
+        const playerCount = activeEvent.players.length;
+        const hasExpenses = split.totalCost > 0 || split.manualCount > 0;
+
+        // Update summary panel
+        displayCourtCost.textContent = formatCurrency(split.courtCost);
+        displayShuttleCost.textContent = formatCurrency(split.shuttleCost);
+        displayPlayerCount.textContent = `${playerCount} คน`;
+        displayTotalCost.textContent = formatCurrency(split.totalCost);
+
+        if (split.manualCount > 0) {
+          manualSummaryRow.hidden = false;
+          manualSummaryLabel.textContent = `ยอดกำหนดเอง (${split.manualCount} คน)`;
+          displayManualSum.textContent = formatCurrency(split.manualSum);
+        } else {
+          manualSummaryRow.hidden = true;
+        }
+
+        if (split.overAllocated) {
+          expenseError.textContent = 'ยอดที่กำหนดเองรวมกันสูงกว่ายอดค่าใช้จ่ายรวมทั้งหมด';
+          expenseError.hidden = false;
+        } else if (expenseError.textContent.includes('ยอดที่กำหนดเอง')) {
+          expenseError.hidden = true;
+        }
+
+        if (playerCount === 0 || !hasExpenses) {
+          perPersonLabel.textContent = 'จ่ายคนละ';
+          displayPerPerson.textContent = '฿0.00';
+        } else if (split.manualCount === 0) {
+          perPersonLabel.textContent = 'จ่ายคนละ';
+          displayPerPerson.textContent = formatCurrency(split.autoPerPerson);
+        } else if (split.autoCount > 0) {
+          perPersonLabel.textContent = `หารเฉลี่ยคนที่เหลือ (${split.autoCount} คน)`;
+          displayPerPerson.textContent = formatCurrency(split.autoPerPerson);
+        } else {
+          perPersonLabel.textContent = 'กำหนดยอดรายคนครบทุกคนแล้ว';
+          displayPerPerson.textContent = formatCurrency(split.manualSum);
+        }
+
+        // Update each player row in-place
+        const rows = playerList.querySelectorAll('.player-row');
+        rows.forEach((row) => {
+          const pid = row.getAttribute('data-player-id');
+          const player = activeEvent.players.find((p) => p.id === pid);
+          if (!player) return;
+
+          const isManual = player.manualCost !== null && player.manualCost !== undefined;
+          const shareVal = split.shares[pid] || 0;
+
+          const readOnlyShare = row.querySelector('.player-share');
+          if (readOnlyShare) {
+            readOnlyShare.textContent = formatCurrency(shareVal);
+          }
+
+          const modeTag = row.querySelector('.share-mode-tag');
+          if (modeTag) {
+            modeTag.hidden = !isManual;
+          }
+
+          const editorWrap = row.querySelector('.admin-share-editor');
+          if (editorWrap) {
+            editorWrap.classList.toggle('is-manual', isManual);
+            const input = editorWrap.querySelector('.manual-share-input');
+            const resetBtn = editorWrap.querySelector('.reset-share-btn');
+            if (input) {
+              input.placeholder = formatPlainNumber(split.autoPerPerson);
+              if (document.activeElement !== input) {
+                input.value = isManual ? String(player.manualCost) : '';
+              }
+            }
+            if (resetBtn) {
+              resetBtn.hidden = !isManual;
+            }
+          }
+        });
+      }
+
       function render() {
         const isAdmin = state.role === 'admin';
+
+        // Preserve active manual-share input focus across remote stream echoes
+        const activeManualInput =
+          document.activeElement && document.activeElement.classList.contains('manual-share-input')
+            ? document.activeElement
+            : null;
+        const focusedPlayerId = activeManualInput
+          ? activeManualInput.getAttribute('data-player-id')
+          : null;
 
         rolePlayerBtn.classList.toggle('active', !isAdmin);
         rolePlayerBtn.setAttribute('aria-selected', String(!isAdmin));
         roleAdminBtn.classList.toggle('active', isAdmin);
         roleAdminBtn.setAttribute('aria-selected', String(isAdmin));
 
-        renderSyncIndicator(isAdmin);
+        renderSyncIndicator();
 
         if (state.events.length === 0) {
           eventsBar.hidden = true;
@@ -1759,7 +2058,7 @@
         specHours.textContent = `${activeEvent.hoursPerCourt} ชม./สนาม`;
         specCapacity.textContent = `${activeEvent.maxPlayers} คน`;
 
-        // Render Capacity & Signup
+        // Capacity & Signup
         const playerCount = activeEvent.players.length;
         const isFull = playerCount >= activeEvent.maxPlayers;
         capacityIndicator.textContent = `${playerCount} / ${activeEvent.maxPlayers} คน`;
@@ -1771,64 +2070,148 @@
           ? 'ครบจำนวนที่รับแล้ว'
           : 'ชื่อเล่นของคุณ...';
 
-        // Calculate Costs
-        const courtCost = Number(activeEvent.courtCost) || 0;
-        const shuttleCost = Number(activeEvent.shuttleCost) || 0;
-        const totalCost = courtCost + shuttleCost;
-        const hasExpenses = courtCost > 0 || shuttleCost > 0;
-        const perPerson = playerCount > 0 ? totalCost / playerCount : 0;
+        const split = calculateSplitCosts(activeEvent);
+        const hasExpenses = split.totalCost > 0 || split.manualCount > 0;
 
-        // Render Player List
-        if (playerCount === 0) {
-          playerListEmpty.hidden = false;
-          playerList.hidden = true;
-          playerList.innerHTML = '';
-        } else {
-          playerListEmpty.hidden = true;
-          playerList.hidden = false;
-          playerList.innerHTML = '';
+        manualEditHint.hidden = !(isAdmin && hasExpenses && playerCount > 0);
 
-          activeEvent.players.forEach((player, idx) => {
-            const li = document.createElement('li');
-            li.className = 'player-row';
+        // If user is currently typing in a manual share input for the same player list, update in-place only
+        const currentDomIds = Array.from(playerList.querySelectorAll('.player-row')).map((r) =>
+          r.getAttribute('data-player-id')
+        );
+        const nextIds = activeEvent.players.map((p) => p.id);
+        const sameRowsStructure =
+          focusedPlayerId &&
+          isAdmin &&
+          hasExpenses &&
+          currentDomIds.length === nextIds.length &&
+          currentDomIds.every((id, i) => id === nextIds[i]);
 
-            const info = document.createElement('div');
-            info.className = 'player-info';
+        if (!sameRowsStructure) {
+          if (playerCount === 0) {
+            playerListEmpty.hidden = false;
+            playerList.hidden = true;
+            playerList.innerHTML = '';
+          } else {
+            playerListEmpty.hidden = true;
+            playerList.hidden = false;
+            playerList.innerHTML = '';
 
-            const indexBadge = document.createElement('span');
-            indexBadge.className = 'player-index';
-            indexBadge.textContent = String(idx + 1);
+            activeEvent.players.forEach((player, idx) => {
+              const li = document.createElement('li');
+              li.className = 'player-row';
+              li.setAttribute('data-player-id', player.id);
 
-            const nameSpan = document.createElement('span');
-            nameSpan.className = 'player-name';
-            nameSpan.textContent = player.name;
+              const info = document.createElement('div');
+              info.className = 'player-info';
 
-            info.appendChild(indexBadge);
-            info.appendChild(nameSpan);
-            li.appendChild(info);
+              const indexBadge = document.createElement('span');
+              indexBadge.className = 'player-index';
+              indexBadge.textContent = String(idx + 1);
 
-            if (hasExpenses) {
-              const shareSpan = document.createElement('span');
-              shareSpan.className = 'player-share';
-              shareSpan.textContent = formatCurrency(perPerson);
-              li.appendChild(shareSpan);
-            }
+              const nameSpan = document.createElement('span');
+              nameSpan.className = 'player-name';
+              nameSpan.textContent = player.name;
 
-            const removeBtn = document.createElement('button');
-            removeBtn.type = 'button';
-            removeBtn.className = 'btn btn-danger-ghost';
-            removeBtn.textContent = 'ลบ';
-            removeBtn.setAttribute('aria-label', `ลบรายชื่อ ${player.name}`);
-            removeBtn.addEventListener('click', () => {
-              removePlayerFromEvent(activeEvent, player.id);
+              info.appendChild(indexBadge);
+              info.appendChild(nameSpan);
+              li.appendChild(info);
+
+              const rightGroup = document.createElement('div');
+              rightGroup.className = 'player-right-group';
+
+              const isManual = player.manualCost !== null && player.manualCost !== undefined;
+
+              if (hasExpenses) {
+                if (isAdmin) {
+                  const editorWrap = document.createElement('div');
+                  editorWrap.className = 'admin-share-editor' + (isManual ? ' is-manual' : '');
+
+                  const prefix = document.createElement('span');
+                  prefix.className = 'currency-prefix';
+                  prefix.textContent = '฿';
+
+                  const manualInput = document.createElement('input');
+                  manualInput.type = 'number';
+                  manualInput.min = '0';
+                  manualInput.step = 'any';
+                  manualInput.inputMode = 'decimal';
+                  manualInput.className = 'manual-share-input';
+                  manualInput.setAttribute('data-player-id', player.id);
+                  manualInput.setAttribute('aria-label', `ยอดจ่ายของ ${player.name}`);
+                  manualInput.placeholder = formatPlainNumber(split.autoPerPerson);
+                  manualInput.value = isManual ? String(player.manualCost) : '';
+
+                  const resetBtn = document.createElement('button');
+                  resetBtn.type = 'button';
+                  resetBtn.className = 'reset-share-btn';
+                  resetBtn.textContent = 'ออโต้';
+                  resetBtn.title = 'กลับไปหารเฉลี่ยอัตโนมัติ';
+                  resetBtn.hidden = !isManual;
+
+                  manualInput.addEventListener('input', () => {
+                    const raw = manualInput.value.trim();
+                    if (raw === '') {
+                      player.manualCost = null;
+                    } else {
+                      const parsedVal = Number(raw);
+                      if (Number.isFinite(parsedVal) && parsedVal >= 0) {
+                        player.manualCost = parsedVal;
+                      }
+                    }
+                    saveState();
+                    updateCalculatedAmountsInDOM(activeEvent);
+                    schedulePlayerManualCostSync(activeEvent.id, player.id, player.manualCost);
+                  });
+
+                  resetBtn.addEventListener('click', () => {
+                    player.manualCost = null;
+                    manualInput.value = '';
+                    saveState();
+                    updateCalculatedAmountsInDOM(activeEvent);
+                    schedulePlayerManualCostSync(activeEvent.id, player.id, null);
+                  });
+
+                  editorWrap.appendChild(prefix);
+                  editorWrap.appendChild(manualInput);
+                  editorWrap.appendChild(resetBtn);
+                  rightGroup.appendChild(editorWrap);
+                } else {
+                  const shareWrap = document.createElement('div');
+                  shareWrap.className = 'player-share-wrap';
+
+                  const modeTag = document.createElement('span');
+                  modeTag.className = 'share-mode-tag';
+                  modeTag.textContent = 'กำหนดเอง';
+                  modeTag.hidden = !isManual;
+
+                  const shareSpan = document.createElement('span');
+                  shareSpan.className = 'player-share';
+                  shareSpan.textContent = formatCurrency(split.shares[player.id] || 0);
+
+                  shareWrap.appendChild(modeTag);
+                  shareWrap.appendChild(shareSpan);
+                  rightGroup.appendChild(shareWrap);
+                }
+              }
+
+              const removeBtn = document.createElement('button');
+              removeBtn.type = 'button';
+              removeBtn.className = 'btn btn-danger-ghost';
+              removeBtn.textContent = 'ลบ';
+              removeBtn.setAttribute('aria-label', `ลบรายชื่อ ${player.name}`);
+              removeBtn.addEventListener('click', () => {
+                removePlayerFromEvent(activeEvent, player.id);
+              });
+              rightGroup.appendChild(removeBtn);
+
+              li.appendChild(rightGroup);
+              playerList.appendChild(li);
             });
-            li.appendChild(removeBtn);
-
-            playerList.appendChild(li);
-          });
+          }
         }
 
-        // Render Expense Section
+        // Expense Inputs & Visibility
         expenseForm.hidden = !isAdmin;
         if (document.activeElement !== courtCostInput) {
           courtCostInput.value = activeEvent.courtCost !== '' && activeEvent.courtCost !== null ? activeEvent.courtCost : '';
@@ -1845,11 +2228,7 @@
           expenseSummaryPanel.hidden = false;
         }
 
-        displayCourtCost.textContent = formatCurrency(courtCost);
-        displayShuttleCost.textContent = formatCurrency(shuttleCost);
-        displayPlayerCount.textContent = `${playerCount} คน`;
-        displayTotalCost.textContent = formatCurrency(totalCost);
-        displayPerPerson.textContent = playerCount > 0 ? formatCurrency(perPerson) : '฿0.00';
+        updateCalculatedAmountsInDOM(activeEvent);
       }
 
       // Role Switch Handlers
@@ -1865,89 +2244,153 @@
         render();
       });
 
-      // Firebase Config Modal Handlers
-      function openFirebaseModal() {
-        state.role = 'admin';
-        firebaseModalError.hidden = true;
-        firebaseConfigInput.value = activeFirebaseConfig && activeFirebaseConfig.databaseURL
-          ? activeFirebaseConfig.databaseURL
-          : '';
-        disconnectFirebaseBtn.hidden = !state.hasSavedBrowserConfig;
-        firebaseModal.hidden = false;
-        firebaseConfigInput.focus();
-        render();
-      }
+      // Populate Venue Dropdown
+      function populateVenueSelect(selectedLocation) {
+        eventLocationSelect.innerHTML = '';
+        const knownVenues = getKnownVenues();
 
-      function closeFirebaseModal() {
-        firebaseModal.hidden = true;
-      }
-
-      firebaseStatusBtn.addEventListener('click', openFirebaseModal);
-      firebaseFixBtn.addEventListener('click', openFirebaseModal);
-      closeFirebaseModalBtn.addEventListener('click', closeFirebaseModal);
-      cancelFirebaseModalBtn.addEventListener('click', closeFirebaseModal);
-
-      firebaseModal.addEventListener('click', (e) => {
-        if (e.target === firebaseModal) closeFirebaseModal();
-      });
-
-      firebaseConfigForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const parsed = parseFirebaseInput(firebaseConfigInput.value);
-        if (parsed.error) {
-          firebaseModalError.textContent = parsed.error;
-          firebaseModalError.hidden = false;
-          firebaseConfigInput.focus();
-          return;
-        }
-        firebaseModalError.hidden = true;
-        saveBrowserFirebaseConfig(parsed.config);
-        closeFirebaseModal();
-        connectFirebase(parsed.config);
-      });
-
-      disconnectFirebaseBtn.addEventListener('click', () => {
-        saveBrowserFirebaseConfig(null);
-        const fallbackDefault = DEFAULT_FIREBASE_CONFIG && DEFAULT_FIREBASE_CONFIG.databaseURL.trim()
-          ? normalizeFirebaseConfig(DEFAULT_FIREBASE_CONFIG)
-          : null;
-        closeFirebaseModal();
-        if (fallbackDefault) {
-          connectFirebase(fallbackDefault);
+        if (knownVenues.length > 0) {
+          const savedGroup = document.createElement('optgroup');
+          savedGroup.label = 'สนามแบดมินตันที่บันทึกไว้';
+          knownVenues.forEach((v) => {
+            const opt = document.createElement('option');
+            opt.value = v;
+            opt.textContent = v;
+            savedGroup.appendChild(opt);
+          });
+          eventLocationSelect.appendChild(savedGroup);
         } else {
-          cleanupFirebaseConnection();
-          activeFirebaseConfig = null;
-          state.syncMode = 'local';
-          state.syncError = '';
-          loadState();
-          render();
+          const sampleGroup = document.createElement('optgroup');
+          sampleGroup.label = 'ตัวอย่างสนาม (เลือกเพิ่มชื่อสนามใหม่ได้)';
+          SAMPLE_VENUES.forEach((v) => {
+            const opt = document.createElement('option');
+            opt.value = v;
+            opt.textContent = v;
+            sampleGroup.appendChild(opt);
+          });
+          eventLocationSelect.appendChild(sampleGroup);
+        }
+
+        const customOpt = document.createElement('option');
+        customOpt.value = '__custom__';
+        customOpt.textContent = '+ เพิ่มชื่อสนามแบดมินตันใหม่...';
+        eventLocationSelect.appendChild(customOpt);
+
+        if (selectedLocation) {
+          const exists = Array.from(eventLocationSelect.options).some((o) => o.value === selectedLocation);
+          if (exists) {
+            eventLocationSelect.value = selectedLocation;
+            customLocationField.hidden = true;
+            eventLocationInput.value = '';
+          } else {
+            eventLocationSelect.value = '__custom__';
+            customLocationField.hidden = false;
+            eventLocationInput.value = selectedLocation;
+          }
+        } else {
+          eventLocationSelect.selectedIndex = 0;
+          customLocationField.hidden = eventLocationSelect.value !== '__custom__';
+          eventLocationInput.value = '';
+        }
+      }
+
+      eventLocationSelect.addEventListener('change', () => {
+        if (eventLocationSelect.value === '__custom__') {
+          customLocationField.hidden = false;
+          eventLocationInput.focus();
+        } else {
+          customLocationField.hidden = true;
         }
       });
 
-      // Create Event Modal
+      // Sliders & Auto Capacity (6 * Courts)
+      function syncSliderBadges(updateCapacityAuto) {
+        const courts = parseInt(eventCourtsInput.value, 10) || 1;
+        const hours = parseFloat(eventHoursInput.value) || 1;
+        courtsValueBadge.textContent = `${courts} สนาม`;
+        hoursValueBadge.textContent = `${hours} ชม.`;
+        if (updateCapacityAuto) {
+          eventMaxPlayersInput.value = String(courts * 6);
+        }
+      }
+
+      eventCourtsInput.addEventListener('input', () => {
+        syncSliderBadges(true);
+      });
+
+      eventHoursInput.addEventListener('input', () => {
+        syncSliderBadges(false);
+      });
+
+      // Open Modal: Create Mode
       function openCreateModal() {
         state.role = 'admin';
+        state.editingEventId = null;
         createEventError.hidden = true;
         createEventForm.reset();
+
+        createModalTitle.textContent = 'สร้างอีเวนต์ตีแบดใหม่';
+        submitModalBtn.textContent = 'สร้างอีเวนต์';
+
+        populateVenueSelect('');
 
         const today = new Date();
         const yyyy = today.getFullYear();
         const mm = String(today.getMonth() + 1).padStart(2, '0');
         const dd = String(today.getDate()).padStart(2, '0');
         eventDateInput.value = `${yyyy}-${mm}-${dd}`;
-        eventTimeInput.value = '19:00';
+        eventTimeSelect.value = '19:00';
+
+        eventCourtsInput.value = '2';
+        eventHoursInput.value = '2';
+        syncSliderBadges(true); // Sets default capacity = 6 * 2 = 12
 
         createEventModal.hidden = false;
-        eventLocationInput.focus();
+        render();
+      }
+
+      // Open Modal: Edit Mode
+      function openEditModal() {
+        const activeEvent = getActiveEvent();
+        if (!activeEvent) return;
+
+        state.role = 'admin';
+        state.editingEventId = activeEvent.id;
+        createEventError.hidden = true;
+
+        createModalTitle.textContent = 'แก้ไขข้อมูลอีเวนต์';
+        submitModalBtn.textContent = 'บันทึกการแก้ไข';
+
+        populateVenueSelect(activeEvent.location);
+        eventDateInput.value = activeEvent.date;
+
+        const normalizedHr = normalizeHourString(activeEvent.time);
+        if (!Array.from(eventTimeSelect.options).some((o) => o.value === normalizedHr)) {
+          const extraOpt = document.createElement('option');
+          extraOpt.value = normalizedHr;
+          extraOpt.textContent = normalizedHr + ' น.';
+          eventTimeSelect.appendChild(extraOpt);
+        }
+        eventTimeSelect.value = normalizedHr;
+
+        eventCourtsInput.value = String(Math.min(10, Math.max(1, Number(activeEvent.courts) || 2)));
+        eventHoursInput.value = String(Math.min(6, Math.max(1, Number(activeEvent.hoursPerCourt) || 2)));
+        syncSliderBadges(false);
+        eventMaxPlayersInput.value = String(activeEvent.maxPlayers || Number(activeEvent.courts) * 6);
+        eventDetailsInput.value = activeEvent.details || '';
+
+        createEventModal.hidden = false;
         render();
       }
 
       function closeCreateModal() {
         createEventModal.hidden = true;
+        state.editingEventId = null;
       }
 
       openCreateModalBtn.addEventListener('click', openCreateModal);
       emptyCreateBtn.addEventListener('click', openCreateModal);
+      editEventBtn.addEventListener('click', openEditModal);
       closeModalBtn.addEventListener('click', closeCreateModal);
       cancelModalBtn.addEventListener('click', closeCreateModal);
 
@@ -1956,13 +2399,12 @@
       });
 
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          if (!createEventModal.hidden) closeCreateModal();
-          if (!firebaseModal.hidden) closeFirebaseModal();
+        if (e.key === 'Escape' && !createEventModal.hidden) {
+          closeCreateModal();
         }
       });
 
-      // Write Helpers
+      // Firebase REST Helpers
       function checkHttpOk(res) {
         if (!res.ok) {
           throw new Error(res.status === 401 || res.status === 403 ? 'permission_denied' : 'http_' + res.status);
@@ -1975,13 +2417,30 @@
         state.activeEventId = newEvent.id;
         saveState();
 
-        if (!isFirebaseActive()) return;
-
         const payload = serializeEventForFirebase(newEvent);
-        fetch(activeFirebaseConfig.databaseURL + '/' + DB_EVENTS_PATH + '/' + encodeURIComponent(newEvent.id) + '.json', {
+        fetch(FIREBASE_DATABASE_URL + '/' + DB_EVENTS_PATH + '/' + encodeURIComponent(newEvent.id) + '.json', {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
+        })
+          .then(checkHttpOk)
+          .catch((err) => {
+            state.syncMode = 'error';
+            state.syncError = formatFirebaseError(err);
+            render();
+          });
+      }
+
+      function persistEditedEvent(eventId, patchFields) {
+        const target = state.events.find((ev) => ev.id === eventId);
+        if (!target) return;
+        Object.assign(target, patchFields);
+        saveState();
+
+        fetch(FIREBASE_DATABASE_URL + '/' + DB_EVENTS_PATH + '/' + encodeURIComponent(eventId) + '.json', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(patchFields)
         })
           .then(checkHttpOk)
           .catch((err) => {
@@ -1997,9 +2456,7 @@
         state.activeEventId = state.events[0] ? state.events[0].id : null;
         saveState();
 
-        if (!isFirebaseActive()) return;
-
-        fetch(activeFirebaseConfig.databaseURL + '/' + DB_EVENTS_PATH + '/' + encodeURIComponent(eventId) + '.json', {
+        fetch(FIREBASE_DATABASE_URL + '/' + DB_EVENTS_PATH + '/' + encodeURIComponent(eventId) + '.json', {
           method: 'DELETE'
         })
           .then(checkHttpOk)
@@ -2010,16 +2467,45 @@
           });
       }
 
+      function schedulePlayerManualCostSync(eventId, playerId, manualCostVal) {
+        const timerKey = eventId + '__' + playerId;
+        if (manualShareTimers[timerKey]) {
+          clearTimeout(manualShareTimers[timerKey]);
+        }
+        manualShareTimers[timerKey] = setTimeout(() => {
+          const serializedVal = manualCostVal === null || manualCostVal === undefined ? '' : Number(manualCostVal);
+          fetch(
+            FIREBASE_DATABASE_URL +
+              '/' +
+              DB_EVENTS_PATH +
+              '/' +
+              encodeURIComponent(eventId) +
+              '/players/' +
+              encodeURIComponent(playerId) +
+              '.json',
+            {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ manualCost: serializedVal })
+            }
+          )
+            .then(checkHttpOk)
+            .catch((err) => {
+              state.syncMode = 'error';
+              state.syncError = formatFirebaseError(err);
+              render();
+            });
+        }, 250);
+      }
+
       function removePlayerFromEvent(activeEvent, playerId) {
         signupError.hidden = true;
         activeEvent.players = activeEvent.players.filter((p) => p.id !== playerId);
         saveState();
         render();
 
-        if (!isFirebaseActive()) return;
-
         fetch(
-          activeFirebaseConfig.databaseURL +
+          FIREBASE_DATABASE_URL +
             '/' +
             DB_EVENTS_PATH +
             '/' +
@@ -2037,64 +2523,67 @@
           });
       }
 
-      // Create Event Submit
+      // Create / Edit Event Submit
       createEventForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const location = eventLocationInput.value.trim();
+        const isCustom = eventLocationSelect.value === '__custom__';
+        const location = isCustom ? eventLocationInput.value.trim() : eventLocationSelect.value.trim();
         const date = eventDateInput.value;
-        const time = eventTimeInput.value;
+        const time = normalizeHourString(eventTimeSelect.value);
         const courts = parseInt(eventCourtsInput.value, 10);
         const hoursPerCourt = parseFloat(eventHoursInput.value);
         const maxPlayers = parseInt(eventMaxPlayersInput.value, 10);
         const details = eventDetailsInput.value.trim();
 
         if (!location) {
-          createEventError.textContent = 'กรุณาระบุสถานที่หรือชื่อสนามแบดมินตัน';
+          createEventError.textContent = 'กรุณาเลือกหรือระบุชื่อสนามแบดมินตัน';
           createEventError.hidden = false;
-          eventLocationInput.focus();
+          if (isCustom) eventLocationInput.focus();
           return;
         }
         if (!date || !time) {
-          createEventError.textContent = 'กรุณาระบุวันและเวลาให้ครบถ้วน';
+          createEventError.textContent = 'กรุณาระบุวันและเวลาเริ่มให้ครบถ้วน';
           createEventError.hidden = false;
-          return;
-        }
-        if (!Number.isInteger(courts) || courts < 1) {
-          createEventError.textContent = 'จำนวนสนามต้องตั้งแต่ 1 สนามขึ้นไป';
-          createEventError.hidden = false;
-          eventCourtsInput.focus();
-          return;
-        }
-        if (!Number.isFinite(hoursPerCourt) || hoursPerCourt <= 0) {
-          createEventError.textContent = 'จำนวนชั่วโมงต้องมากกว่า 0';
-          createEventError.hidden = false;
-          eventHoursInput.focus();
           return;
         }
         if (!Number.isInteger(maxPlayers) || maxPlayers < 1) {
-          createEventError.textContent = 'จำนวนคนที่รับต้องตั้งแต่ 1 คนขึ้นไป';
+          createEventError.textContent = 'จำนวนคนที่รองรับต้องตั้งแต่ 1 คนขึ้นไป';
           createEventError.hidden = false;
           eventMaxPlayersInput.focus();
           return;
         }
 
-        const nowTs = Date.now();
-        const newEvent = {
-          id: 'ev_' + nowTs + '_' + Math.random().toString(36).slice(2, 7),
-          createdAt: nowTs,
-          location,
-          date,
-          time,
-          courts,
-          hoursPerCourt,
-          maxPlayers,
-          details,
-          players: [],
-          courtCost: '',
-          shuttleCost: ''
-        };
+        saveVenueIfNeeded(location);
 
-        persistNewEvent(newEvent);
+        if (state.editingEventId) {
+          persistEditedEvent(state.editingEventId, {
+            location,
+            date,
+            time,
+            courts,
+            hoursPerCourt,
+            maxPlayers,
+            details
+          });
+        } else {
+          const nowTs = Date.now();
+          const newEvent = {
+            id: 'ev_' + nowTs + '_' + Math.random().toString(36).slice(2, 7),
+            createdAt: nowTs,
+            location,
+            date,
+            time,
+            courts,
+            hoursPerCourt,
+            maxPlayers,
+            details,
+            players: [],
+            courtCost: '',
+            shuttleCost: ''
+          };
+          persistNewEvent(newEvent);
+        }
+
         closeCreateModal();
         render();
       });
@@ -2147,87 +2636,83 @@
         const newPlayer = {
           id: 'pl_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
           name,
-          joinedAt: Date.now()
+          joinedAt: Date.now(),
+          manualCost: null
         };
 
-        if (isFirebaseActive()) {
-          const targetEventId = activeEvent.id;
-          const eventUrl =
-            activeFirebaseConfig.databaseURL + '/' + DB_EVENTS_PATH + '/' + encodeURIComponent(targetEventId) + '.json';
-          const playerUrl =
-            activeFirebaseConfig.databaseURL +
-            '/' +
-            DB_EVENTS_PATH +
-            '/' +
-            encodeURIComponent(targetEventId) +
-            '/players/' +
-            encodeURIComponent(newPlayer.id) +
-            '.json';
+        const targetEventId = activeEvent.id;
+        const eventUrl =
+          FIREBASE_DATABASE_URL + '/' + DB_EVENTS_PATH + '/' + encodeURIComponent(targetEventId) + '.json';
+        const playerUrl =
+          FIREBASE_DATABASE_URL +
+          '/' +
+          DB_EVENTS_PATH +
+          '/' +
+          encodeURIComponent(targetEventId) +
+          '/players/' +
+          encodeURIComponent(newPlayer.id) +
+          '.json';
 
-          state.isSubmittingSignup = true;
-          signupError.hidden = true;
-          render();
-
-          fetch(eventUrl, { cache: 'no-store' })
-            .then(checkHttpOk)
-            .then((res) => res.json())
-            .then((latestEvent) => {
-              if (!latestEvent) {
-                throw new Error('event_missing');
-              }
-              const latestPlayers = normalizePlayersList(latestEvent.players);
-              const maxP = Number(latestEvent.maxPlayers) || 0;
-              if (latestPlayers.length >= maxP) {
-                throw new Error('capacity_full');
-              }
-              if (latestPlayers.some((p) => p.name.toLowerCase() === name.toLowerCase())) {
-                throw new Error('duplicate_name');
-              }
-              return fetch(playerUrl, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newPlayer)
-              }).then(checkHttpOk);
-            })
-            .then(() => {
-              state.isSubmittingSignup = false;
-              const currentEv = state.events.find((ev) => ev.id === targetEventId);
-              if (currentEv && !currentEv.players.some((p) => p.id === newPlayer.id)) {
-                currentEv.players.push(newPlayer);
-                saveState();
-              }
-              playerNameInput.value = '';
-              signupError.hidden = true;
-              render();
-              playerNameInput.focus();
-            })
-            .catch((err) => {
-              state.isSubmittingSignup = false;
-              if (err && err.message === 'capacity_full') {
-                signupError.textContent = 'อีเวนต์นี้มีผู้ลงชื่อครบจำนวนแล้ว';
-                signupError.hidden = false;
-              } else if (err && err.message === 'duplicate_name') {
-                signupError.textContent = `มีชื่อ "${name}" ในรายชื่อแล้ว`;
-                signupError.hidden = false;
-              } else if (err && err.message === 'event_missing') {
-                signupError.textContent = 'อีเวนต์นี้ถูกลบไปแล้ว';
-                signupError.hidden = false;
-              } else {
-                state.syncMode = 'error';
-                state.syncError = formatFirebaseError(err);
-              }
-              fetchLatestEvents(activeFirebaseConfig, connectionSeq).catch(function () {});
-              render();
-            });
-          return;
-        }
-
-        activeEvent.players.push(newPlayer);
-        playerNameInput.value = '';
+        state.isSubmittingSignup = true;
         signupError.hidden = true;
-        saveState();
         render();
-        playerNameInput.focus();
+
+        fetch(eventUrl, { cache: 'no-store' })
+          .then(checkHttpOk)
+          .then((res) => res.json())
+          .then((latestEvent) => {
+            if (!latestEvent) {
+              throw new Error('event_missing');
+            }
+            const latestPlayers = normalizePlayersList(latestEvent.players);
+            const maxP = Number(latestEvent.maxPlayers) || 0;
+            if (latestPlayers.length >= maxP) {
+              throw new Error('capacity_full');
+            }
+            if (latestPlayers.some((p) => p.name.toLowerCase() === name.toLowerCase())) {
+              throw new Error('duplicate_name');
+            }
+            return fetch(playerUrl, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                id: newPlayer.id,
+                name: newPlayer.name,
+                joinedAt: newPlayer.joinedAt,
+                manualCost: ''
+              })
+            }).then(checkHttpOk);
+          })
+          .then(() => {
+            state.isSubmittingSignup = false;
+            const currentEv = state.events.find((ev) => ev.id === targetEventId);
+            if (currentEv && !currentEv.players.some((p) => p.id === newPlayer.id)) {
+              currentEv.players.push(newPlayer);
+              saveState();
+            }
+            playerNameInput.value = '';
+            signupError.hidden = true;
+            render();
+            playerNameInput.focus();
+          })
+          .catch((err) => {
+            state.isSubmittingSignup = false;
+            if (err && err.message === 'capacity_full') {
+              signupError.textContent = 'อีเวนต์นี้มีผู้ลงชื่อครบจำนวนแล้ว';
+              signupError.hidden = false;
+            } else if (err && err.message === 'duplicate_name') {
+              signupError.textContent = `มีชื่อ "${name}" ในรายชื่อแล้ว`;
+              signupError.hidden = false;
+            } else if (err && err.message === 'event_missing') {
+              signupError.textContent = 'อีเวนต์นี้ถูกลบไปแล้ว';
+              signupError.hidden = false;
+            } else {
+              state.syncMode = 'error';
+              state.syncError = formatFirebaseError(err);
+            }
+            fetchLatestRoot(connectionSeq).catch(function () {});
+            render();
+          });
       });
 
       // Live Expense Inputs
@@ -2255,27 +2740,25 @@
         saveState();
         render();
 
-        if (isFirebaseActive()) {
-          const targetEventId = activeEvent.id;
-          if (expenseSyncTimer) clearTimeout(expenseSyncTimer);
-          expenseSyncTimer = setTimeout(() => {
-            const updatePayload = {
-              courtCost: nextCourt,
-              shuttleCost: nextShuttle
-            };
-            fetch(activeFirebaseConfig.databaseURL + '/' + DB_EVENTS_PATH + '/' + encodeURIComponent(targetEventId) + '.json', {
-              method: 'PATCH',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(updatePayload)
-            })
-              .then(checkHttpOk)
-              .catch((err) => {
-                state.syncMode = 'error';
-                state.syncError = formatFirebaseError(err);
-                render();
-              });
-          }, 200);
-        }
+        const targetEventId = activeEvent.id;
+        if (expenseSyncTimer) clearTimeout(expenseSyncTimer);
+        expenseSyncTimer = setTimeout(() => {
+          const updatePayload = {
+            courtCost: nextCourt,
+            shuttleCost: nextShuttle
+          };
+          fetch(FIREBASE_DATABASE_URL + '/' + DB_EVENTS_PATH + '/' + encodeURIComponent(targetEventId) + '.json', {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatePayload)
+          })
+            .then(checkHttpOk)
+            .catch((err) => {
+              state.syncMode = 'error';
+              state.syncError = formatFirebaseError(err);
+              render();
+            });
+        }, 200);
       }
 
       courtCostInput.addEventListener('input', handleExpenseChange);
@@ -2284,12 +2767,7 @@
 
       // Initialize App
       loadState();
-      const initialFirebaseConfig = loadSavedFirebaseConfig();
-      if (initialFirebaseConfig) {
-        connectFirebase(initialFirebaseConfig);
-      } else {
-        render();
-      }
+      connectFirebase();
     })();
   </script>
 </body>
