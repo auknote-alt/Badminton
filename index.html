@@ -483,8 +483,8 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      font-size: 0.82rem;
-      font-weight: 700;
+      font-size: 0.78rem;
+      font-weight: 600;
       color: var(--accent);
       background: var(--accent-soft);
       padding: 3px 10px;
@@ -1650,7 +1650,10 @@
         <div class="form-grid">
           <!-- Venue Dropdown + Preset Hourly Rate -->
           <div class="field">
-            <label for="eventLocationSelect">สถานที่ / สนามแบดมินตัน *</label>
+            <label for="eventLocationSelect">
+              <span>สถานที่ / สนามแบดมินตัน *</span>
+              <button type="button" id="toggleVenueManagerBtn" class="day-badge" style="border:none; cursor:pointer;">⚙️ จัดการสนาม</button>
+            </label>
             <select id="eventLocationSelect" required></select>
           </div>
 
@@ -1662,6 +1665,12 @@
               maxlength="100"
               aria-label="ชื่อสนามแบดมินตันใหม่"
             >
+          </div>
+
+          <!-- Venue Manager Panel -->
+          <div id="venueManagerPanel" style="background: rgba(15, 23, 42, 0.05); border-radius: 10px; padding: 8px var(--space-3); font-size: 0.8rem; margin-top: -6px;" hidden>
+            <span style="font-weight: 700; display: block; margin-bottom: 4px; color: var(--muted);">ลบรายชื่อสนามที่ไม่ได้ใช้:</span>
+            <div id="venueManageList" style="display:flex; flex-direction:column; gap: 4px;"></div>
           </div>
 
           <!-- Fixed Hourly Rate for this Venue -->
@@ -2347,6 +2356,9 @@
       const eventLocationSelect = document.getElementById('eventLocationSelect');
       const customLocationField = document.getElementById('customLocationField');
       const eventLocationInput = document.getElementById('eventLocationInput');
+      const toggleVenueManagerBtn = document.getElementById('toggleVenueManagerBtn');
+      const venueManagerPanel = document.getElementById('venueManagerPanel');
+      const venueManageList = document.getElementById('venueManageList');
       const venueHourlyRateInput = document.getElementById('venueHourlyRateInput');
       const eventDateInput = document.getElementById('eventDateInput');
       const eventDateDayBadge = document.getElementById('eventDateDayBadge');
@@ -2938,6 +2950,71 @@
         }
       });
 
+      // Render list of custom venues in the inline venue manager
+      function renderVenueManager() {
+        venueManageList.innerHTML = '';
+        if (state.venues.length === 0) {
+          const p = document.createElement('p');
+          p.style.margin = '4px 0';
+          p.style.color = 'var(--subtle)';
+          p.textContent = 'ไม่มีรายชื่อสนามที่กำหนดเองในขณะนี้';
+          venueManageList.appendChild(p);
+          return;
+        }
+
+        state.venues.forEach((venueName) => {
+          const row = document.createElement('div');
+          row.style.display = 'flex';
+          row.style.alignItems = 'center';
+          row.style.justifyContent = 'space-between';
+          row.style.gap = '8px';
+          row.style.background = 'var(--surface)';
+          row.style.border = '1px solid var(--border)';
+          row.style.borderRadius = '8px';
+          row.style.padding = '4px 8px';
+
+          const nameSpan = document.createElement('span');
+          nameSpan.style.fontWeight = '500';
+          nameSpan.textContent = venueName;
+          row.appendChild(nameSpan);
+
+          const delBtn = document.createElement('button');
+          delBtn.type = 'button';
+          delBtn.className = 'btn btn-danger-ghost';
+          delBtn.style.minHeight = '24px';
+          delBtn.style.padding = '2px 8px';
+          delBtn.style.fontSize = '0.72rem';
+          delBtn.textContent = 'ลบออก';
+          delBtn.addEventListener('click', () => {
+            state.venues = state.venues.filter(v => v !== venueName);
+            saveState();
+            
+            // Sync updated custom venues to Firebase
+            fetch(FIREBASE_DATABASE_URL + '/' + DB_VENUES_PATH + '.json', {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(state.venues)
+            }).catch(function () {});
+
+            // Repopulate and re-render
+            const currentSelected = eventLocationSelect.value;
+            populateVenueSelect(currentSelected === venueName ? '' : currentSelected);
+            renderVenueManager();
+          });
+
+          row.appendChild(delBtn);
+          venueManageList.appendChild(row);
+        });
+      }
+
+      toggleVenueManagerBtn.addEventListener('click', () => {
+        const isHidden = venueManagerPanel.hidden;
+        venueManagerPanel.hidden = !isHidden;
+        if (!venueManagerPanel.hidden) {
+          renderVenueManager();
+        }
+      });
+
       function syncDraftCourtSchedulesCount(courtsCount) {
         const defaultStart = normalizeHourString(eventTimeSelect.value);
         const defaultHours = parseFloat(eventHoursInput.value) || 2;
@@ -3066,6 +3143,7 @@
         submitModalBtn.textContent = 'สร้างอีเวนต์';
 
         populateVenueSelect('', 200);
+        venueManagerPanel.hidden = true;
 
         const today = new Date();
         const yyyy = today.getFullYear();
@@ -3106,6 +3184,8 @@
         submitModalBtn.textContent = 'บันทึกการแก้ไข';
 
         populateVenueSelect(activeEvent.location, activeEvent.venueRatePerHour);
+        venueManagerPanel.hidden = true;
+        
         eventDateInput.value = activeEvent.date;
         updateDateDayBadge();
 
@@ -3162,6 +3242,7 @@
         }
       });
 
+      // Firebase REST Helpers
       function checkHttpOk(res) {
         if (!res.ok) {
           throw new Error(res.status === 401 || res.status === 403 ? 'permission_denied' : 'http_' + res.status);
