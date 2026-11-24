@@ -1053,6 +1053,12 @@
     .player-index.tone-4 { background: linear-gradient(135deg, #ec4899, #f43f5e); }
     .player-index.tone-5 { background: linear-gradient(135deg, #06b6d4, #2563eb); }
 
+    /* Waiting List indicator style */
+    .player-index.waiting {
+      background: linear-gradient(135deg, #64748b, #94a3b8);
+      font-size: 0.65rem;
+    }
+
     .player-name {
       font-weight: 600;
       font-size: 0.94rem;
@@ -1485,9 +1491,21 @@
           </h3>
 
           <form id="expenseForm" novalidate hidden>
-            <p class="admin-hint">
-              กรอกค่าเช่าสนามและค่าลูกแบดหลังตีเสร็จ ระบบจะหารยอดต่อคนให้อัตโนมัติ
-            </p>
+            <!-- Shuttlecock Counter Helper -->
+            <div style="background: var(--surface-subtle); padding: 10px; border-radius: 10px; margin-bottom: 12px; border: 1px solid var(--border);">
+              <span style="font-size: 0.78rem; font-weight: 700; color: var(--accent); display: block; margin-bottom: 6px;">🧮 ตัวช่วยนับและคำนวณค่าลูกแบด</span>
+              <div class="form-grid-2">
+                <div class="field">
+                  <label id="shuttleUnitPriceInputLabel" for="shuttleUnitPriceInput" style="font-size: 0.72rem;">ราคาต่อลูก (บาท)</label>
+                  <input type="number" id="shuttleUnitPriceInput" min="0" placeholder="50" style="height: 32px; font-size: 0.9rem;">
+                </div>
+                <div class="field">
+                  <label id="shuttleQtyInputLabel" for="shuttleQtyInput" style="font-size: 0.72rem;">จำนวนลูกที่ใช้</label>
+                  <input type="number" id="shuttleQtyInput" min="0" placeholder="0" style="height: 32px; font-size: 0.9rem;">
+                </div>
+              </div>
+            </div>
+
             <div class="form-grid-2">
               <div class="field">
                 <label for="courtCostInput">ค่าสนามรวม (บาท)</label>
@@ -1547,6 +1565,11 @@
               <span id="perPersonLabel" class="per-person-label">จ่ายคนละ</span>
               <span id="displayPerPerson" class="per-person-amount">฿0.00</span>
             </div>
+
+            <!-- Copy to clipboard button -->
+            <button type="button" id="copySummaryBtn" class="btn btn-secondary" style="width: 100%; margin-top: 10px; font-size: 0.85rem; min-height: 36px; padding: 6px 12px; gap: 6px;">
+              📋 คัดลอกสรุปสำหรับส่งเข้ากลุ่ม LINE
+            </button>
           </div>
         </section>
       </div>
@@ -2124,15 +2147,20 @@
         }
       }
 
-      // Expense Split Engine
+      // Expense Split Engine - Excludes waiting list members (index >= maxPlayers) from calculation
       function calculateSplitCosts(activeEvent) {
         const players = activeEvent ? activeEvent.players : [];
-        const playerCount = players.length;
+        const maxPlayersLimit = activeEvent ? Number(activeEvent.maxPlayers) || 6 : 6;
+        
+        // Waiting list members (index >= maxPlayersLimit) are excluded from cost splitting
+        const mainPlayers = players.slice(0, maxPlayersLimit);
+        const mainPlayerCount = mainPlayers.length;
+        
         const courtCost = Number(activeEvent && activeEvent.courtCost) || 0;
         const shuttleCost = Number(activeEvent && activeEvent.shuttleCost) || 0;
         const totalCost = courtCost + shuttleCost;
 
-        if (playerCount === 0) {
+        if (mainPlayerCount === 0) {
           return {
             totalCost,
             courtCost,
@@ -2146,8 +2174,8 @@
           };
         }
 
-        const manualPlayers = players.filter((p) => p.manualCost !== null && p.manualCost !== undefined);
-        const autoPlayers = players.filter((p) => p.manualCost === null || p.manualCost === undefined);
+        const manualPlayers = mainPlayers.filter((p) => p.manualCost !== null && p.manualCost !== undefined);
+        const autoPlayers = mainPlayers.filter((p) => p.manualCost === null || p.manualCost === undefined);
 
         const manualSum = manualPlayers.reduce((sum, p) => sum + Number(p.manualCost || 0), 0);
         const overAllocated = manualSum > totalCost + 0.001;
@@ -2155,12 +2183,17 @@
         const autoPerPerson = autoPlayers.length > 0 ? remainingCost / autoPlayers.length : 0;
 
         const shares = {};
-        players.forEach((p) => {
+        mainPlayers.forEach((p) => {
           if (p.manualCost !== null && p.manualCost !== undefined) {
             shares[p.id] = Number(p.manualCost);
           } else {
             shares[p.id] = autoPerPerson;
           }
+        });
+
+        // Set waiting list players share to 0 explicitly
+        players.slice(maxPlayersLimit).forEach((p) => {
+          shares[p.id] = 0;
         });
 
         return {
@@ -2258,6 +2291,86 @@
       const perCourtScheduleList = document.getElementById('perCourtScheduleList');
       const eventMaxPlayersInput = document.getElementById('eventMaxPlayersInput');
       const eventDetailsInput = document.getElementById('eventDetailsInput');
+
+      // Shuttlecock Helper Inputs
+      const shuttleUnitPriceInput = document.getElementById('shuttleUnitPriceInput');
+      const shuttleQtyInput = document.getElementById('shuttleQtyInput');
+      const copySummaryBtn = document.getElementById('copySummaryBtn');
+
+      function updateShuttleCostFromHelper() {
+        const price = parseFloat(shuttleUnitPriceInput.value) || 0;
+        const qty = parseFloat(shuttleQtyInput.value) || 0;
+        if (price > 0 && qty > 0) {
+          shuttleCostInput.value = formatPlainNumber(price * qty);
+          handleExpenseChange();
+        }
+      }
+      shuttleUnitPriceInput.addEventListener('input', updateShuttleCostFromHelper);
+      shuttleQtyInput.addEventListener('input', updateShuttleCostFromHelper);
+
+      // Copy summary to LINE clipboard text
+      copySummaryBtn.addEventListener('click', () => {
+        const activeEvent = getActiveEvent();
+        if (!activeEvent) return;
+
+        const split = calculateSplitCosts(activeEvent);
+        const maxPlayersLimit = Number(activeEvent.maxPlayers) || 6;
+        const mainPlayers = activeEvent.players.slice(0, maxPlayersLimit);
+        const waitingPlayers = activeEvent.players.slice(maxPlayersLimit);
+
+        let txt = `🏸 *สรุปยอดก๊วนตีแบด* 🏸\n`;
+        txt += `📍 สนาม: ${activeEvent.location}\n`;
+        txt += `📅 วันที่: ${formatThaiDate(activeEvent.date, activeEvent.time)}\n`;
+        if (activeEvent.hasCustomCourtTimes && activeEvent.courtSchedules) {
+          txt += `⏱️ เวลาเล่นแต่ละคอร์ท:\n`;
+          activeEvent.courtSchedules.forEach(s => {
+            txt += `   - คอร์ท ${s.courtNo}: ${formatTimeRange(s.startTime, s.hours)}\n`;
+          });
+        } else {
+          txt += `⏱️ เวลา: ${activeEvent.hoursPerCourt} ชั่วโมง (${activeEvent.time} น.)\n`;
+        }
+        txt += `--------------------------------\n`;
+        txt += `💰 ค่าใช้จ่ายก๊วนรวม: ${formatCurrency(split.totalCost)}\n`;
+        txt += `   - ค่าเช่าสนาม: ${formatCurrency(split.courtCost)}\n`;
+        txt += `   - ค่าลูกแบด: ${formatCurrency(split.shuttleCost)}\n`;
+        txt += `--------------------------------\n`;
+
+        txt += `รายชื่อผู้เล่นตัวจริงและยอดโอน:\n`;
+        mainPlayers.forEach((p, idx) => {
+          const share = split.shares[p.id] || 0;
+          const isManual = p.manualCost !== null && p.manualCost !== undefined;
+          txt += `${idx + 1}. ${p.name} — ${formatCurrency(share)}${isManual ? ' (ยอดเฉพาะตัว)' : ''}\n`;
+        });
+
+        if (waitingPlayers.length > 0) {
+          txt += `--------------------------------\n`;
+          txt += `รายชื่อตัวสำรอง (ยังไม่คิดค่าใช้จ่าย):\n`;
+          waitingPlayers.forEach((p, idx) => {
+            txt += `${idx + 1}. ${p.name}\n`;
+          });
+        }
+
+        txt += `--------------------------------\n`;
+        txt += `ขอบคุณทุกคนมากครับ! 🙏🏸`;
+
+        if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+          navigator.clipboard.writeText(txt).then(() => {
+            const originalText = copySummaryBtn.textContent;
+            copySummaryBtn.textContent = '✓ คัดลอกลงคลิปบอร์ดแล้ว! นำไปวางใน LINE ได้เลย';
+            copySummaryBtn.style.background = 'var(--emerald)';
+            copySummaryBtn.style.color = '#ffffff';
+            setTimeout(() => {
+              copySummaryBtn.textContent = originalText;
+              copySummaryBtn.style.background = '';
+              copySummaryBtn.style.color = '';
+            }, 2500);
+          }).catch(() => {
+            alert('ไม่สามารถคัดลอกโดยอัตโนมัติได้ กรุณาคัดลอกด้วยตนเอง');
+          });
+        } else {
+          alert(txt);
+        }
+      });
 
       function renderSyncIndicator() {
         firebaseSyncDot.className = 'sync-dot';
@@ -2463,17 +2576,17 @@
         const playerCount = activeEvent.players.length;
         const maxPlayers = Math.max(1, Number(activeEvent.maxPlayers) || 1);
         const isFull = playerCount >= maxPlayers;
-        const pct = Math.min(100, Math.round((playerCount / maxPlayers) * 100));
+        const pct = Math.min(100, Math.round((Math.min(playerCount, maxPlayers) / maxPlayers) * 100));
 
         capacityIndicator.textContent = `${playerCount} / ${activeEvent.maxPlayers} คน`;
         capacityIndicator.classList.toggle('full', isFull);
         capacityProgressFill.style.width = `${pct}%`;
         capacityProgressFill.classList.toggle('full', isFull);
 
-        playerNameInput.disabled = isFull || state.isSubmittingSignup;
-        signupSubmitBtn.disabled = isFull || state.isSubmittingSignup;
+        playerNameInput.disabled = state.isSubmittingSignup;
+        signupSubmitBtn.disabled = state.isSubmittingSignup;
         playerNameInput.placeholder = isFull
-          ? 'ครบจำนวนที่รับแล้ว'
+          ? 'ก๊วนเต็มแล้ว (ลงชื่อเป็นตัวสำรองต่อท้ายได้)'
           : 'ชื่อเล่นของคุณ...';
 
         const split = calculateSplitCosts(activeEvent);
@@ -2511,8 +2624,17 @@
               info.className = 'player-info';
 
               const indexBadge = document.createElement('span');
-              indexBadge.className = 'player-index tone-' + (idx % 6);
-              indexBadge.textContent = String(idx + 1);
+              
+              const isWaitingList = idx >= maxPlayers;
+
+              if (isWaitingList) {
+                indexBadge.className = 'player-index waiting';
+                indexBadge.textContent = 'สำรอง';
+                indexBadge.title = `ตัวสำรองอันดับที่ ${idx - maxPlayers + 1}`;
+              } else {
+                indexBadge.className = 'player-index tone-' + (idx % 6);
+                indexBadge.textContent = String(idx + 1);
+              }
 
               const nameSpan = document.createElement('span');
               nameSpan.className = 'player-name';
@@ -2528,7 +2650,14 @@
               const isManual = player.manualCost !== null && player.manualCost !== undefined;
 
               if (hasExpenses) {
-                if (isAdmin) {
+                if (isWaitingList) {
+                  const waitingTag = document.createElement('span');
+                  waitingTag.className = 'share-mode-tag';
+                  waitingTag.style.background = '#e2e8f0';
+                  waitingTag.style.color = '#475569';
+                  waitingTag.textContent = 'ตัวสำรอง (ไม่มีค่าใช้จ่าย)';
+                  rightGroup.appendChild(waitingTag);
+                } else if (isAdmin) {
                   const editorWrap = document.createElement('div');
                   editorWrap.className = 'admin-share-editor' + (isManual ? ' is-manual' : '');
 
@@ -3226,12 +3355,6 @@
           return;
         }
 
-        if (activeEvent.players.length >= activeEvent.maxPlayers) {
-          signupError.textContent = 'อีเวนต์นี้มีผู้ลงชื่อครบจำนวนแล้ว';
-          signupError.hidden = false;
-          return;
-        }
-
         const isDuplicateLocal = activeEvent.players.some(
           (p) => p.name.toLowerCase() === name.toLowerCase()
         );
@@ -3274,10 +3397,6 @@
               throw new Error('event_missing');
             }
             const latestPlayers = normalizePlayersList(latestEvent.players);
-            const maxP = Number(latestEvent.maxPlayers) || 0;
-            if (latestPlayers.length >= maxP) {
-              throw new Error('capacity_full');
-            }
             if (latestPlayers.some((p) => p.name.toLowerCase() === name.toLowerCase())) {
               throw new Error('duplicate_name');
             }
@@ -3306,10 +3425,7 @@
           })
           .catch((err) => {
             state.isSubmittingSignup = false;
-            if (err && err.message === 'capacity_full') {
-              signupError.textContent = 'อีเวนต์นี้มีผู้ลงชื่อครบจำนวนแล้ว';
-              signupError.hidden = false;
-            } else if (err && err.message === 'duplicate_name') {
+            if (err && err.message === 'duplicate_name') {
               signupError.textContent = `มีชื่อ "${name}" ในรายชื่อแล้ว`;
               signupError.hidden = false;
             } else if (err && err.message === 'event_missing') {
