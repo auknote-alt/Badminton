@@ -1797,7 +1797,7 @@
       const VENUES_STORAGE_KEY = 'badminton_club_venues_v1';
       const DB_ROOT_PATH = 'badminton_club_v1';
       const DB_EVENTS_PATH = 'badminton_club_v1/events';
-      const DB_VENUES_PATH = 'badminton_club_v1/venues';
+      const DB_VENUE_SETTINGS_PATH = 'badminton_club_v1/venueSettings';
 
       // Preset sample venues with predetermined hourly rates
       const SAMPLE_VENUES = [
@@ -1817,7 +1817,8 @@
       let state = {
         role: 'player', // 'player' | 'admin'
         events: [],
-        venues: [], // Array of { name: string, ratePerHour: number }
+        venues: SAMPLE_VENUES.map((v) => ({ name: v.name, ratePerHour: v.ratePerHour })), // Array of { name: string, ratePerHour: number }
+        venuesInitialized: false,
         activeEventId: null,
         confirmDeleteId: null,
         editingEventId: null,
@@ -1847,8 +1848,11 @@
           const rawVenues = window.localStorage.getItem(VENUES_STORAGE_KEY);
           if (rawVenues) {
             const parsedVenues = JSON.parse(rawVenues);
-            if (Array.isArray(parsedVenues)) {
-              state.venues = normalizeVenuesList(parsedVenues);
+            if (parsedVenues && typeof parsedVenues === 'object' && !Array.isArray(parsedVenues) && parsedVenues.initialized) {
+              state.venuesInitialized = true;
+              state.venues = normalizeVenuesList(parsedVenues.list);
+            } else if (Array.isArray(parsedVenues) && parsedVenues.length > 0) {
+              state.venues = mergeStarterAndSavedVenues(parsedVenues, state.events);
             }
           }
         } catch (err) {}
@@ -1863,8 +1867,41 @@
               activeEventId: state.activeEventId
             })
           );
-          window.localStorage.setItem(VENUES_STORAGE_KEY, JSON.stringify(state.venues));
+          window.localStorage.setItem(
+            VENUES_STORAGE_KEY,
+            JSON.stringify({
+              initialized: state.venuesInitialized,
+              list: state.venues
+            })
+          );
         } catch (err) {}
+      }
+
+      function persistVenuesToFirebase() {
+        state.venuesInitialized = true;
+        saveState();
+        fetch(FIREBASE_DATABASE_URL + '/' + DB_VENUE_SETTINGS_PATH + '.json', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            initialized: true,
+            list: state.venues
+          })
+        }).catch(function () {});
+      }
+
+      function mergeStarterAndSavedVenues(rawVenues, eventsList) {
+        const map = new Map();
+        SAMPLE_VENUES.forEach((v) => map.set(v.name, { name: v.name, ratePerHour: v.ratePerHour }));
+        normalizeVenuesList(rawVenues).forEach((v) => map.set(v.name, v));
+        if (Array.isArray(eventsList)) {
+          eventsList.forEach((ev) => {
+            if (ev && ev.location && !map.has(ev.location)) {
+              map.set(ev.location, { name: ev.location, ratePerHour: Number(ev.venueRatePerHour) || 200 });
+            }
+          });
+        }
+        return Array.from(map.values());
       }
 
       function parseOptionalMoney(val) {
@@ -2031,9 +2068,11 @@
       function applyRemoteRoot(rawRoot) {
         const rootObj = rawRoot && typeof rawRoot === 'object' ? rawRoot : {};
         state.events = normalizeEventsFromFirebase(rootObj.events);
-        const remoteVenues = normalizeVenuesList(rootObj.venues);
-        if (remoteVenues.length > 0) {
-          state.venues = remoteVenues;
+        if (rootObj.venueSettings && typeof rootObj.venueSettings === 'object' && rootObj.venueSettings.initialized) {
+          state.venuesInitialized = true;
+          state.venues = normalizeVenuesList(rootObj.venueSettings.list);
+        } else {
+          state.venues = mergeStarterAndSavedVenues(rootObj.venues, state.events);
         }
         if (!state.activeEventId || !state.events.some((ev) => ev.id === state.activeEventId)) {
           state.activeEventId = state.events[0] ? state.events[0].id : null;
@@ -2042,6 +2081,12 @@
         state.syncError = '';
         saveState();
         render();
+        if (!createEventModal.hidden) {
+          populateVenueSelect(eventLocationSelect.value, venueHourlyRateInput.value);
+          if (!venueManagerPanel.hidden) {
+            renderVenueManager();
+          }
+        }
       }
 
       function fetchLatestRoot(seq) {
@@ -2176,38 +2221,20 @@
       }
 
       function getAllVenuesList() {
-        const map = new Map();
-        SAMPLE_VENUES.forEach(v => map.set(v.name, v));
-        state.venues.forEach(v => map.set(v.name, v));
-        state.events.forEach(ev => {
-          if (ev.location && !map.has(ev.location)) {
-            map.set(ev.location, { name: ev.location, ratePerHour: Number(ev.venueRatePerHour) || 200 });
-          }
-        });
-        return Array.from(map.values());
+        return state.venues;
       }
 
       function saveVenueIfNeeded(venueName, ratePerHour) {
         const trimmed = (venueName || '').trim();
         if (!trimmed) return;
         const rate = Number(ratePerHour) || 200;
-        const existing = state.venues.find(v => v.name === trimmed);
+        const existing = state.venues.find((v) => v.name === trimmed);
         if (!existing) {
           state.venues.push({ name: trimmed, ratePerHour: rate });
-          saveState();
-          fetch(FIREBASE_DATABASE_URL + '/' + DB_VENUES_PATH + '.json', {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(state.venues)
-          }).catch(function () {});
+          persistVenuesToFirebase();
         } else if (existing.ratePerHour !== rate) {
           existing.ratePerHour = rate;
-          saveState();
-          fetch(FIREBASE_DATABASE_URL + '/' + DB_VENUES_PATH + '.json', {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(state.venues)
-          }).catch(function () {});
+          persistVenuesToFirebase();
         }
       }
 
@@ -2915,8 +2942,12 @@
         customOpt.setAttribute('data-rate', '200');
         eventLocationSelect.appendChild(customOpt);
 
-        if (selectedLocation) {
-          const matched = allVenues.find(v => v.name === selectedLocation);
+        if (selectedLocation === '__custom__') {
+          eventLocationSelect.value = '__custom__';
+          customLocationField.hidden = false;
+          if (defaultRate) venueHourlyRateInput.value = defaultRate;
+        } else if (selectedLocation) {
+          const matched = allVenues.find((v) => v.name === selectedLocation);
           if (matched) {
             eventLocationSelect.value = selectedLocation;
             customLocationField.hidden = true;
@@ -2930,7 +2961,8 @@
           }
         } else {
           eventLocationSelect.selectedIndex = 0;
-          customLocationField.hidden = true;
+          const isCustomSelected = eventLocationSelect.value === '__custom__';
+          customLocationField.hidden = !isCustomSelected;
           eventLocationInput.value = '';
           const firstRate = eventLocationSelect.options[0] ? eventLocationSelect.options[0].getAttribute('data-rate') : '200';
           venueHourlyRateInput.value = firstRate;
@@ -2950,19 +2982,21 @@
         }
       });
 
-      // Render list of custom venues in the inline venue manager
+      // Render list of all saved venues in the inline venue manager
       function renderVenueManager() {
         venueManageList.innerHTML = '';
-        if (state.venues.length === 0) {
+        const allVenues = getAllVenuesList();
+
+        if (allVenues.length === 0) {
           const p = document.createElement('p');
           p.style.margin = '4px 0';
           p.style.color = 'var(--subtle)';
-          p.textContent = 'ไม่มีรายชื่อสนามที่กำหนดเองในขณะนี้';
+          p.textContent = 'ลบรายชื่อสนามหมดแล้ว สามารถพิมพ์เพิ่มสนามใหม่ด้านล่างได้เลย';
           venueManageList.appendChild(p);
           return;
         }
 
-        state.venues.forEach((venueName) => {
+        allVenues.forEach((venueObj) => {
           const row = document.createElement('div');
           row.style.display = 'flex';
           row.style.alignItems = 'center';
@@ -2971,34 +3005,37 @@
           row.style.background = 'var(--surface)';
           row.style.border = '1px solid var(--border)';
           row.style.borderRadius = '8px';
-          row.style.padding = '4px 8px';
+          row.style.padding = '5px 10px';
 
           const nameSpan = document.createElement('span');
-          nameSpan.style.fontWeight = '500';
-          nameSpan.textContent = venueName;
+          nameSpan.style.fontWeight = '600';
+          nameSpan.style.color = 'var(--ink)';
+          nameSpan.textContent = `${venueObj.name} (${venueObj.ratePerHour} บ./ชม.)`;
           row.appendChild(nameSpan);
 
           const delBtn = document.createElement('button');
           delBtn.type = 'button';
           delBtn.className = 'btn btn-danger-ghost';
-          delBtn.style.minHeight = '24px';
-          delBtn.style.padding = '2px 8px';
-          delBtn.style.fontSize = '0.72rem';
+          delBtn.style.minHeight = '26px';
+          delBtn.style.padding = '2px 10px';
+          delBtn.style.fontSize = '0.75rem';
+          delBtn.style.fontWeight = '600';
+          delBtn.style.color = 'var(--danger)';
+          delBtn.style.background = 'var(--danger-soft)';
           delBtn.textContent = 'ลบออก';
+          delBtn.setAttribute('aria-label', `ลบสนาม ${venueObj.name}`);
           delBtn.addEventListener('click', () => {
-            state.venues = state.venues.filter(v => v !== venueName);
-            saveState();
-            
-            // Sync updated custom venues to Firebase
-            fetch(FIREBASE_DATABASE_URL + '/' + DB_VENUES_PATH + '.json', {
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(state.venues)
-            }).catch(function () {});
-
-            // Repopulate and re-render
             const currentSelected = eventLocationSelect.value;
-            populateVenueSelect(currentSelected === venueName ? '' : currentSelected);
+            const currentCustomText = eventLocationInput.value;
+            state.venues = state.venues.filter((v) => v.name !== venueObj.name);
+            persistVenuesToFirebase();
+
+            if (currentSelected === '__custom__') {
+              populateVenueSelect('__custom__', venueHourlyRateInput.value);
+              eventLocationInput.value = currentCustomText;
+            } else {
+              populateVenueSelect(currentSelected === venueObj.name ? '' : currentSelected);
+            }
             renderVenueManager();
           });
 
