@@ -483,8 +483,8 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      font-size: 0.78rem;
-      font-weight: 600;
+      font-size: 0.82rem;
+      font-weight: 700;
       color: var(--accent);
       background: var(--accent-soft);
       padding: 3px 10px;
@@ -498,13 +498,6 @@
       font-weight: 700;
       letter-spacing: -0.025em;
       line-height: 1.25;
-    }
-
-    .event-note {
-      margin: 6px 0 0 0;
-      color: var(--muted);
-      font-size: 0.875rem;
-      white-space: pre-line;
     }
 
     .admin-hero-actions {
@@ -646,7 +639,7 @@
 
     .form-row-compact-2 {
       display: grid;
-      grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+      grid-template-columns: minmax(0, 1.14fr) minmax(0, 0.86fr);
       gap: 10px;
       align-items: start;
     }
@@ -678,9 +671,18 @@
     }
 
     .val-badge {
-      font-weight: 600;
+      font-weight: 700;
       color: var(--accent);
       font-variant-numeric: tabular-nums;
+    }
+
+    .day-badge {
+      font-weight: 700;
+      color: #0d9488;
+      background: rgba(13, 148, 136, 0.1);
+      padding: 1px 6px;
+      border-radius: 5px;
+      font-size: 0.72rem;
     }
 
     .field input:not([type="range"]):not([type="checkbox"]),
@@ -709,7 +711,7 @@
       max-height: 40px;
       line-height: 26px;
       padding: 6px 10px;
-      font-size: 1rem;
+      font-size: 0.95rem;
       text-align: left;
       overflow: hidden;
     }
@@ -742,19 +744,44 @@
       padding-right: 32px;
     }
 
-    .field textarea {
-      height: auto;
-      min-height: 58px;
-      padding: 8px 12px;
-      resize: vertical;
-    }
-
     .field input:not([type="range"]):not([type="checkbox"]):focus,
-    .field select:focus,
-    .field textarea:focus {
+    .field select:focus {
       outline: none;
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.14);
+    }
+
+    /* Venue Rate Box */
+    .venue-rate-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .venue-rate-box label {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .venue-rate-input {
+      font: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      width: 80px;
+      height: 32px;
+      text-align: right;
+      padding: 2px 8px;
+      border-radius: 7px;
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
     }
 
     /* Compact Sliders + Custom Per-Court Schedule Box */
@@ -1053,7 +1080,6 @@
     .player-index.tone-4 { background: linear-gradient(135deg, #ec4899, #f43f5e); }
     .player-index.tone-5 { background: linear-gradient(135deg, #06b6d4, #2563eb); }
 
-    /* Waiting List indicator style */
     .player-index.waiting {
       background: linear-gradient(135deg, #64748b, #94a3b8);
       font-size: 0.65rem;
@@ -1239,7 +1265,7 @@
       line-height: 1.45;
     }
 
-    /* Compact Single-Screen Modal & Admin Password Modal */
+    /* Modals */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -1394,7 +1420,6 @@
           <div class="event-title-group">
             <div id="specDateTime" class="event-date-eyebrow">-</div>
             <h2 id="activeEventTitle" class="event-name"></h2>
-            <p id="activeEventNote" class="event-note" hidden></p>
           </div>
           <div id="adminEventActions" class="admin-hero-actions" hidden>
             <button type="button" id="editEventBtn" class="btn btn-ghost-action">
@@ -1496,11 +1521,11 @@
               <span style="font-size: 0.78rem; font-weight: 700; color: var(--accent); display: block; margin-bottom: 6px;">🧮 ตัวช่วยนับและคำนวณค่าลูกแบด</span>
               <div class="form-grid-2">
                 <div class="field">
-                  <label id="shuttleUnitPriceInputLabel" for="shuttleUnitPriceInput" style="font-size: 0.72rem;">ราคาต่อลูก (บาท)</label>
-                  <input type="number" id="shuttleUnitPriceInput" min="0" placeholder="50" style="height: 32px; font-size: 0.9rem;">
+                  <label for="shuttleUnitPriceInput" style="font-size: 0.72rem;">ราคาต่อลูก (บาท)</label>
+                  <input type="number" id="shuttleUnitPriceInput" min="0" value="65" placeholder="65" style="height: 32px; font-size: 0.9rem;">
                 </div>
                 <div class="field">
-                  <label id="shuttleQtyInputLabel" for="shuttleQtyInput" style="font-size: 0.72rem;">จำนวนลูกที่ใช้</label>
+                  <label for="shuttleQtyInput" style="font-size: 0.72rem;">จำนวนลูกที่ใช้</label>
                   <input type="number" id="shuttleQtyInput" min="0" placeholder="0" style="height: 32px; font-size: 0.9rem;">
                 </div>
               </div>
@@ -1566,7 +1591,7 @@
               <span id="displayPerPerson" class="per-person-amount">฿0.00</span>
             </div>
 
-            <!-- Copy to clipboard button -->
+            <!-- Compact copy button for LINE -->
             <button type="button" id="copySummaryBtn" class="btn btn-secondary" style="width: 100%; margin-top: 10px; font-size: 0.85rem; min-height: 36px; padding: 6px 12px; gap: 6px;">
               📋 คัดลอกสรุปสำหรับส่งเข้ากลุ่ม LINE
             </button>
@@ -1623,7 +1648,7 @@
 
       <form id="createEventForm" novalidate>
         <div class="form-grid">
-          <!-- Venue Dropdown + Optional Custom Court Addition -->
+          <!-- Venue Dropdown + Preset Hourly Rate -->
           <div class="field">
             <label for="eventLocationSelect">สถานที่ / สนามแบดมินตัน *</label>
             <select id="eventLocationSelect" required></select>
@@ -1633,16 +1658,25 @@
             <input
               type="text"
               id="eventLocationInput"
-              placeholder="พิมพ์ชื่อสนามแบดใหม่ (บันทึกเข้าดรอปดาวน์อัตโนมัติ)..."
+              placeholder="พิมพ์ชื่อสนามแบดใหม่..."
               maxlength="100"
               aria-label="ชื่อสนามแบดมินตันใหม่"
             >
           </div>
 
-          <!-- Compact Date & Hour-Only Selector on 1 Row -->
+          <!-- Fixed Hourly Rate for this Venue -->
+          <div class="venue-rate-box">
+            <label for="venueHourlyRateInput">💰 ราคาค่าเช่าสนามต่อชั่วโมง (บาท/ชม.)</label>
+            <input type="number" id="venueHourlyRateInput" class="venue-rate-input" min="0" step="10" value="200" required>
+          </div>
+
+          <!-- Compact Date (with Day-of-Week badge) & Hour-Only Selector on 1 Row -->
           <div class="form-row-compact-2">
             <div class="field">
-              <label for="eventDateInput">วันที่ *</label>
+              <label for="eventDateInput">
+                <span>วันที่ *</span>
+                <span id="eventDateDayBadge" class="day-badge">เสาร์</span>
+              </label>
               <input type="date" id="eventDateInput" required>
             </div>
             <div class="field">
@@ -1660,8 +1694,8 @@
                 <option value="15:00">15:00 น.</option>
                 <option value="16:00">16:00 น.</option>
                 <option value="17:00">17:00 น.</option>
-                <option value="18:00">18:00 น.</option>
-                <option value="19:00" selected>19:00 น.</option>
+                <option value="18:00" selected>18:00 น.</option>
+                <option value="19:00">19:00 น.</option>
                 <option value="20:00">20:00 น.</option>
                 <option value="21:00">21:00 น.</option>
                 <option value="22:00">22:00 น.</option>
@@ -1733,17 +1767,6 @@
               </div>
             </div>
           </div>
-
-          <!-- Additional Details -->
-          <div class="field">
-            <label for="eventDetailsInput">รายละเอียดเพิ่มเติม (ถ้ามี)</label>
-            <textarea
-              id="eventDetailsInput"
-              rows="2"
-              placeholder="เช่น เจอกันหน้าคอร์ทก่อนเวลา 15 นาที..."
-              maxlength="300"
-            ></textarea>
-          </div>
         </div>
 
         <p id="createEventError" class="form-error" style="margin-top: 8px;" hidden></p>
@@ -1767,10 +1790,14 @@
       const DB_EVENTS_PATH = 'badminton_club_v1/events';
       const DB_VENUES_PATH = 'badminton_club_v1/venues';
 
+      // Preset sample venues with predetermined hourly rates
       const SAMPLE_VENUES = [
-        'คอร์ทแบดมินตัน สนาม 1 (ตัวอย่าง)',
-        'คอร์ทแบดมินตัน สนาม 2 (ตัวอย่าง)'
+        { name: 'บางพระแบดมินตัน', ratePerHour: 220 },
+        { name: 'สนามแบดมินตันสุขุมวิท', ratePerHour: 240 },
+        { name: 'คอร์ทแบดพระราม 9', ratePerHour: 200 }
       ];
+
+      const THAI_DAY_NAMES = ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'];
 
       const HOUR_OPTIONS = [];
       for (let h = 6; h <= 23; h++) {
@@ -1781,11 +1808,11 @@
       let state = {
         role: 'player', // 'player' | 'admin'
         events: [],
-        venues: [],
+        venues: [], // Array of { name: string, ratePerHour: number }
         activeEventId: null,
         confirmDeleteId: null,
         editingEventId: null,
-        pendingAdminAction: null, // 'switch_role' | 'open_create'
+        pendingAdminAction: null,
         draftCourtSchedules: [],
         syncMode: 'connecting',
         syncError: '',
@@ -1812,7 +1839,7 @@
           if (rawVenues) {
             const parsedVenues = JSON.parse(rawVenues);
             if (Array.isArray(parsedVenues)) {
-              state.venues = parsedVenues.filter((v) => typeof v === 'string' && v.trim() !== '');
+              state.venues = normalizeVenuesList(parsedVenues);
             }
           }
         } catch (err) {}
@@ -1867,9 +1894,9 @@
       }
 
       function normalizeHourString(timeStr) {
-        if (!timeStr) return '19:00';
+        if (!timeStr) return '18:00';
         const match = String(timeStr).trim().match(/^(\d{1,2})/);
-        if (!match) return '19:00';
+        if (!match) return '18:00';
         const hr = Math.min(23, Math.max(0, parseInt(match[1], 10)));
         return String(hr).padStart(2, '0') + ':00';
       }
@@ -1912,6 +1939,7 @@
               id: String(ev.id),
               createdAt: extractCreatedTimestamp(ev),
               location: String(ev.location || ''),
+              venueRatePerHour: Number(ev.venueRatePerHour) || 200,
               date: String(ev.date || ''),
               time,
               courts,
@@ -1919,7 +1947,6 @@
               hasCustomCourtTimes,
               courtSchedules,
               maxPlayers: Number(ev.maxPlayers) || 6,
-              details: ev.details ? String(ev.details) : '',
               players: normalizePlayersList(ev.players),
               courtCost: ev.courtCost !== undefined && ev.courtCost !== null && ev.courtCost !== '' ? Number(ev.courtCost) : '',
               shuttleCost: ev.shuttleCost !== undefined && ev.shuttleCost !== null && ev.shuttleCost !== '' ? Number(ev.shuttleCost) : ''
@@ -1928,17 +1955,24 @@
           .sort((a, b) => a.createdAt - b.createdAt);
       }
 
-      function normalizeVenuesFromFirebase(rawVenues) {
+      function normalizeVenuesList(rawVenues) {
         if (!rawVenues) return [];
         const vals = Array.isArray(rawVenues) ? rawVenues : Object.values(rawVenues);
-        const unique = [];
+        const map = new Map();
         vals.forEach((v) => {
-          const name = typeof v === 'string' ? v.trim() : (v && typeof v.name === 'string' ? v.name.trim() : '');
-          if (name && !unique.includes(name)) {
-            unique.push(name);
+          let name = '';
+          let rate = 200;
+          if (typeof v === 'string') {
+            name = v.trim();
+          } else if (v && typeof v === 'object') {
+            name = String(v.name || '').trim();
+            rate = Number(v.ratePerHour) || 200;
+          }
+          if (name && !map.has(name)) {
+            map.set(name, { name, ratePerHour: rate });
           }
         });
-        return unique;
+        return Array.from(map.values());
       }
 
       function serializePlayersMap(players) {
@@ -1963,6 +1997,7 @@
           id: String(ev.id),
           createdAt: extractCreatedTimestamp(ev) || Date.now(),
           location: String(ev.location || ''),
+          venueRatePerHour: Number(ev.venueRatePerHour) || 200,
           date: String(ev.date || ''),
           time: normalizeHourString(ev.time),
           courts: Number(ev.courts) || 1,
@@ -1970,7 +2005,6 @@
           hasCustomCourtTimes: Boolean(ev.hasCustomCourtTimes),
           courtSchedules: ev.hasCustomCourtTimes && Array.isArray(ev.courtSchedules) ? ev.courtSchedules : [],
           maxPlayers: Number(ev.maxPlayers) || 6,
-          details: ev.details ? String(ev.details) : '',
           players: serializePlayersMap(ev.players),
           courtCost: ev.courtCost === '' || ev.courtCost === null || ev.courtCost === undefined ? '' : Number(ev.courtCost),
           shuttleCost: ev.shuttleCost === '' || ev.shuttleCost === null || ev.shuttleCost === undefined ? '' : Number(ev.shuttleCost)
@@ -1988,7 +2022,7 @@
       function applyRemoteRoot(rawRoot) {
         const rootObj = rawRoot && typeof rawRoot === 'object' ? rawRoot : {};
         state.events = normalizeEventsFromFirebase(rootObj.events);
-        const remoteVenues = normalizeVenuesFromFirebase(rootObj.venues);
+        const remoteVenues = normalizeVenuesList(rootObj.venues);
         if (remoteVenues.length > 0) {
           state.venues = remoteVenues;
         }
@@ -2082,6 +2116,14 @@
           : safe.toFixed(2);
       }
 
+      function getThaiDayOfWeek(dateStr) {
+        if (!dateStr) return '';
+        const parts = dateStr.split('-');
+        if (parts.length !== 3) return '';
+        const d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+        return THAI_DAY_NAMES[d.getDay()] || '';
+      }
+
       function formatTimeRange(startTimeStr, durationHours) {
         const cleanStart = normalizeHourString(startTimeStr);
         const startHr = parseInt(cleanStart.split(':')[0], 10);
@@ -2101,13 +2143,13 @@
         const month = parseInt(parts[1], 10) - 1;
         const day = parseInt(parts[2], 10);
         const dateObj = new Date(year, month, day);
+        const dayName = THAI_DAY_NAMES[dateObj.getDay()];
         const thaiDate = dateObj.toLocaleDateString('th-TH', {
-          weekday: 'long',
           day: 'numeric',
           month: 'short',
           year: 'numeric'
         });
-        return cleanTime ? `${thaiDate} · เริ่ม ${cleanTime} น.` : thaiDate;
+        return cleanTime ? `${dayName} ${thaiDate} · ${cleanTime} น.` : `${dayName} ${thaiDate}`;
       }
 
       function formatShortTabDate(dateStr) {
@@ -2115,29 +2157,42 @@
         const parts = dateStr.split('-');
         if (parts.length !== 3) return dateStr;
         const dateObj = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
-        return dateObj.toLocaleDateString('th-TH', { day: 'numeric', month: 'short' });
+        const dayName = THAI_DAY_NAMES[dateObj.getDay()];
+        const shortDate = dateObj.toLocaleDateString('th-TH', { day: 'numeric', month: 'short' });
+        return `${dayName} ${shortDate}`;
       }
 
       function getActiveEvent() {
         return state.events.find((ev) => ev.id === state.activeEventId) || null;
       }
 
-      function getKnownVenues() {
-        const list = [];
-        state.venues.forEach((v) => {
-          if (v && !list.includes(v)) list.push(v);
+      function getAllVenuesList() {
+        const map = new Map();
+        SAMPLE_VENUES.forEach(v => map.set(v.name, v));
+        state.venues.forEach(v => map.set(v.name, v));
+        state.events.forEach(ev => {
+          if (ev.location && !map.has(ev.location)) {
+            map.set(ev.location, { name: ev.location, ratePerHour: Number(ev.venueRatePerHour) || 200 });
+          }
         });
-        state.events.forEach((ev) => {
-          if (ev.location && !list.includes(ev.location)) list.push(ev.location);
-        });
-        return list;
+        return Array.from(map.values());
       }
 
-      function saveVenueIfNeeded(venueName) {
+      function saveVenueIfNeeded(venueName, ratePerHour) {
         const trimmed = (venueName || '').trim();
-        if (!trimmed || SAMPLE_VENUES.includes(trimmed)) return;
-        if (!state.venues.includes(trimmed)) {
-          state.venues.push(trimmed);
+        if (!trimmed) return;
+        const rate = Number(ratePerHour) || 200;
+        const existing = state.venues.find(v => v.name === trimmed);
+        if (!existing) {
+          state.venues.push({ name: trimmed, ratePerHour: rate });
+          saveState();
+          fetch(FIREBASE_DATABASE_URL + '/' + DB_VENUES_PATH + '.json', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(state.venues)
+          }).catch(function () {});
+        } else if (existing.ratePerHour !== rate) {
+          existing.ratePerHour = rate;
           saveState();
           fetch(FIREBASE_DATABASE_URL + '/' + DB_VENUES_PATH + '.json', {
             method: 'PUT',
@@ -2147,16 +2202,31 @@
         }
       }
 
-      // Expense Split Engine - Excludes waiting list members (index >= maxPlayers) from calculation
+      // Calculate total court hours for an event
+      function computeTotalCourtHours(ev) {
+        if (!ev) return 0;
+        if (ev.hasCustomCourtTimes && Array.isArray(ev.courtSchedules) && ev.courtSchedules.length > 0) {
+          return ev.courtSchedules.reduce((sum, s) => sum + (Number(s.hours) || 0), 0);
+        }
+        return (Number(ev.courts) || 1) * (Number(ev.hoursPerCourt) || 1);
+      }
+
+      // Expense Split Engine - Excludes waiting list members from cost calculation
       function calculateSplitCosts(activeEvent) {
         const players = activeEvent ? activeEvent.players : [];
         const maxPlayersLimit = activeEvent ? Number(activeEvent.maxPlayers) || 6 : 6;
-        
-        // Waiting list members (index >= maxPlayersLimit) are excluded from cost splitting
         const mainPlayers = players.slice(0, maxPlayersLimit);
         const mainPlayerCount = mainPlayers.length;
-        
-        const courtCost = Number(activeEvent && activeEvent.courtCost) || 0;
+
+        // Auto calculate default court cost if not set
+        const defaultRate = Number(activeEvent && activeEvent.venueRatePerHour) || 200;
+        const totalCourtHours = computeTotalCourtHours(activeEvent);
+        const autoComputedCourtCost = totalCourtHours * defaultRate;
+
+        const courtCost = (activeEvent && activeEvent.courtCost !== '' && activeEvent.courtCost !== null && activeEvent.courtCost !== undefined)
+          ? Number(activeEvent.courtCost)
+          : autoComputedCourtCost;
+
         const shuttleCost = Number(activeEvent && activeEvent.shuttleCost) || 0;
         const totalCost = courtCost + shuttleCost;
 
@@ -2191,7 +2261,6 @@
           }
         });
 
-        // Set waiting list players share to 0 explicitly
         players.slice(maxPlayersLimit).forEach((p) => {
           shares[p.id] = 0;
         });
@@ -2224,7 +2293,6 @@
       const eventWorkspace = document.getElementById('eventWorkspace');
 
       const activeEventTitle = document.getElementById('activeEventTitle');
-      const activeEventNote = document.getElementById('activeEventNote');
       const adminEventActions = document.getElementById('adminEventActions');
       const editEventBtn = document.getElementById('editEventBtn');
       const deleteEventBtn = document.getElementById('deleteEventBtn');
@@ -2279,7 +2347,9 @@
       const eventLocationSelect = document.getElementById('eventLocationSelect');
       const customLocationField = document.getElementById('customLocationField');
       const eventLocationInput = document.getElementById('eventLocationInput');
+      const venueHourlyRateInput = document.getElementById('venueHourlyRateInput');
       const eventDateInput = document.getElementById('eventDateInput');
+      const eventDateDayBadge = document.getElementById('eventDateDayBadge');
       const eventTimeSelect = document.getElementById('eventTimeSelect');
       const slidersGridWrap = document.getElementById('slidersGridWrap');
       const eventCourtsInput = document.getElementById('eventCourtsInput');
@@ -2290,17 +2360,17 @@
       const customCourtTimesToggle = document.getElementById('customCourtTimesToggle');
       const perCourtScheduleList = document.getElementById('perCourtScheduleList');
       const eventMaxPlayersInput = document.getElementById('eventMaxPlayersInput');
-      const eventDetailsInput = document.getElementById('eventDetailsInput');
 
       // Shuttlecock Helper Inputs
       const shuttleUnitPriceInput = document.getElementById('shuttleUnitPriceInput');
       const shuttleQtyInput = document.getElementById('shuttleQtyInput');
       const copySummaryBtn = document.getElementById('copySummaryBtn');
 
+      // Shuttle helper computation
       function updateShuttleCostFromHelper() {
         const price = parseFloat(shuttleUnitPriceInput.value) || 0;
         const qty = parseFloat(shuttleQtyInput.value) || 0;
-        if (price > 0 && qty > 0) {
+        if (price > 0 && qty >= 0) {
           shuttleCostInput.value = formatPlainNumber(price * qty);
           handleExpenseChange();
         }
@@ -2308,7 +2378,15 @@
       shuttleUnitPriceInput.addEventListener('input', updateShuttleCostFromHelper);
       shuttleQtyInput.addEventListener('input', updateShuttleCostFromHelper);
 
-      // Copy summary to LINE clipboard text
+      // Date day-of-week live updater
+      function updateDateDayBadge() {
+        const day = getThaiDayOfWeek(eventDateInput.value);
+        eventDateDayBadge.textContent = day ? `วัน${day}` : '-';
+      }
+      eventDateInput.addEventListener('input', updateDateDayBadge);
+      eventDateInput.addEventListener('change', updateDateDayBadge);
+
+      // Copy summary to LINE - Super concise format, strictly omitting waiting list
       copySummaryBtn.addEventListener('click', () => {
         const activeEvent = getActiveEvent();
         if (!activeEvent) return;
@@ -2316,47 +2394,25 @@
         const split = calculateSplitCosts(activeEvent);
         const maxPlayersLimit = Number(activeEvent.maxPlayers) || 6;
         const mainPlayers = activeEvent.players.slice(0, maxPlayersLimit);
-        const waitingPlayers = activeEvent.players.slice(maxPlayersLimit);
 
-        let txt = `🏸 *สรุปยอดก๊วนตีแบด* 🏸\n`;
-        txt += `📍 สนาม: ${activeEvent.location}\n`;
-        txt += `📅 วันที่: ${formatThaiDate(activeEvent.date, activeEvent.time)}\n`;
-        if (activeEvent.hasCustomCourtTimes && activeEvent.courtSchedules) {
-          txt += `⏱️ เวลาเล่นแต่ละคอร์ท:\n`;
-          activeEvent.courtSchedules.forEach(s => {
-            txt += `   - คอร์ท ${s.courtNo}: ${formatTimeRange(s.startTime, s.hours)}\n`;
-          });
-        } else {
-          txt += `⏱️ เวลา: ${activeEvent.hoursPerCourt} ชั่วโมง (${activeEvent.time} น.)\n`;
-        }
-        txt += `--------------------------------\n`;
-        txt += `💰 ค่าใช้จ่ายก๊วนรวม: ${formatCurrency(split.totalCost)}\n`;
-        txt += `   - ค่าเช่าสนาม: ${formatCurrency(split.courtCost)}\n`;
-        txt += `   - ค่าลูกแบด: ${formatCurrency(split.shuttleCost)}\n`;
-        txt += `--------------------------------\n`;
+        let txt = `🏸 ก๊วนแบด: ${activeEvent.location}\n`;
+        txt += `📅 ${formatThaiDate(activeEvent.date, activeEvent.time)}\n`;
+        txt += `💰 ยอดรวม: ${formatCurrency(split.totalCost)} (สนาม ${formatCurrency(split.courtCost)} + ลูก ${formatCurrency(split.shuttleCost)})\n`;
+        txt += `-------------------\n`;
 
-        txt += `รายชื่อผู้เล่นตัวจริงและยอดโอน:\n`;
         mainPlayers.forEach((p, idx) => {
           const share = split.shares[p.id] || 0;
           const isManual = p.manualCost !== null && p.manualCost !== undefined;
-          txt += `${idx + 1}. ${p.name} — ${formatCurrency(share)}${isManual ? ' (ยอดเฉพาะตัว)' : ''}\n`;
+          txt += `${idx + 1}. ${p.name} - ${formatCurrency(share)}${isManual ? ' (ยอดเฉพาะ)' : ''}\n`;
         });
 
-        if (waitingPlayers.length > 0) {
-          txt += `--------------------------------\n`;
-          txt += `รายชื่อตัวสำรอง (ยังไม่คิดค่าใช้จ่าย):\n`;
-          waitingPlayers.forEach((p, idx) => {
-            txt += `${idx + 1}. ${p.name}\n`;
-          });
-        }
-
-        txt += `--------------------------------\n`;
-        txt += `ขอบคุณทุกคนมากครับ! 🙏🏸`;
+        txt += `-------------------\n`;
+        txt += `จ่ายคนละ ${formatCurrency(split.autoPerPerson)} (ขอบคุณทุกคนครับ! 🙏)`;
 
         if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
           navigator.clipboard.writeText(txt).then(() => {
             const originalText = copySummaryBtn.textContent;
-            copySummaryBtn.textContent = '✓ คัดลอกลงคลิปบอร์ดแล้ว! นำไปวางใน LINE ได้เลย';
+            copySummaryBtn.textContent = '✓ คัดลอกแบบกระชับแล้ว! นำไปวางใน LINE ได้เลย';
             copySummaryBtn.style.background = 'var(--emerald)';
             copySummaryBtn.style.color = '#ffffff';
             setTimeout(() => {
@@ -2401,7 +2457,7 @@
 
         displayCourtCost.textContent = formatCurrency(split.courtCost);
         displayShuttleCost.textContent = formatCurrency(split.shuttleCost);
-        displayPlayerCount.textContent = `${playerCount} คน`;
+        displayPlayerCount.textContent = `${Math.min(playerCount, Number(activeEvent.maxPlayers) || 6)} คน`;
         displayTotalCost.textContent = formatCurrency(split.totalCost);
 
         if (split.manualCount > 0) {
@@ -2529,13 +2585,6 @@
         // Render Event Hero
         specDateTime.textContent = formatThaiDate(activeEvent.date, activeEvent.time);
         activeEventTitle.textContent = activeEvent.location;
-        if (activeEvent.details) {
-          activeEventNote.textContent = activeEvent.details;
-          activeEventNote.hidden = false;
-        } else {
-          activeEventNote.textContent = '';
-          activeEventNote.hidden = true;
-        }
 
         adminEventActions.hidden = !isAdmin;
         if (state.confirmDeleteId === activeEvent.id) {
@@ -2572,7 +2621,7 @@
           customCourtScheduleStrip.innerHTML = '';
         }
 
-        // Capacity & Animated Progress Bar
+        // Capacity Progress
         const playerCount = activeEvent.players.length;
         const maxPlayers = Math.max(1, Number(activeEvent.maxPlayers) || 1);
         const isFull = playerCount >= maxPlayers;
@@ -2624,7 +2673,6 @@
               info.className = 'player-info';
 
               const indexBadge = document.createElement('span');
-              
               const isWaitingList = idx >= maxPlayers;
 
               if (isWaitingList) {
@@ -2655,7 +2703,7 @@
                   waitingTag.className = 'share-mode-tag';
                   waitingTag.style.background = '#e2e8f0';
                   waitingTag.style.color = '#475569';
-                  waitingTag.textContent = 'ตัวสำรอง (ไม่มีค่าใช้จ่าย)';
+                  waitingTag.textContent = 'ตัวสำรอง';
                   rightGroup.appendChild(waitingTag);
                 } else if (isAdmin) {
                   const editorWrap = document.createElement('div');
@@ -2729,7 +2777,6 @@
                 }
               }
 
-              // ONLY Admin has permission to delete signed-up players
               if (isAdmin) {
                 const removeBtn = document.createElement('button');
                 removeBtn.type = 'button';
@@ -2750,10 +2797,10 @@
           }
         }
 
-        // Expense Inputs & Visibility
+        // Expense Inputs
         expenseForm.hidden = !isAdmin;
         if (document.activeElement !== courtCostInput) {
-          courtCostInput.value = activeEvent.courtCost !== '' && activeEvent.courtCost !== null ? activeEvent.courtCost : '';
+          courtCostInput.value = activeEvent.courtCost !== '' && activeEvent.courtCost !== null ? activeEvent.courtCost : formatPlainNumber(split.courtCost);
         }
         if (document.activeElement !== shuttleCostInput) {
           shuttleCostInput.value = activeEvent.shuttleCost !== '' && activeEvent.shuttleCost !== null ? activeEvent.shuttleCost : '';
@@ -2770,7 +2817,7 @@
         updateCalculatedAmountsInDOM(activeEvent);
       }
 
-      // Admin Password Modal Logic (Password = 0000)
+      // Admin Password Modal Logic
       function openAdminPasswordModal(pendingAction) {
         state.pendingAdminAction = pendingAction || 'switch_role';
         adminPasswordError.hidden = true;
@@ -2826,7 +2873,6 @@
         if (e.target === adminPasswordModal) closeAdminPasswordModal();
       });
 
-      // Role Switch Handlers
       rolePlayerBtn.addEventListener('click', () => {
         state.role = 'player';
         state.confirmDeleteId = null;
@@ -2838,58 +2884,45 @@
         openAdminPasswordModal('switch_role');
       });
 
-      // Populate Venue Dropdown
-      function populateVenueSelect(selectedLocation) {
+      // Populate Venue Dropdown with predetermined rates
+      function populateVenueSelect(selectedLocation, defaultRate) {
         eventLocationSelect.innerHTML = '';
-        const knownVenues = getKnownVenues();
+        const allVenues = getAllVenuesList();
 
-        if (knownVenues.length > 0) {
-          const savedGroup = document.createElement('optgroup');
-          savedGroup.label = 'สนามแบดมินตันที่บันทึกไว้';
-          knownVenues.forEach((v) => {
-            const opt = document.createElement('option');
-            opt.value = v;
-            opt.textContent = v;
-            savedGroup.appendChild(opt);
-          });
-          eventLocationSelect.appendChild(savedGroup);
-        } else {
-          const sampleGroup = document.createElement('optgroup');
-          sampleGroup.label = 'ตัวอย่างสนาม (เลือกเพิ่มชื่อสนามใหม่ได้)';
-          SAMPLE_VENUES.forEach((v) => {
-            const opt = document.createElement('option');
-            opt.value = v;
-            opt.textContent = v;
-            sampleGroup.appendChild(opt);
-          });
-          eventLocationSelect.appendChild(savedGroupOrSample(sampleGroup));
-        }
+        allVenues.forEach((v) => {
+          const opt = document.createElement('option');
+          opt.value = v.name;
+          opt.textContent = `${v.name} (${v.ratePerHour} บ./ชม.)`;
+          opt.setAttribute('data-rate', String(v.ratePerHour));
+          eventLocationSelect.appendChild(opt);
+        });
 
         const customOpt = document.createElement('option');
         customOpt.value = '__custom__';
         customOpt.textContent = '+ เพิ่มชื่อสนามแบดมินตันใหม่...';
+        customOpt.setAttribute('data-rate', '200');
         eventLocationSelect.appendChild(customOpt);
 
         if (selectedLocation) {
-          const exists = Array.from(eventLocationSelect.options).some((o) => o.value === selectedLocation);
-          if (exists) {
+          const matched = allVenues.find(v => v.name === selectedLocation);
+          if (matched) {
             eventLocationSelect.value = selectedLocation;
             customLocationField.hidden = true;
             eventLocationInput.value = '';
+            venueHourlyRateInput.value = defaultRate || matched.ratePerHour || 200;
           } else {
             eventLocationSelect.value = '__custom__';
             customLocationField.hidden = false;
             eventLocationInput.value = selectedLocation;
+            venueHourlyRateInput.value = defaultRate || 200;
           }
         } else {
           eventLocationSelect.selectedIndex = 0;
-          customLocationField.hidden = eventLocationSelect.value !== '__custom__';
+          customLocationField.hidden = true;
           eventLocationInput.value = '';
+          const firstRate = eventLocationSelect.options[0] ? eventLocationSelect.options[0].getAttribute('data-rate') : '200';
+          venueHourlyRateInput.value = firstRate;
         }
-      }
-
-      function savedGroupOrSample(group) {
-        return group;
       }
 
       eventLocationSelect.addEventListener('change', () => {
@@ -2898,10 +2931,13 @@
           eventLocationInput.focus();
         } else {
           customLocationField.hidden = true;
+          const opt = eventLocationSelect.selectedOptions[0];
+          if (opt && opt.getAttribute('data-rate')) {
+            venueHourlyRateInput.value = opt.getAttribute('data-rate');
+          }
         }
       });
 
-      // Per-Court Custom Schedule Builder inside Modal
       function syncDraftCourtSchedulesCount(courtsCount) {
         const defaultStart = normalizeHourString(eventTimeSelect.value);
         const defaultHours = parseFloat(eventHoursInput.value) || 2;
@@ -2979,7 +3015,6 @@
         });
       }
 
-      // Sliders & Auto Capacity (6 * Courts)
       function syncSliderBadges(updateCapacityAuto) {
         const courts = parseInt(eventCourtsInput.value, 10) || 1;
         const hours = parseFloat(eventHoursInput.value) || 1;
@@ -3030,15 +3065,16 @@
         createModalTitle.textContent = 'สร้างอีเวนต์ตีแบดใหม่';
         submitModalBtn.textContent = 'สร้างอีเวนต์';
 
-        populateVenueSelect('');
+        populateVenueSelect('', 200);
 
         const today = new Date();
         const yyyy = today.getFullYear();
         const mm = String(today.getMonth() + 1).padStart(2, '0');
         const dd = String(today.getDate()).padStart(2, '0');
         eventDateInput.value = `${yyyy}-${mm}-${dd}`;
-        eventTimeSelect.value = '19:00';
+        updateDateDayBadge();
 
+        eventTimeSelect.value = '18:00'; // Default start time 18:00
         eventCourtsInput.value = '2';
         eventHoursInput.value = '2';
         customCourtTimesToggle.checked = false;
@@ -3069,8 +3105,9 @@
         createModalTitle.textContent = 'แก้ไขข้อมูลอีเวนต์';
         submitModalBtn.textContent = 'บันทึกการแก้ไข';
 
-        populateVenueSelect(activeEvent.location);
+        populateVenueSelect(activeEvent.location, activeEvent.venueRatePerHour);
         eventDateInput.value = activeEvent.date;
+        updateDateDayBadge();
 
         const normalizedHr = normalizeHourString(activeEvent.time);
         if (!Array.from(eventTimeSelect.options).some((o) => o.value === normalizedHr)) {
@@ -3098,7 +3135,6 @@
         renderPerCourtScheduleInputs();
         syncSliderBadges(false);
         eventMaxPlayersInput.value = String(activeEvent.maxPlayers || courts * 6);
-        eventDetailsInput.value = activeEvent.details || '';
 
         createEventModal.hidden = false;
         render();
@@ -3126,7 +3162,6 @@
         }
       });
 
-      // Firebase REST Helpers
       function checkHttpOk(res) {
         if (!res.ok) {
           throw new Error(res.status === 401 || res.status === 403 ? 'permission_denied' : 'http_' + res.status);
@@ -3246,18 +3281,18 @@
           });
       }
 
-      // Create / Edit Event Submit
+      // Create / Edit Event Form Submit
       createEventForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const isCustom = eventLocationSelect.value === '__custom__';
         const location = isCustom ? eventLocationInput.value.trim() : eventLocationSelect.value.trim();
+        const venueRatePerHour = parseFloat(venueHourlyRateInput.value) || 200;
         const date = eventDateInput.value;
         const time = normalizeHourString(eventTimeSelect.value);
         const courts = parseInt(eventCourtsInput.value, 10);
         const hoursPerCourt = parseFloat(eventHoursInput.value);
         const hasCustomCourtTimes = Boolean(customCourtTimesToggle.checked);
         const maxPlayers = parseInt(eventMaxPlayersInput.value, 10);
-        const details = eventDetailsInput.value.trim();
 
         if (!location) {
           createEventError.textContent = 'กรุณาเลือกหรือระบุชื่อสนามแบดมินตัน';
@@ -3277,7 +3312,7 @@
           return;
         }
 
-        saveVenueIfNeeded(location);
+        saveVenueIfNeeded(location, venueRatePerHour);
 
         let courtSchedules = [];
         if (hasCustomCourtTimes) {
@@ -3289,9 +3324,16 @@
           }));
         }
 
+        // Auto calculate default court cost based on venue hourly rate
+        const totalCourtHours = hasCustomCourtTimes
+          ? courtSchedules.reduce((sum, s) => sum + (Number(s.hours) || 0), 0)
+          : courts * hoursPerCourt;
+        const autoCourtCost = totalCourtHours * venueRatePerHour;
+
         if (state.editingEventId) {
           persistEditedEvent(state.editingEventId, {
             location,
+            venueRatePerHour,
             date,
             time,
             courts,
@@ -3299,7 +3341,7 @@
             hasCustomCourtTimes,
             courtSchedules,
             maxPlayers,
-            details
+            courtCost: autoCourtCost // Auto prefill / update court cost
           });
         } else {
           const nowTs = Date.now();
@@ -3307,6 +3349,7 @@
             id: 'ev_' + nowTs + '_' + Math.random().toString(36).slice(2, 7),
             createdAt: nowTs,
             location,
+            venueRatePerHour,
             date,
             time,
             courts,
@@ -3314,9 +3357,8 @@
             hasCustomCourtTimes,
             courtSchedules,
             maxPlayers,
-            details,
             players: [],
-            courtCost: '',
+            courtCost: autoCourtCost,
             shuttleCost: ''
           };
           persistNewEvent(newEvent);
