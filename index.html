@@ -26,6 +26,8 @@
       --violet-soft: rgba(124, 58, 237, 0.12);
       --amber: #f59e0b;
       --amber-soft: rgba(245, 158, 11, 0.14);
+      --teal: #0d9488;
+      --teal-soft: rgba(13, 148, 136, 0.12);
       --success: #10b981;
       --warning: #f59e0b;
       --danger: #ef4444;
@@ -70,12 +72,6 @@
     @keyframes pulseLive {
       0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.45); }
       50% { box-shadow: 0 0 0 5px rgba(16, 185, 129, 0); }
-    }
-
-    @keyframes shakeError {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-6px); }
-      75% { transform: translateX(6px); }
     }
 
     /* Slim Frosted Glass Navbar */
@@ -180,7 +176,7 @@
 
     .role-btn {
       font: inherit;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 600;
       padding: 4px 12px;
       border-radius: 7px;
@@ -498,6 +494,21 @@
       font-weight: 700;
       letter-spacing: -0.025em;
       line-height: 1.25;
+    }
+
+    .venue-rate-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--teal);
+      background: var(--teal-soft);
+      border: 1px solid rgba(13, 148, 136, 0.25);
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
     }
 
     .admin-hero-actions {
@@ -1297,10 +1308,6 @@
       padding: 16px 18px calc(16px + env(safe-area-inset-bottom, 0px));
     }
 
-    .modal.modal-sm {
-      max-width: 360px;
-    }
-
     @media (min-width: 600px) {
       .modal {
         border-radius: 20px;
@@ -1330,20 +1337,6 @@
       padding-top: 10px;
       border-top: 1px solid var(--border);
     }
-
-    .pin-input {
-      font: inherit;
-      font-size: 1.5rem !important;
-      font-weight: 700;
-      letter-spacing: 0.35em;
-      text-align: center;
-      height: 48px !important;
-      background: var(--surface-subtle) !important;
-    }
-
-    .shake {
-      animation: shakeError 0.3s ease;
-    }
   </style>
 </head>
 <body>
@@ -1369,10 +1362,6 @@
             ลงชื่อ
           </button>
           <button type="button" id="roleAdminBtn" class="role-btn" role="tab" aria-selected="false">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-            </svg>
             แอดมิน
           </button>
         </div>
@@ -1419,7 +1408,10 @@
         <div class="event-hero-top">
           <div class="event-title-group">
             <div id="specDateTime" class="event-date-eyebrow">-</div>
-            <h2 id="activeEventTitle" class="event-name"></h2>
+            <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+              <h2 id="activeEventTitle" class="event-name"></h2>
+              <span id="activeEventRateBadge" class="venue-rate-pill" title="ราคาค่าเช่าสนามต่อชั่วโมง">฿200 / ชม.</span>
+            </div>
           </div>
           <div id="adminEventActions" class="admin-hero-actions" hidden>
             <button type="button" id="editEventBtn" class="btn btn-ghost-action">
@@ -1559,7 +1551,7 @@
           </form>
 
           <div id="expenseWaitingState" class="list-empty" hidden>
-            รอแอดมินสรุปยอดค่าสนามและค่าลูกแบดหลังจบก๊วน
+            รอแอดมินสรุปยอดค่าลูกแบดหลังจบก๊วน เพื่อคำนวณยอดจ่ายคนละ
           </div>
 
           <div id="expenseSummaryPanel">
@@ -1600,41 +1592,6 @@
       </div>
     </div>
   </main>
-
-  <!-- Admin Password Modal (PIN = 0000) -->
-  <div id="adminPasswordModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="adminPassTitle" hidden>
-    <div class="modal modal-sm">
-      <div class="modal-header">
-        <h2 id="adminPassTitle" class="modal-title">รหัสผ่านสำหรับแอดมิน</h2>
-        <button type="button" id="closeAdminPassBtn" class="btn btn-danger-ghost" aria-label="ปิดหน้าต่าง">
-          ✕
-        </button>
-      </div>
-
-      <form id="adminPasswordForm" novalidate>
-        <div class="form-grid">
-          <div class="field">
-            <label for="adminPasswordInput">กรอกรหัสผ่าน 4 หลักเพื่อจัดการระบบ</label>
-            <input
-              type="password"
-              id="adminPasswordInput"
-              class="pin-input"
-              inputmode="numeric"
-              maxlength="8"
-              placeholder="••••"
-              autocomplete="off"
-              required
-            >
-          </div>
-        </div>
-        <p id="adminPasswordError" class="form-error" style="margin-top: 8px; text-align: center;" hidden></p>
-        <div class="modal-actions">
-          <button type="button" id="cancelAdminPassBtn" class="btn btn-secondary" style="min-height: 36px; padding: 6px 14px; font-size: 0.875rem;">ยกเลิก</button>
-          <button type="submit" class="btn btn-primary" style="min-height: 36px; padding: 6px 16px; font-size: 0.875rem;">ยืนยัน</button>
-        </div>
-      </form>
-    </div>
-  </div>
 
   <!-- Compact Create / Edit Event Modal (Admin) -->
   <div id="createEventModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="createModalTitle" hidden>
@@ -1791,7 +1748,6 @@
   <script>
     (function () {
       const FIREBASE_DATABASE_URL = 'https://badminton-e75c0-default-rtdb.asia-southeast1.firebasedatabase.app';
-      const ADMIN_PASSWORD = '0000';
 
       const STORAGE_KEY = 'badminton_club_events_v1';
       const VENUES_STORAGE_KEY = 'badminton_club_venues_v1';
@@ -1822,7 +1778,6 @@
         activeEventId: null,
         confirmDeleteId: null,
         editingEventId: null,
-        pendingAdminAction: null,
         draftCourtSchedules: [],
         syncMode: 'connecting',
         syncError: '',
@@ -2314,6 +2269,17 @@
         };
       }
 
+      // Check if shuttlecock cost has been entered by admin
+      function isShuttleCostConcluded(activeEvent) {
+        return (
+          activeEvent !== null &&
+          activeEvent !== undefined &&
+          activeEvent.shuttleCost !== '' &&
+          activeEvent.shuttleCost !== null &&
+          activeEvent.shuttleCost !== undefined
+        );
+      }
+
       // DOM Elements
       const rolePlayerBtn = document.getElementById('rolePlayerBtn');
       const roleAdminBtn = document.getElementById('roleAdminBtn');
@@ -2329,6 +2295,7 @@
       const eventWorkspace = document.getElementById('eventWorkspace');
 
       const activeEventTitle = document.getElementById('activeEventTitle');
+      const activeEventRateBadge = document.getElementById('activeEventRateBadge');
       const adminEventActions = document.getElementById('adminEventActions');
       const editEventBtn = document.getElementById('editEventBtn');
       const deleteEventBtn = document.getElementById('deleteEventBtn');
@@ -2364,13 +2331,6 @@
       const displayTotalCost = document.getElementById('displayTotalCost');
       const perPersonLabel = document.getElementById('perPersonLabel');
       const displayPerPerson = document.getElementById('displayPerPerson');
-
-      const adminPasswordModal = document.getElementById('adminPasswordModal');
-      const adminPasswordForm = document.getElementById('adminPasswordForm');
-      const adminPasswordInput = document.getElementById('adminPasswordInput');
-      const adminPasswordError = document.getElementById('adminPasswordError');
-      const closeAdminPassBtn = document.getElementById('closeAdminPassBtn');
-      const cancelAdminPassBtn = document.getElementById('cancelAdminPassBtn');
 
       const createEventModal = document.getElementById('createEventModal');
       const createModalTitle = document.getElementById('createModalTitle');
@@ -2429,6 +2389,11 @@
       copySummaryBtn.addEventListener('click', () => {
         const activeEvent = getActiveEvent();
         if (!activeEvent) return;
+
+        if (!isShuttleCostConcluded(activeEvent)) {
+          alert('กรุณารอแอดมินกรอกสรุปค่าลูกแบดก่อนคัดลอกยอดเงินส่ง LINE');
+          return;
+        }
 
         const split = calculateSplitCosts(activeEvent);
         const maxPlayersLimit = Number(activeEvent.maxPlayers) || 6;
@@ -2490,16 +2455,16 @@
 
       function updateCalculatedAmountsInDOM(activeEvent) {
         if (!activeEvent) return;
+        const shuttleConcluded = isShuttleCostConcluded(activeEvent);
         const split = calculateSplitCosts(activeEvent);
         const playerCount = activeEvent.players.length;
-        const hasExpenses = split.totalCost > 0 || split.manualCount > 0;
 
         displayCourtCost.textContent = formatCurrency(split.courtCost);
-        displayShuttleCost.textContent = formatCurrency(split.shuttleCost);
+        displayShuttleCost.textContent = shuttleConcluded ? formatCurrency(split.shuttleCost) : 'รอสรุป';
         displayPlayerCount.textContent = `${Math.min(playerCount, Number(activeEvent.maxPlayers) || 6)} คน`;
-        displayTotalCost.textContent = formatCurrency(split.totalCost);
+        displayTotalCost.textContent = shuttleConcluded ? formatCurrency(split.totalCost) : 'รอสรุปค่าลูก';
 
-        if (split.manualCount > 0) {
+        if (split.manualCount > 0 && shuttleConcluded) {
           manualSummaryRow.hidden = false;
           manualSummaryLabel.textContent = `ยอดกำหนดเอง (${split.manualCount} คน)`;
           displayManualSum.textContent = formatCurrency(split.manualSum);
@@ -2507,25 +2472,34 @@
           manualSummaryRow.hidden = true;
         }
 
-        if (split.overAllocated) {
+        if (split.overAllocated && shuttleConcluded) {
           expenseError.textContent = 'ยอดที่กำหนดเองรวมกันสูงกว่ายอดค่าใช้จ่ายรวมทั้งหมด';
           expenseError.hidden = false;
         } else if (expenseError.textContent.includes('ยอดที่กำหนดเอง')) {
           expenseError.hidden = true;
         }
 
-        if (playerCount === 0 || !hasExpenses) {
-          perPersonLabel.textContent = 'จ่ายคนละ';
-          displayPerPerson.textContent = '฿0.00';
-        } else if (split.manualCount === 0) {
-          perPersonLabel.textContent = 'จ่ายคนละ';
-          displayPerPerson.textContent = formatCurrency(split.autoPerPerson);
-        } else if (split.autoCount > 0) {
-          perPersonLabel.textContent = `หารเฉลี่ยคนที่เหลือ (${split.autoCount} คน)`;
-          displayPerPerson.textContent = formatCurrency(split.autoPerPerson);
+        if (!shuttleConcluded) {
+          perPersonLabel.textContent = 'ยอดจ่ายต่อคน';
+          displayPerPerson.textContent = 'รอสรุปค่าลูกแบด';
+          displayPerPerson.style.fontSize = '1.25rem';
+          displayPerPerson.style.color = '#a7f3d0';
         } else {
-          perPersonLabel.textContent = 'กำหนดยอดรายคนครบทุกคนแล้ว';
-          displayPerPerson.textContent = formatCurrency(split.manualSum);
+          displayPerPerson.style.fontSize = '1.6rem';
+          displayPerPerson.style.color = '#6ee7b7';
+          if (playerCount === 0) {
+            perPersonLabel.textContent = 'จ่ายคนละ';
+            displayPerPerson.textContent = '฿0.00';
+          } else if (split.manualCount === 0) {
+            perPersonLabel.textContent = 'จ่ายคนละ';
+            displayPerPerson.textContent = formatCurrency(split.autoPerPerson);
+          } else if (split.autoCount > 0) {
+            perPersonLabel.textContent = `หารเฉลี่ยคนที่เหลือ (${split.autoCount} คน)`;
+            displayPerPerson.textContent = formatCurrency(split.autoPerPerson);
+          } else {
+            perPersonLabel.textContent = 'กำหนดยอดรายคนครบทุกคนแล้ว';
+            displayPerPerson.textContent = formatCurrency(split.manualSum);
+          }
         }
 
         const rows = playerList.querySelectorAll('.player-row');
@@ -2539,12 +2513,12 @@
 
           const readOnlyShare = row.querySelector('.player-share');
           if (readOnlyShare) {
-            readOnlyShare.textContent = formatCurrency(shareVal);
+            readOnlyShare.textContent = shuttleConcluded ? formatCurrency(shareVal) : '';
           }
 
           const modeTag = row.querySelector('.share-mode-tag');
           if (modeTag) {
-            modeTag.hidden = !isManual;
+            modeTag.hidden = !isManual || !shuttleConcluded;
           }
 
           const editorWrap = row.querySelector('.admin-share-editor');
@@ -2553,7 +2527,7 @@
             const input = editorWrap.querySelector('.manual-share-input');
             const resetBtn = editorWrap.querySelector('.reset-share-btn');
             if (input) {
-              input.placeholder = formatPlainNumber(split.autoPerPerson);
+              input.placeholder = shuttleConcluded ? formatPlainNumber(split.autoPerPerson) : 'รอสรุป';
               if (document.activeElement !== input) {
                 input.value = isManual ? String(player.manualCost) : '';
               }
@@ -2625,6 +2599,9 @@
         specDateTime.textContent = formatThaiDate(activeEvent.date, activeEvent.time);
         activeEventTitle.textContent = activeEvent.location;
 
+        const rate = Number(activeEvent.venueRatePerHour) || 200;
+        activeEventRateBadge.textContent = `฿${rate} / ชม.`;
+
         adminEventActions.hidden = !isAdmin;
         if (state.confirmDeleteId === activeEvent.id) {
           deleteEventBtn.textContent = 'ยืนยันลบ?';
@@ -2677,10 +2654,10 @@
           ? 'ก๊วนเต็มแล้ว (ลงชื่อเป็นตัวสำรองต่อท้ายได้)'
           : 'ชื่อเล่นของคุณ...';
 
+        const shuttleConcluded = isShuttleCostConcluded(activeEvent);
         const split = calculateSplitCosts(activeEvent);
-        const hasExpenses = split.totalCost > 0 || split.manualCount > 0;
 
-        manualEditHint.hidden = !isAdmin || playerCount === 0;
+        manualEditHint.hidden = !isAdmin || playerCount === 0 || !shuttleConcluded;
 
         const currentDomIds = Array.from(playerList.querySelectorAll('.player-row')).map((r) =>
           r.getAttribute('data-player-id')
@@ -2689,7 +2666,7 @@
         const sameRowsStructure =
           focusedPlayerId &&
           isAdmin &&
-          hasExpenses &&
+          shuttleConcluded &&
           currentDomIds.length === nextIds.length &&
           currentDomIds.every((id, i) => id === nextIds[i]);
 
@@ -2736,7 +2713,7 @@
 
               const isManual = player.manualCost !== null && player.manualCost !== undefined;
 
-              if (hasExpenses) {
+              if (shuttleConcluded) {
                 if (isWaitingList) {
                   const waitingTag = document.createElement('span');
                   waitingTag.className = 'share-mode-tag';
@@ -2845,7 +2822,7 @@
           shuttleCostInput.value = activeEvent.shuttleCost !== '' && activeEvent.shuttleCost !== null ? activeEvent.shuttleCost : '';
         }
 
-        if (!isAdmin && !hasExpenses) {
+        if (!isAdmin && !shuttleConcluded) {
           expenseWaitingState.hidden = false;
           expenseSummaryPanel.hidden = true;
         } else {
@@ -2856,62 +2833,7 @@
         updateCalculatedAmountsInDOM(activeEvent);
       }
 
-      // Admin Password Modal Logic
-      function openAdminPasswordModal(pendingAction) {
-        state.pendingAdminAction = pendingAction || 'switch_role';
-        adminPasswordError.hidden = true;
-        adminPasswordInput.value = '';
-        adminPasswordInput.classList.remove('shake');
-        adminPasswordModal.hidden = false;
-        setTimeout(() => {
-          adminPasswordInput.focus();
-        }, 30);
-      }
-
-      function closeAdminPasswordModal() {
-        adminPasswordModal.hidden = true;
-        state.pendingAdminAction = null;
-      }
-
-      function completeAdminUnlock() {
-        const action = state.pendingAdminAction;
-        closeAdminPasswordModal();
-        state.role = 'admin';
-        state.confirmDeleteId = null;
-        if (action === 'open_create') {
-          openCreateModalDirect();
-        } else {
-          render();
-        }
-      }
-
-      adminPasswordInput.addEventListener('input', () => {
-        adminPasswordError.hidden = true;
-        if (adminPasswordInput.value === ADMIN_PASSWORD) {
-          completeAdminUnlock();
-        }
-      });
-
-      adminPasswordForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        if (adminPasswordInput.value.trim() === ADMIN_PASSWORD) {
-          completeAdminUnlock();
-        } else {
-          adminPasswordError.textContent = 'รหัสผ่านแอดมินไม่ถูกต้อง';
-          adminPasswordError.hidden = false;
-          adminPasswordInput.classList.remove('shake');
-          void adminPasswordInput.offsetWidth;
-          adminPasswordInput.classList.add('shake');
-          adminPasswordInput.select();
-        }
-      });
-
-      closeAdminPassBtn.addEventListener('click', closeAdminPasswordModal);
-      cancelAdminPassBtn.addEventListener('click', closeAdminPasswordModal);
-      adminPasswordModal.addEventListener('click', (e) => {
-        if (e.target === adminPasswordModal) closeAdminPasswordModal();
-      });
-
+      // Role Switch Handlers (Direct 1-click switch, no admin password)
       rolePlayerBtn.addEventListener('click', () => {
         state.role = 'player';
         state.confirmDeleteId = null;
@@ -2919,8 +2841,9 @@
       });
 
       roleAdminBtn.addEventListener('click', () => {
-        if (state.role === 'admin') return;
-        openAdminPasswordModal('switch_role');
+        state.role = 'admin';
+        state.confirmDeleteId = null;
+        render();
       });
 
       // Populate Venue Dropdown with predetermined rates
@@ -3168,7 +3091,7 @@
         renderPerCourtScheduleInputs();
       });
 
-      // Open Modal: Create Mode
+      // Open Modal: Create Mode (Direct 1-click, no password)
       function openCreateModalDirect() {
         state.role = 'admin';
         state.editingEventId = null;
@@ -3189,7 +3112,7 @@
         eventDateInput.value = `${yyyy}-${mm}-${dd}`;
         updateDateDayBadge();
 
-        eventTimeSelect.value = '18:00'; // Default start time 18:00
+        eventTimeSelect.value = '18:00';
         eventCourtsInput.value = '2';
         eventHoursInput.value = '2';
         customCourtTimesToggle.checked = false;
@@ -3198,14 +3121,6 @@
 
         createEventModal.hidden = false;
         render();
-      }
-
-      function handleOpenCreateRequest() {
-        if (state.role !== 'admin') {
-          openAdminPasswordModal('open_create');
-          return;
-        }
-        openCreateModalDirect();
       }
 
       // Open Modal: Edit Mode
@@ -3262,8 +3177,8 @@
         state.editingEventId = null;
       }
 
-      openCreateModalBtn.addEventListener('click', handleOpenCreateRequest);
-      emptyCreateBtn.addEventListener('click', handleOpenCreateRequest);
+      openCreateModalBtn.addEventListener('click', openCreateModalDirect);
+      emptyCreateBtn.addEventListener('click', openCreateModalDirect);
       editEventBtn.addEventListener('click', openEditModal);
       closeModalBtn.addEventListener('click', closeCreateModal);
       cancelModalBtn.addEventListener('click', closeCreateModal);
@@ -3274,12 +3189,10 @@
 
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-          if (!adminPasswordModal.hidden) closeAdminPasswordModal();
           if (!createEventModal.hidden) closeCreateModal();
         }
       });
 
-      // Firebase REST Helpers
       function checkHttpOk(res) {
         if (!res.ok) {
           throw new Error(res.status === 401 || res.status === 403 ? 'permission_denied' : 'http_' + res.status);
@@ -3442,7 +3355,6 @@
           }));
         }
 
-        // Auto calculate default court cost based on venue hourly rate
         const totalCourtHours = hasCustomCourtTimes
           ? courtSchedules.reduce((sum, s) => sum + (Number(s.hours) || 0), 0)
           : courts * hoursPerCourt;
@@ -3459,7 +3371,7 @@
             hasCustomCourtTimes,
             courtSchedules,
             maxPlayers,
-            courtCost: autoCourtCost // Auto prefill / update court cost
+            courtCost: autoCourtCost
           });
         } else {
           const nowTs = Date.now();
