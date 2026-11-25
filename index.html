@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- html2canvas Library for capturing high-fidelity slip images client-side -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     :root {
       --bg: #f0f4f9;
@@ -1587,6 +1589,11 @@
             <button type="button" id="copySummaryBtn" class="btn btn-secondary" style="width: 100%; margin-top: 10px; font-size: 0.85rem; min-height: 36px; padding: 6px 12px; gap: 6px;">
               📋 คัดลอกสรุปสำหรับส่งเข้ากลุ่ม LINE
             </button>
+            
+            <!-- Download beautiful slip image button -->
+            <button type="button" id="downloadSummaryImgBtn" class="btn btn-primary" style="width: 100%; margin-top: 8px; font-size: 0.85rem; min-height: 36px; padding: 6px 12px; gap: 6px; background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%); border: none;">
+              📸 เซฟรูปสลิปสรุปยอดส่ง LINE
+            </button>
           </div>
         </section>
       </div>
@@ -1742,6 +1749,55 @@
           <button type="submit" id="submitModalBtn" class="btn btn-primary" style="min-height: 36px; padding: 6px 16px; font-size: 0.875rem;">สร้างอีเวนต์</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- Beautiful Slip Template Hidden Container for high-quality PNG rendering -->
+  <div id="slipCaptureTemplate" style="position: absolute; left: -9999px; top: -9999px; width: 380px; background: #ffffff; padding: 24px; border-radius: 20px; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'IBM Plex Sans Thai', sans-serif; color: #1d1d1f; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+    <div style="text-align: center; margin-bottom: 18px;">
+      <div style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #10b981 0%, #0071e3 100%); color: #ffffff; margin-bottom: 8px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6"/><circle cx="17" cy="7" r="4"/><path d="M4 20l4-4"/></svg>
+      </div>
+      <h3 style="margin: 0; font-size: 1.25rem; font-weight: 700; color: #0f172a; letter-spacing: -0.02em;">สรุปยอดก๊วนแบด</h3>
+      <span style="font-size: 0.74rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">BADMINTON CLUB BILL</span>
+    </div>
+    
+    <div style="border-top: 1px dashed #cbd5e1; border-bottom: 1px dashed #cbd5e1; padding: 12px 0; margin-bottom: 16px;">
+      <div style="font-size: 0.85rem; color: #334155; margin-bottom: 6px; font-weight: 600;">📍 <span id="slipLocation">-</span></div>
+      <div style="font-size: 0.85rem; color: #334155; font-weight: 600;">📅 <span id="slipDate">-</span></div>
+    </div>
+
+    <div style="background: #f8fafc; border-radius: 12px; padding: 12px; margin-bottom: 16px; border: 1px solid #e2e8f0;">
+      <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #64748b; margin-bottom: 4px;">
+        <span>ค่าเช่าสนาม</span>
+        <span id="slipCourtCost" style="font-variant-numeric: tabular-nums; font-weight: 600;">฿0.00</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #64748b; margin-bottom: 4px;">
+        <span>ค่าลูกแบด</span>
+        <span id="slipShuttleCost" style="font-variant-numeric: tabular-nums; font-weight: 600;">฿0.00</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #64748b;">
+        <span>จำนวนคนหาร</span>
+        <span id="slipPlayerCount" style="font-weight: 600;">0 คน</span>
+      </div>
+      <div style="border-top: 1px solid #cbd5e1; margin-top: 8px; padding-top: 8px; display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 700; color: #0f172a;">
+        <span>ยอดรวมทั้งหมด</span>
+        <span id="slipTotalCost" style="font-variant-numeric: tabular-nums;">฿0.00</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 16px;">
+      <div style="font-size: 0.82rem; font-weight: 700; color: #475569; margin-bottom: 8px; border-left: 3px solid #0071e3; padding-left: 6px;">รายชื่อและยอดโอนรายบุคคล:</div>
+      <div id="slipPlayersContainer" style="display: flex; flex-direction: column; gap: 6px;"></div>
+    </div>
+
+    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); color: #ffffff; border-radius: 12px; padding: 14px; text-align: center; box-shadow: 0 4px 12px rgba(30,58,138,0.2);">
+      <div style="font-size: 0.8rem; color: rgba(255,255,255,0.85); margin-bottom: 2px;">จ่ายคนละประมาณ</div>
+      <div id="slipPerPerson" style="font-size: 1.5rem; font-weight: 700; color: #6ee7b7; font-variant-numeric: tabular-nums;">฿0.00</div>
+    </div>
+
+    <div style="text-align: center; margin-top: 16px; font-size: 0.68rem; color: #94a3b8; font-weight: 600; letter-spacing: 0.02em;">
+      ขอบคุณทุกคนครับ! 🏸✨ · สร้างจากก๊วนตีแบด App
     </div>
   </div>
 
@@ -2118,6 +2174,7 @@
         });
       }
 
+      // Format for plain inputs or uncurrency displays
       function formatPlainNumber(amount) {
         const safe = Number.isFinite(amount) ? amount : 0;
         return Number.isInteger(Math.round(safe * 100) / 100)
@@ -2364,6 +2421,18 @@
       const shuttleUnitPriceInput = document.getElementById('shuttleUnitPriceInput');
       const shuttleQtyInput = document.getElementById('shuttleQtyInput');
       const copySummaryBtn = document.getElementById('copySummaryBtn');
+      const downloadSummaryImgBtn = document.getElementById('downloadSummaryImgBtn');
+
+      // Slip Template DOM Handles
+      const slipCaptureTemplate = document.getElementById('slipCaptureTemplate');
+      const slipLocation = document.getElementById('slipLocation');
+      const slipDate = document.getElementById('slipDate');
+      const slipCourtCost = document.getElementById('slipCourtCost');
+      const slipShuttleCost = document.getElementById('slipShuttleCost');
+      const slipPlayerCount = document.getElementById('slipPlayerCount');
+      const slipTotalCost = document.getElementById('slipTotalCost');
+      const slipPlayersContainer = document.getElementById('slipPlayersContainer');
+      const slipPerPerson = document.getElementById('slipPerPerson');
 
       // Shuttle helper computation
       function updateShuttleCostFromHelper() {
@@ -2430,6 +2499,94 @@
         } else {
           alert(txt);
         }
+      });
+
+      // Capture and Save HD PNG Slip image client-side (no substitutes displayed, concise list)
+      downloadSummaryImgBtn.addEventListener('click', () => {
+        const activeEvent = getActiveEvent();
+        if (!activeEvent) return;
+
+        if (!isShuttleCostConcluded(activeEvent)) {
+          alert('กรุณารอแอดมินกรอกสรุปค่าลูกแบดก่อนเซฟรูปสรุปยอดเงิน');
+          return;
+        }
+
+        if (typeof window.html2canvas !== 'function') {
+          alert('ระบบเซฟภาพยังไม่พร้อมใช้งานในขณะนี้ กรุณาลองใหม่อีกครั้ง');
+          return;
+        }
+
+        const split = calculateSplitCosts(activeEvent);
+        const maxPlayersLimit = Number(activeEvent.maxPlayers) || 6;
+        const mainPlayers = activeEvent.players.slice(0, maxPlayersLimit);
+
+        // Prep the slip DOM fields
+        slipLocation.textContent = activeEvent.location;
+        slipDate.textContent = formatThaiDate(activeEvent.date, activeEvent.time);
+        slipCourtCost.textContent = formatCurrency(split.courtCost);
+        slipShuttleCost.textContent = formatCurrency(split.shuttleCost);
+        slipPlayerCount.textContent = `${mainPlayers.length} คน`;
+        slipTotalCost.textContent = formatCurrency(split.totalCost);
+        slipPerPerson.textContent = formatCurrency(split.autoPerPerson);
+
+        slipPlayersContainer.innerHTML = '';
+        mainPlayers.forEach((p, idx) => {
+          const shareVal = split.shares[p.id] || 0;
+          const isManual = p.manualCost !== null && p.manualCost !== undefined;
+
+          const row = document.createElement('div');
+          row.style.display = 'flex';
+          row.style.justifyContent = 'space-between';
+          row.style.fontSize = '0.82rem';
+          row.style.color = '#334155';
+          row.style.borderBottom = '1px solid #f1f5f9';
+          row.style.paddingBottom = '4px';
+
+          const left = document.createElement('span');
+          left.textContent = `${idx + 1}. ${p.name}`;
+          if (isManual) {
+            left.innerHTML += ' <span style="font-size:0.68rem; color:#b45309; background:#fef3c7; padding:1px 4px; border-radius:4px; font-weight:600;">ยอดเฉพาะ</span>';
+          }
+          row.appendChild(left);
+
+          const right = document.createElement('span');
+          right.style.fontWeight = '700';
+          right.style.fontVariantNumeric = 'tabular-nums';
+          right.textContent = formatPlainNumber(shareVal) + ' บ.';
+          row.appendChild(right);
+
+          slipPlayersContainer.appendChild(row);
+        });
+
+        // Trigger HD canvas capture
+        const originalBtnText = downloadSummaryImgBtn.textContent;
+        downloadSummaryImgBtn.textContent = '📸 กำลังสร้างรูปภาพสลิป...';
+        downloadSummaryImgBtn.disabled = true;
+
+        window.html2canvas(slipCaptureTemplate, {
+          scale: 2, // 2x resolution for retina/HD display quality
+          useCORS: true,
+          backgroundColor: '#ffffff'
+        }).then((canvas) => {
+          downloadSummaryImgBtn.textContent = originalBtnText;
+          downloadSummaryImgBtn.disabled = false;
+
+          try {
+            const dataUrl = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.download = `สรุปยอดก๊วนแบด_${activeEvent.location}_${activeEvent.date}.png`;
+            link.href = dataUrl;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          } catch (e) {
+            alert('การดาวน์โหลดรูปภาพสลิปบนพรีวิวถูกจำกัด แต่จะทำงานได้สมบูรณ์ทันทีเมื่อเปิดไฟล์เว็บนี้ข้างนอก Standalone ครับ');
+          }
+        }).catch(() => {
+          downloadSummaryImgBtn.textContent = originalBtnText;
+          downloadSummaryImgBtn.disabled = false;
+          alert('ไม่สามารถประมวลผลรูปภาพได้ในขณะนี้');
+        });
       });
 
       function renderSyncIndicator() {
