@@ -255,4 +255,3534 @@
       padding: 3px 0;
       min-width: 0;
       flex: 1;
-  
+    }
+
+    .event-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .event-tab {
+      font: inherit;
+      font-size: 0.84rem;
+      font-weight: 600;
+      padding: 7px 15px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.85);
+      color: var(--muted);
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: all 0.18s ease;
+    }
+
+    .event-tab:hover {
+      color: var(--ink);
+      border-color: var(--border-strong);
+      transform: translateY(-1px);
+    }
+
+    .event-tab.active {
+      background: linear-gradient(135deg, #0071e3 0%, #00a2ff 100%);
+      border-color: transparent;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 113, 227, 0.3);
+    }
+
+    .event-tab:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Buttons */
+    .btn {
+      font: inherit;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      min-height: 40px;
+      padding: 8px 16px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: all 0.16s ease;
+    }
+
+    .btn:active:not(:disabled) {
+      transform: scale(0.975);
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0071e3 0%, #0088ff 100%);
+      color: #ffffff;
+      box-shadow: 0 3px 10px rgba(0, 113, 227, 0.25);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, #0062c4 0%, #0077ed 100%);
+      box-shadow: 0 5px 14px rgba(0, 113, 227, 0.34);
+    }
+
+    .btn-pill-sm {
+      min-height: 34px;
+      padding: 5px 14px;
+      font-size: 0.8125rem;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+
+    .btn-secondary {
+      background: var(--surface-subtle);
+      color: var(--ink);
+      border-color: var(--border);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: #e2e8f0;
+    }
+
+    .btn-ghost-action {
+      background: var(--accent-soft);
+      color: var(--accent);
+      min-height: 30px;
+      padding: 4px 11px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 8px;
+    }
+
+    .btn-ghost-action:hover:not(:disabled) {
+      background: rgba(0, 113, 227, 0.18);
+    }
+
+    .btn-danger-ghost {
+      background: transparent;
+      color: var(--subtle);
+      min-height: 30px;
+      padding: 4px 10px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border-radius: 8px;
+    }
+
+    .btn-danger-ghost:hover:not(:disabled) {
+      color: var(--danger);
+      background: var(--danger-soft);
+    }
+
+    .btn-danger-confirm {
+      background: var(--danger);
+      color: #ffffff;
+      min-height: 30px;
+      padding: 4px 12px;
+      font-size: 0.8rem;
+      border-radius: 8px;
+    }
+
+    /* Elevated Cards */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: var(--space-5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .card {
+        padding: var(--space-6);
+      }
+    }
+
+    .section-title {
+      margin: 0 0 12px 0;
+      font-size: 1.02rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-2);
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 56px var(--space-6);
+      max-width: 440px;
+      margin: var(--space-8) auto;
+    }
+
+    .empty-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(0, 113, 227, 0.15) 100%);
+      color: var(--accent);
+      display: grid;
+      place-items: center;
+      margin: 0 auto var(--space-4);
+    }
+
+    .empty-title {
+      margin: 0 0 var(--space-2);
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .empty-desc {
+      margin: 0 0 var(--space-6);
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    /* Vibrant Event Summary Hero */
+    .event-hero {
+      margin-bottom: var(--space-4);
+      border-top: 4px solid transparent;
+      background-image:
+        linear-gradient(var(--surface), var(--surface)),
+        linear-gradient(90deg, #10b981 0%, #0071e3 50%, #7c3aed 100%);
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+    }
+
+    .event-hero-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-3);
+      margin-bottom: 14px;
+    }
+
+    .event-title-group {
+      min-width: 0;
+    }
+
+    .event-date-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-bottom: 6px;
+    }
+
+    .event-name {
+      margin: 0;
+      font-size: 1.38rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.25;
+    }
+
+    .venue-rate-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--teal);
+      background: var(--teal-soft);
+      border: 1px solid rgba(13, 148, 136, 0.25);
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+    }
+
+    .admin-hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .specs-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .spec-item {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 8px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .spec-badge-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 2px;
+    }
+
+    .spec-badge-dot.courts {
+      background: var(--emerald-soft);
+      color: var(--emerald);
+    }
+
+    .spec-badge-dot.hours {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .spec-badge-dot.capacity {
+      background: var(--violet-soft);
+      color: var(--violet);
+    }
+
+    .spec-label {
+      font-size: 0.72rem;
+      color: var(--subtle);
+    }
+
+    .spec-value {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Per-Court Schedule Pills on Hero Card */
+    .court-schedule-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border-strong);
+    }
+
+    .court-schedule-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(0, 113, 227, 0.1) 100%);
+      border: 1px solid rgba(0, 113, 227, 0.18);
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .court-schedule-pill strong {
+      color: var(--accent);
+    }
+
+    /* Workspace Grid */
+    .workspace-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+      align-items: start;
+    }
+
+    @media (min-width: 820px) {
+      .event-hero,
+      .events-bar {
+        margin-bottom: var(--space-5);
+      }
+      .workspace-grid {
+        grid-template-columns: 1.14fr 0.86fr;
+        gap: var(--space-5);
+      }
+    }
+
+    /* Capacity Progress Bar */
+    .capacity-progress-track {
+      width: 100%;
+      height: 6px;
+      background: var(--surface-subtle);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    .capacity-progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #10b981 0%, #0071e3 100%);
+      transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1), background 0.25s ease;
+    }
+
+    .capacity-progress-fill.full {
+      background: linear-gradient(90deg, #f59e0b 0%, #ef4444 100%);
+    }
+
+    /* Forms (16px font prevents iOS auto-zoom) */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .form-row-compact-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.14fr) minmax(0, 0.86fr);
+      gap: 10px;
+      align-items: start;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 10px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .field label {
+      font-size: 0.78rem;
+      font-weight: 500;
+      line-height: 1.35;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    .val-badge {
+      font-weight: 700;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .day-badge {
+      font-weight: 700;
+      color: #0d9488;
+      background: rgba(13, 148, 136, 0.1);
+      padding: 1px 6px;
+      border-radius: 5px;
+      font-size: 0.72rem;
+    }
+
+    .field input:not([type="range"]):not([type="checkbox"]),
+    .field select,
+    .field textarea {
+      font: inherit;
+      font-size: 1rem;
+      height: 40px;
+      padding: 6px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--ink);
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .field input[type="date"] {
+      -webkit-appearance: none;
+      appearance: none;
+      display: block;
+      height: 40px;
+      min-height: 40px;
+      max-height: 40px;
+      line-height: 26px;
+      padding: 6px 10px;
+      font-size: 0.95rem;
+      text-align: left;
+      overflow: hidden;
+    }
+
+    .field input[type="date"]::-webkit-date-and-time-value {
+      text-align: left;
+      margin: 0;
+      min-height: 0;
+      line-height: 26px;
+    }
+
+    .field input[type="date"]::-webkit-datetime-edit {
+      padding: 0;
+    }
+
+    .field input[type="date"]::-webkit-calendar-picker-indicator {
+      margin: 0;
+      padding: 0;
+      cursor: pointer;
+      opacity: 0.65;
+    }
+
+    .field select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%236e6e73' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 15px;
+      padding-right: 32px;
+    }
+
+    .field input:not([type="range"]):not([type="checkbox"]):focus,
+    .field select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.14);
+    }
+
+    /* Venue Rate Box */
+    .venue-rate-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .venue-rate-box label {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .venue-rate-input {
+      font: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      width: 80px;
+      height: 32px;
+      text-align: right;
+      padding: 2px 8px;
+      border-radius: 7px;
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Compact Sliders + Custom Per-Court Schedule Box */
+    .compact-specs-box {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .sliders-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .sliders-grid.single-col {
+      grid-template-columns: 1fr;
+    }
+
+    .slider-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .slider-field label {
+      font-size: 0.76rem;
+      font-weight: 500;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .slider-field input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      background: rgba(15, 23, 42, 0.12);
+      border-radius: 999px;
+      margin: 6px 0 2px;
+      cursor: pointer;
+    }
+
+    .slider-field input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid #ffffff;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+    }
+
+    .slider-field input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid #ffffff;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+    }
+
+    /* Toggle Option for Different Time Per Court */
+    .custom-court-toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-top: 7px;
+      border-top: 1px solid var(--border);
+    }
+
+    .toggle-label-wrap {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .toggle-label-wrap input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent);
+      cursor: pointer;
+      margin: 0;
+    }
+
+    .per-court-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 136px;
+      overflow-y: auto;
+      padding: 2px 1px;
+    }
+
+    .per-court-row {
+      display: grid;
+      grid-template-columns: 62px minmax(0, 1fr) minmax(0, 1fr);
+      gap: 6px;
+      align-items: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 5px 8px;
+    }
+
+    .per-court-name {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .per-court-select {
+      font: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      height: 30px;
+      padding: 2px 24px 2px 8px;
+      border-radius: 7px;
+      border: 1px solid var(--border-strong);
+      background-color: var(--surface-subtle);
+      color: var(--ink);
+      width: 100%;
+      min-width: 0;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236e6e73' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 6px center;
+      background-size: 13px;
+    }
+
+    .capacity-inline-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 7px;
+      border-top: 1px solid var(--border);
+    }
+
+    .capacity-inline-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .capacity-inline-sub {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--subtle);
+      font-weight: 400;
+    }
+
+    .capacity-inline-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .capacity-inline-input {
+      font: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      width: 72px;
+      height: 34px;
+      padding: 4px 8px;
+      text-align: center;
+      border-radius: 8px;
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Inline Player Sign-up */
+    .inline-signup {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .inline-signup input {
+      flex: 1;
+      min-width: 0;
+      font: inherit;
+      font-size: 1rem;
+      min-height: 42px;
+      padding: 8px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface-subtle);
+      color: var(--ink);
+      transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .inline-signup input:focus {
+      outline: none;
+      background: var(--surface);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.14);
+    }
+
+    .form-error {
+      color: var(--danger);
+      font-size: 0.8rem;
+      margin: -2px 0 10px 0;
+    }
+
+    .capacity-text {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--emerald);
+      background: var(--emerald-soft);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .capacity-text.full {
+      color: #b45309;
+      background: var(--amber-soft);
+    }
+
+    /* Player List & Colorful Avatars */
+    .player-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .player-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 9px 10px 9px 12px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      transition: background 0.15s ease;
+    }
+
+    .player-row:hover {
+      background: rgba(255, 255, 255, 0.65);
+    }
+
+    .player-row:last-child {
+      border-bottom: none;
+    }
+
+    .player-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .player-index {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #ffffff;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      font-variant-numeric: tabular-nums;
+      box-shadow: 0 2px 5px rgba(15, 23, 42, 0.12);
+    }
+
+    .player-index.tone-0 { background: linear-gradient(135deg, #0071e3, #00c6ff); }
+    .player-index.tone-1 { background: linear-gradient(135deg, #10b981, #059669); }
+    .player-index.tone-2 { background: linear-gradient(135deg, #8b5cf6, #6366f1); }
+    .player-index.tone-3 { background: linear-gradient(135deg, #f59e0b, #ea580c); }
+    .player-index.tone-4 { background: linear-gradient(135deg, #ec4899, #f43f5e); }
+    .player-index.tone-5 { background: linear-gradient(135deg, #06b6d4, #2563eb); }
+
+    .player-index.waiting {
+      background: linear-gradient(135deg, #64748b, #94a3b8);
+      font-size: 0.65rem;
+    }
+
+    .player-name {
+      font-weight: 600;
+      font-size: 0.94rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .player-right-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .player-share-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .player-share {
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--ink);
+      font-size: 0.88rem;
+    }
+
+    .share-mode-tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: #fef3c7;
+      color: #b45309;
+    }
+
+    /* Admin inline share editor */
+    .admin-share-editor {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      padding: 2px 6px;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .admin-share-editor.is-manual {
+      border-color: #f59e0b;
+      background: #fffbeb;
+    }
+
+    .admin-share-editor:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.14);
+    }
+
+    .currency-prefix {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--subtle);
+    }
+
+    .manual-share-input {
+      font: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      width: 74px;
+      height: 28px;
+      border: none;
+      background: transparent;
+      color: var(--ink);
+      text-align: right;
+      padding: 0 2px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .manual-share-input::placeholder {
+      color: var(--muted);
+      font-weight: 500;
+      opacity: 0.85;
+    }
+
+    .manual-share-input:focus {
+      outline: none;
+    }
+
+    .reset-share-btn {
+      font: inherit;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 5px;
+      border: none;
+      background: rgba(245, 158, 11, 0.18);
+      color: #92400e;
+      cursor: pointer;
+      line-height: 1.3;
+    }
+
+    .reset-share-btn:hover {
+      background: rgba(245, 158, 11, 0.3);
+    }
+
+    .list-empty {
+      padding: 26px var(--space-4);
+      text-align: center;
+      color: var(--subtle);
+      font-size: 0.875rem;
+      background: var(--surface-subtle);
+      border: 1px dashed var(--border-strong);
+      border-radius: var(--radius);
+    }
+
+    /* Expense Summary */
+    .summary-panel {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin-top: var(--space-3);
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 0;
+      font-size: 0.86rem;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .summary-row.total {
+      border-top: 1px solid var(--border);
+      margin-top: 6px;
+      padding-top: 9px;
+      color: var(--ink);
+      font-weight: 700;
+      font-size: 0.94rem;
+    }
+
+    .per-person-highlight {
+      margin-top: 12px;
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #0d9488 100%);
+      color: #ffffff;
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      box-shadow: 0 8px 20px rgba(30, 58, 138, 0.22);
+    }
+
+    .per-person-label {
+      font-size: 0.86rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    .per-person-amount {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: #6ee7b7;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .admin-hint {
+      font-size: 0.8rem;
+      color: var(--subtle);
+      margin: 0 0 10px 0;
+      line-height: 1.45;
+    }
+
+    /* Modals */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.42);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 0;
+      z-index: 50;
+    }
+
+    @media (min-width: 600px) {
+      .modal-backdrop {
+        align-items: center;
+        padding: var(--space-4);
+      }
+    }
+
+    .modal {
+      background: var(--surface);
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 24px 48px rgba(15, 23, 42, 0.22);
+      width: 100%;
+      max-width: 480px;
+      max-height: 95vh;
+      overflow-y: auto;
+      padding: 16px 18px calc(16px + env(safe-area-inset-bottom, 0px));
+    }
+
+    @media (min-width: 600px) {
+      .modal {
+        border-radius: 20px;
+        padding: 20px 22px;
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .modal-title {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+<style data-link-removed-style>a[data-link-removed],a[href*="zPythonSafez"]:not([onclick]){pointer-events:none!important;cursor:default!important;opacity:.6}</style></head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 18L18 6"/>
+            <circle cx="17" cy="7" r="4"/>
+            <path d="M4 20l4-4"/>
+          </svg>
+        </div>
+        <div class="brand-title-wrap">
+          <h1 class="brand-title">ก๊วนตีแบด</h1>
+          <span id="firebaseSyncDot" class="sync-dot" title="สถานะการซิงก์ข้อมูลเรียลไทม์"></span>
+        </div>
+      </div>
+
+      <div class="topbar-controls">
+        <div class="role-switch" role="tablist" aria-label="เลือกมุมมองการใช้งาน">
+          <button type="button" id="rolePlayerBtn" class="role-btn active" role="tab" aria-selected="true">
+            ลงชื่อ
+          </button>
+          <button type="button" id="roleAdminBtn" class="role-btn" role="tab" aria-selected="false">
+            แอดมิน
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Shown ONLY when an actual Firebase error occurs -->
+    <div id="firebaseErrorBanner" class="sync-banner" role="alert" hidden>
+      <span id="firebaseErrorText"></span>
+    </div>
+
+    <!-- Event Selector Bar -->
+    <div id="eventsBar" class="events-bar" hidden>
+      <div id="eventTabs" class="event-tabs" role="tablist" aria-label="รายการอีเวนต์ตีแบด"></div>
+      <button type="button" id="openCreateModalBtn" class="btn btn-primary btn-pill-sm" hidden>
+        + สร้างอีเวนต์
+      </button>
+    </div>
+
+    <!-- Empty State -->
+    <section id="emptyState" class="card empty-state">
+      <div class="empty-icon" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="3" ry="3"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+      </div>
+      <h2 class="empty-title">ยังไม่มีอีเวนต์ตีแบด</h2>
+      <p class="empty-desc">
+        สร้างนัดตีแบดเพื่อกำหนดวัน เวลา จำนวนสนาม และจำนวนคนที่รับได้ ให้เพื่อนๆ เข้ามาลงชื่อแบบเรียลไทม์
+      </p>
+      <button type="button" id="emptyCreateBtn" class="btn btn-primary">
+        + สร้างอีเวนต์ใหม่ (แอดมิน)
+      </button>
+    </section>
+
+    <!-- Active Event Workspace -->
+    <div id="eventWorkspace" hidden>
+      <section class="card event-hero" aria-labelledby="activeEventTitle">
+        <div class="event-hero-top">
+          <div class="event-title-group">
+            <div id="specDateTime" class="event-date-eyebrow">-</div>
+            <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+              <h2 id="activeEventTitle" class="event-name"></h2>
+              <span id="activeEventRateBadge" class="venue-rate-pill" title="ราคาค่าเช่าสนามต่อชั่วโมง">฿200 / ชม.</span>
+            </div>
+          </div>
+          <div id="adminEventActions" class="admin-hero-actions" hidden>
+            <button type="button" id="editEventBtn" class="btn btn-ghost-action">
+              แก้ไข
+            </button>
+            <button type="button" id="deleteEventBtn" class="btn btn-danger-ghost">
+              ลบอีเวนต์
+            </button>
+          </div>
+        </div>
+
+        <div class="specs-strip">
+          <div class="spec-item">
+            <div class="spec-badge-dot courts" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                <line x1="12" y1="4" x2="12" y2="20"></line>
+              </svg>
+            </div>
+            <div class="spec-label">สนาม</div>
+            <div id="specCourts" class="spec-value">-</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-badge-dot hours" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <div class="spec-label">เวลาตี</div>
+            <div id="specHours" class="spec-value">-</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-badge-dot capacity" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
+            <div class="spec-label">รับสูงสุด</div>
+            <div id="specCapacity" class="spec-value">-</div>
+          </div>
+        </div>
+
+        <!-- Shown when custom per-court schedules are enabled -->
+        <div id="customCourtScheduleStrip" class="court-schedule-pills" hidden></div>
+      </section>
+
+      <div class="workspace-grid">
+        <!-- Left Column: Player Sign-up & Per-Player Cost Override -->
+        <section class="card" aria-labelledby="signupHeading">
+          <h3 id="signupHeading" class="section-title">
+            <span>รายชื่อผู้เล่น</span>
+            <span id="capacityIndicator" class="capacity-text">0 / 0 คน</span>
+          </h3>
+
+          <div class="capacity-progress-track" aria-hidden="true">
+            <div id="capacityProgressFill" class="capacity-progress-fill"></div>
+          </div>
+
+          <form id="signupForm" novalidate>
+            <div class="inline-signup">
+              <input
+                type="text"
+                id="playerNameInput"
+                placeholder="ชื่อเล่นของคุณ..."
+                maxlength="60"
+                aria-label="ชื่อผู้เล่น"
+              >
+              <button type="submit" id="signupSubmitBtn" class="btn btn-primary">
+                ลงชื่อ
+              </button>
+            </div>
+            <p id="signupError" class="form-error" hidden></p>
+          </form>
+
+          <p id="manualEditHint" class="admin-hint" hidden>
+            แอดมินสามารถพิมพ์แก้ยอดเงินรายคนในช่องท้ายชื่อ หรือกดลบชื่อผู้เล่นได้ ระบบจะนำยอดที่เหลือไปหารเฉลี่ยให้คนอื่นอัตโนมัติ
+          </p>
+
+          <div id="playerListEmpty" class="list-empty">
+            ยังไม่มีผู้ลงชื่อ พิมพ์ชื่อเล่นด้านบนเพื่อประเดิมคนแรกได้เลย
+          </div>
+
+          <ul id="playerList" class="player-list" hidden></ul>
+        </section>
+
+        <!-- Right Column: Expense Summary -->
+        <section class="card" aria-labelledby="expenseHeading">
+          <h3 id="expenseHeading" class="section-title">
+            <span>สรุปค่าใช้จ่าย</span>
+          </h3>
+
+          <form id="expenseForm" novalidate hidden>
+            <!-- Shuttlecock Counter Helper -->
+            <div style="background: var(--surface-subtle); padding: 10px; border-radius: 10px; margin-bottom: 12px; border: 1px solid var(--border);">
+              <span style="font-size: 0.78rem; font-weight: 700; color: var(--accent); display: block; margin-bottom: 6px;">🧮 ตัวช่วยนับและคำนวณค่าลูกแบด</span>
+              <div class="form-grid-2">
+                <div class="field">
+                  <label for="shuttleUnitPriceInput" style="font-size: 0.72rem;">ราคาต่อลูก (บาท)</label>
+                  <input type="number" id="shuttleUnitPriceInput" min="0" value="65" placeholder="65" style="height: 32px; font-size: 0.9rem;">
+                </div>
+                <div class="field">
+                  <label for="shuttleQtyInput" style="font-size: 0.72rem;">จำนวนลูกที่ใช้</label>
+                  <input type="number" id="shuttleQtyInput" min="0" placeholder="0" style="height: 32px; font-size: 0.9rem;">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="field">
+                <label for="courtCostInput">ค่าสนามรวม (บาท)</label>
+                <input
+                  type="number"
+                  id="courtCostInput"
+                  min="0"
+                  step="any"
+                  inputmode="decimal"
+                  placeholder="0"
+                >
+              </div>
+              <div class="field">
+                <label for="shuttleCostInput">ค่าลูกแบดรวม (บาท)</label>
+                <input
+                  type="number"
+                  id="shuttleCostInput"
+                  min="0"
+                  step="any"
+                  inputmode="decimal"
+                  placeholder="0"
+                >
+              </div>
+            </div>
+            <p id="expenseError" class="form-error" style="margin-top: 8px;" hidden></p>
+          </form>
+
+          <div id="expenseWaitingState" class="list-empty" hidden>
+            รอแอดมินสรุปยอดค่าลูกแบดหลังจบก๊วน เพื่อคำนวณยอดจ่ายคนละ
+          </div>
+
+          <div id="expenseSummaryPanel">
+            <div class="summary-panel">
+              <div class="summary-row">
+                <span>ค่าเช่าสนาม</span>
+                <span id="displayCourtCost">฿0.00</span>
+              </div>
+              <div class="summary-row">
+                <span>ค่าลูกแบด</span>
+                <span id="displayShuttleCost">฿0.00</span>
+              </div>
+              <div class="summary-row">
+                <span>จำนวนคนหารทั้งหมด</span>
+                <span id="displayPlayerCount">0 คน</span>
+              </div>
+              <div id="manualSummaryRow" class="summary-row" hidden>
+                <span id="manualSummaryLabel">หักยอดกำหนดเอง</span>
+                <span id="displayManualSum">฿0.00</span>
+              </div>
+              <div class="summary-row total">
+                <span>ยอดรวมทั้งหมด</span>
+                <span id="displayTotalCost">฿0.00</span>
+              </div>
+            </div>
+
+            <div class="per-person-highlight">
+              <span id="perPersonLabel" class="per-person-label">จ่ายคนละ</span>
+              <span id="displayPerPerson" class="per-person-amount">฿0.00</span>
+            </div>
+
+            <!-- Compact copy button for LINE -->
+            <button type="button" id="copySummaryBtn" class="btn btn-secondary" style="width: 100%; margin-top: 10px; font-size: 0.85rem; min-height: 36px; padding: 6px 12px; gap: 6px;">
+              📋 คัดลอกสรุปสำหรับส่งเข้ากลุ่ม LINE
+            </button>
+            
+            <!-- Share compact slip image directly to LINE -->
+            <button type="button" id="downloadSummaryImgBtn" class="btn btn-primary" style="width: 100%; margin-top: 8px; font-size: 0.85rem; min-height: 36px; padding: 6px 12px; gap: 6px; background: linear-gradient(135deg, #06c755 0%, #05a847 100%); border: none; box-shadow: 0 3px 10px rgba(6, 199, 85, 0.24);">
+              📤 แชร์รูปสลิปเข้า LINE ทันที
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Compact Create / Edit Event Modal (Admin) -->
+  <div id="createEventModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="createModalTitle" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="createModalTitle" class="modal-title">สร้างอีเวนต์ตีแบดใหม่</h2>
+        <button type="button" id="closeModalBtn" class="btn btn-danger-ghost" aria-label="ปิดหน้าต่าง">
+          ✕
+        </button>
+      </div>
+
+      <form id="createEventForm" novalidate>
+        <div class="form-grid">
+          <!-- Venue Dropdown + Preset Hourly Rate -->
+          <div class="field">
+            <label for="eventLocationSelect">
+              <span>สถานที่ / สนามแบดมินตัน *</span>
+              <button type="button" id="toggleVenueManagerBtn" class="day-badge" style="border:none; cursor:pointer;">⚙️ จัดการสนาม</button>
+            </label>
+            <select id="eventLocationSelect" required></select>
+          </div>
+
+          <div id="customLocationField" class="field" hidden>
+            <input
+              type="text"
+              id="eventLocationInput"
+              placeholder="พิมพ์ชื่อสนามแบดใหม่..."
+              maxlength="100"
+              aria-label="ชื่อสนามแบดมินตันใหม่"
+            >
+          </div>
+
+          <!-- Venue Manager Panel -->
+          <div id="venueManagerPanel" style="background: rgba(15, 23, 42, 0.05); border-radius: 10px; padding: 8px var(--space-3); font-size: 0.8rem; margin-top: -6px;" hidden>
+            <span style="font-weight: 700; display: block; margin-bottom: 4px; color: var(--muted);">ลบรายชื่อสนามที่ไม่ได้ใช้:</span>
+            <div id="venueManageList" style="display:flex; flex-direction:column; gap: 4px;"></div>
+          </div>
+
+          <!-- Fixed Hourly Rate for this Venue -->
+          <div class="venue-rate-box">
+            <label for="venueHourlyRateInput">💰 ราคาค่าเช่าสนามต่อชั่วโมง (บาท/ชม.)</label>
+            <input type="number" id="venueHourlyRateInput" class="venue-rate-input" min="0" step="10" value="200" required>
+          </div>
+
+          <!-- Compact Date (with Day-of-Week badge) & Hour-Only Selector on 1 Row -->
+          <div class="form-row-compact-2">
+            <div class="field">
+              <label for="eventDateInput">
+                <span>วันที่ *</span>
+                <span id="eventDateDayBadge" class="day-badge">เสาร์</span>
+              </label>
+              <input type="date" id="eventDateInput" required>
+            </div>
+            <div class="field">
+              <label for="eventTimeSelect">เวลาเริ่ม (ชม.) *</label>
+              <select id="eventTimeSelect" required>
+                <option value="06:00">06:00 น.</option>
+                <option value="07:00">07:00 น.</option>
+                <option value="08:00">08:00 น.</option>
+                <option value="09:00">09:00 น.</option>
+                <option value="10:00">10:00 น.</option>
+                <option value="11:00">11:00 น.</option>
+                <option value="12:00">12:00 น.</option>
+                <option value="13:00">13:00 น.</option>
+                <option value="14:00">14:00 น.</option>
+                <option value="15:00">15:00 น.</option>
+                <option value="16:00">16:00 น.</option>
+                <option value="17:00">17:00 น.</option>
+                <option value="18:00" selected>18:00 น.</option>
+                <option value="19:00">19:00 น.</option>
+                <option value="20:00">20:00 น.</option>
+                <option value="21:00">21:00 น.</option>
+                <option value="22:00">22:00 น.</option>
+                <option value="23:00">23:00 น.</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Compact Sliders (Courts & Hours) + Per-Court Custom Time Option + Auto Capacity (6 x Courts) -->
+          <div class="compact-specs-box">
+            <div id="slidersGridWrap" class="sliders-grid">
+              <div class="slider-field">
+                <label for="eventCourtsInput">
+                  <span>จำนวนสนาม</span>
+                  <span id="courtsValueBadge" class="val-badge">2 สนาม</span>
+                </label>
+                <input
+                  type="range"
+                  id="eventCourtsInput"
+                  min="1"
+                  max="10"
+                  step="1"
+                  value="2"
+                >
+              </div>
+              <div id="uniformHoursSliderField" class="slider-field">
+                <label for="eventHoursInput">
+                  <span>จำนวนชั่วโมง</span>
+                  <span id="hoursValueBadge" class="val-badge">2 ชม.</span>
+                </label>
+                <input
+                  type="range"
+                  id="eventHoursInput"
+                  min="1"
+                  max="6"
+                  step="0.5"
+                  value="2"
+                >
+              </div>
+            </div>
+
+            <!-- Option for Different Time Per Court -->
+            <div class="custom-court-toggle-row">
+              <label class="toggle-label-wrap" for="customCourtTimesToggle">
+                <input type="checkbox" id="customCourtTimesToggle">
+                <span>เวลาเล่นแต่ละสนามไม่เท่ากัน</span>
+              </label>
+            </div>
+
+            <div id="perCourtScheduleList" class="per-court-list" hidden></div>
+
+            <div class="capacity-inline-row">
+              <div>
+                <span class="capacity-inline-label">จำนวนคนที่รองรับ *</span>
+                <span class="capacity-inline-sub">ค่าเริ่มต้นอัตโนมัติ 6 คน × จำนวนสนาม</span>
+              </div>
+              <div class="capacity-inline-input-wrap">
+                <input
+                  type="number"
+                  id="eventMaxPlayersInput"
+                  class="capacity-inline-input"
+                  min="1"
+                  max="200"
+                  step="1"
+                  value="12"
+                  required
+                >
+                <span style="font-size: 0.8rem; color: var(--muted);">คน</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p id="createEventError" class="form-error" style="margin-top: 8px;" hidden></p>
+
+        <div class="modal-actions">
+          <button type="button" id="cancelModalBtn" class="btn btn-secondary" style="min-height: 36px; padding: 6px 14px; font-size: 0.875rem;">ยกเลิก</button>
+          <button type="submit" id="submitModalBtn" class="btn btn-primary" style="min-height: 36px; padding: 6px 16px; font-size: 0.875rem;">สร้างอีเวนต์</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Compact Slip Template Hidden Container for PNG rendering & LINE sharing -->
+  <div id="slipCaptureTemplate" style="position: absolute; left: -9999px; top: -9999px; width: 276px; background: #ffffff; padding: 14px 16px; border-radius: 14px; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'IBM Plex Sans Thai', sans-serif; color: #1d1d1f; border: 1px solid #e2e8f0;">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px;">
+      <div style="display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 7px; background: linear-gradient(135deg, #10b981 0%, #0071e3 100%); color: #ffffff; flex-shrink: 0;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6"/><circle cx="17" cy="7" r="4"/><path d="M4 20l4-4"/></svg>
+      </div>
+      <h3 style="margin: 0; font-size: 0.98rem; font-weight: 700; color: #0f172a; letter-spacing: -0.02em;">สรุปยอดก๊วนแบด</h3>
+    </div>
+    
+    <div style="border-top: 1px dashed #cbd5e1; border-bottom: 1px dashed #cbd5e1; padding: 7px 0; margin-bottom: 10px; line-height: 1.4;">
+      <div style="font-size: 0.75rem; color: #334155; margin-bottom: 3px; font-weight: 600;">📍 <span id="slipLocation">-</span></div>
+      <div style="font-size: 0.74rem; color: #475569; font-weight: 500;">📅 <span id="slipDate">-</span></div>
+    </div>
+
+    <div style="background: #f8fafc; border-radius: 9px; padding: 8px 10px; margin-bottom: 10px; border: 1px solid #e2e8f0;">
+      <div style="display: flex; justify-content: space-between; font-size: 0.73rem; color: #64748b; margin-bottom: 2px;">
+        <span>ค่าเช่าสนาม</span>
+        <span id="slipCourtCost" style="font-variant-numeric: tabular-nums; font-weight: 600;">฿0.00</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 0.73rem; color: #64748b; margin-bottom: 2px;">
+        <span>ค่าลูกแบด</span>
+        <span id="slipShuttleCost" style="font-variant-numeric: tabular-nums; font-weight: 600;">฿0.00</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 0.73rem; color: #64748b;">
+        <span>จำนวนคนหาร</span>
+        <span id="slipPlayerCount" style="font-weight: 600;">0 คน</span>
+      </div>
+      <div style="border-top: 1px solid #cbd5e1; margin-top: 5px; padding-top: 5px; display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; color: #0f172a;">
+        <span>ยอดรวมทั้งหมด</span>
+        <span id="slipTotalCost" style="font-variant-numeric: tabular-nums;">฿0.00</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+      <div style="font-size: 0.74rem; font-weight: 700; color: #475569; margin-bottom: 5px; border-left: 2.5px solid #0071e3; padding-left: 5px;">รายชื่อและยอดโอน:</div>
+      <div id="slipPlayersContainer" style="display: flex; flex-direction: column; gap: 3px;"></div>
+    </div>
+
+    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); color: #ffffff; border-radius: 9px; padding: 9px 12px; display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
+      <span style="font-size: 0.74rem; color: rgba(255,255,255,0.88); font-weight: 500;">จ่ายคนละ</span>
+      <span id="slipPerPerson" style="font-size: 1.15rem; font-weight: 700; color: #6ee7b7; font-variant-numeric: tabular-nums;">฿0.00</span>
+    </div>
+
+    <div style="text-align: center; margin-top: 8px; font-size: 0.62rem; color: #94a3b8; font-weight: 600;">
+      ขอบคุณทุกคนครับ! 🏸✨
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const FIREBASE_DATABASE_URL = 'about:invalid#zPythonSafez';
+
+      const STORAGE_KEY = 'badminton_club_events_v1';
+      const VENUES_STORAGE_KEY = 'badminton_club_venues_v1';
+      const DB_ROOT_PATH = 'badminton_club_v1';
+      const DB_EVENTS_PATH = 'badminton_club_v1/events';
+      const DB_VENUE_SETTINGS_PATH = 'badminton_club_v1/venueSettings';
+
+      // Preset sample venues with predetermined hourly rates
+      const SAMPLE_VENUES = [
+        { name: 'บางพระแบดมินตัน', ratePerHour: 220 },
+        { name: 'สนามแบดมินตันสุขุมวิท', ratePerHour: 240 },
+        { name: 'คอร์ทแบดพระราม 9', ratePerHour: 200 }
+      ];
+
+      const THAI_DAY_NAMES = ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'];
+
+      const HOUR_OPTIONS = [];
+      for (let h = 6; h <= 23; h++) {
+        HOUR_OPTIONS.push(String(h).padStart(2, '0') + ':00');
+      }
+      const DURATION_OPTIONS = [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6];
+
+      let state = {
+        role: 'player', // 'player' | 'admin'
+        events: [],
+        venues: SAMPLE_VENUES.map((v) => ({ name: v.name, ratePerHour: v.ratePerHour })), // Array of { name: string, ratePerHour: number }
+        venuesInitialized: false,
+        activeEventId: null,
+        confirmDeleteId: null,
+        editingEventId: null,
+        draftCourtSchedules: [],
+        syncMode: 'connecting',
+        syncError: '',
+        isSubmittingSignup: false
+      };
+
+      let restEventSource = null;
+      let fallbackPollTimer = null;
+      let expenseSyncTimer = null;
+      let manualShareTimers = {};
+      let connectionSeq = 0;
+
+      function loadState() {
+        try {
+          const raw = window.localStorage.getItem(STORAGE_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && Array.isArray(parsed.events)) {
+              state.events = parsed.events;
+              state.activeEventId = parsed.activeEventId || (state.events[0] ? state.events[0].id : null);
+            }
+          }
+          const rawVenues = window.localStorage.getItem(VENUES_STORAGE_KEY);
+          if (rawVenues) {
+            const parsedVenues = JSON.parse(rawVenues);
+            if (parsedVenues && typeof parsedVenues === 'object' && !Array.isArray(parsedVenues) && parsedVenues.initialized) {
+              state.venuesInitialized = true;
+              state.venues = normalizeVenuesList(parsedVenues.list);
+            } else if (Array.isArray(parsedVenues) && parsedVenues.length > 0) {
+              state.venues = mergeStarterAndSavedVenues(parsedVenues, state.events);
+            }
+          }
+        } catch (err) {}
+      }
+
+      function saveState() {
+        try {
+          window.localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify({
+              events: state.events,
+              activeEventId: state.activeEventId
+            })
+          );
+          window.localStorage.setItem(
+            VENUES_STORAGE_KEY,
+            JSON.stringify({
+              initialized: state.venuesInitialized,
+              list: state.venues
+            })
+          );
+        } catch (err) {}
+      }
+
+      function persistVenuesToFirebase() {
+        state.venuesInitialized = true;
+        saveState();
+        fetch(FIREBASE_DATABASE_URL + '/' + DB_VENUE_SETTINGS_PATH + '.json', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            initialized: true,
+            list: state.venues
+          })
+        }).catch(function () {});
+      }
+
+      function mergeStarterAndSavedVenues(rawVenues, eventsList) {
+        const map = new Map();
+        SAMPLE_VENUES.forEach((v) => map.set(v.name, { name: v.name, ratePerHour: v.ratePerHour }));
+        normalizeVenuesList(rawVenues).forEach((v) => map.set(v.name, v));
+        if (Array.isArray(eventsList)) {
+          eventsList.forEach((ev) => {
+            if (ev && ev.location && !map.has(ev.location)) {
+              map.set(ev.location, { name: ev.location, ratePerHour: Number(ev.venueRatePerHour) || 200 });
+            }
+          });
+        }
+        return Array.from(map.values());
+      }
+
+      function parseOptionalMoney(val) {
+        if (val === undefined || val === null || val === '') return null;
+        const num = Number(val);
+        return Number.isFinite(num) && num >= 0 ? num : null;
+      }
+
+      function normalizePlayersList(rawPlayers) {
+        if (!rawPlayers) return [];
+        const entries = Array.isArray(rawPlayers)
+          ? rawPlayers.map((p, idx) => (p ? Object.assign({}, p, { id: p.id || 'pl_' + idx }) : null))
+          : Object.keys(rawPlayers).map((key) => {
+              const p = rawPlayers[key];
+              if (!p || typeof p !== 'object') return null;
+              return Object.assign({}, p, { id: p.id || key });
+            });
+
+        return entries
+          .filter((p) => p && typeof p.name === 'string' && p.name.trim() !== '')
+          .map((p, idx) => ({
+            id: String(p.id),
+            name: String(p.name).trim(),
+            joinedAt: Number(p.joinedAt) || idx,
+            manualCost: parseOptionalMoney(p.manualCost)
+          }))
+          .sort((a, b) => a.joinedAt - b.joinedAt);
+      }
+
+      function extractCreatedTimestamp(ev) {
+        if (Number.isFinite(Number(ev.createdAt)) && Number(ev.createdAt) > 0) {
+          return Number(ev.createdAt);
+        }
+        const match = String(ev.id || '').match(/^ev_(\d+)_/);
+        return match ? Number(match[1]) : 0;
+      }
+
+      function normalizeHourString(timeStr) {
+        if (!timeStr) return '18:00';
+        const match = String(timeStr).trim().match(/^(\d{1,2})/);
+        if (!match) return '18:00';
+        const hr = Math.min(23, Math.max(0, parseInt(match[1], 10)));
+        return String(hr).padStart(2, '0') + ':00';
+      }
+
+      function normalizeCourtSchedules(rawSchedules, courtsCount, defaultStart, defaultHours) {
+        if (!rawSchedules) return [];
+        const list = Array.isArray(rawSchedules) ? rawSchedules : Object.values(rawSchedules);
+        return list
+          .filter((item) => item && typeof item === 'object')
+          .slice(0, courtsCount)
+          .map((item, idx) => ({
+            courtNo: idx + 1,
+            startTime: normalizeHourString(item.startTime || defaultStart),
+            hours: Number(item.hours) > 0 ? Number(item.hours) : defaultHours
+          }));
+      }
+
+      function normalizeEventsFromFirebase(rawVal) {
+        if (!rawVal || typeof rawVal !== 'object') return [];
+        const entries = Array.isArray(rawVal)
+          ? rawVal.filter(Boolean)
+          : Object.keys(rawVal)
+              .map((key) => {
+                const item = rawVal[key];
+                if (!item || typeof item !== 'object') return null;
+                return Object.assign({}, item, { id: item.id || key });
+              })
+              .filter(Boolean);
+
+        return entries
+          .map((ev) => {
+            const courts = Number(ev.courts) || 1;
+            const time = normalizeHourString(ev.time);
+            const hoursPerCourt = Number(ev.hoursPerCourt) || 1;
+            const hasCustomCourtTimes = Boolean(ev.hasCustomCourtTimes);
+            const courtSchedules = hasCustomCourtTimes
+              ? normalizeCourtSchedules(ev.courtSchedules, courts, time, hoursPerCourt)
+              : [];
+            return {
+              id: String(ev.id),
+              createdAt: extractCreatedTimestamp(ev),
+              location: String(ev.location || ''),
+              venueRatePerHour: Number(ev.venueRatePerHour) || 200,
+              date: String(ev.date || ''),
+              time,
+              courts,
+              hoursPerCourt,
+              hasCustomCourtTimes,
+              courtSchedules,
+              maxPlayers: Number(ev.maxPlayers) || 6,
+              players: normalizePlayersList(ev.players),
+              courtCost: ev.courtCost !== undefined && ev.courtCost !== null && ev.courtCost !== '' ? Number(ev.courtCost) : '',
+              shuttleCost: ev.shuttleCost !== undefined && ev.shuttleCost !== null && ev.shuttleCost !== '' ? Number(ev.shuttleCost) : ''
+            };
+          })
+          .sort((a, b) => a.createdAt - b.createdAt);
+      }
+
+      function normalizeVenuesList(rawVenues) {
+        if (!rawVenues) return [];
+        const vals = Array.isArray(rawVenues) ? rawVenues : Object.values(rawVenues);
+        const map = new Map();
+        vals.forEach((v) => {
+          let name = '';
+          let rate = 200;
+          if (typeof v === 'string') {
+            name = v.trim();
+          } else if (v && typeof v === 'object') {
+            name = String(v.name || '').trim();
+            rate = Number(v.ratePerHour) || 200;
+          }
+          if (name && !map.has(name)) {
+            map.set(name, { name, ratePerHour: rate });
+          }
+        });
+        return Array.from(map.values());
+      }
+
+      function serializePlayersMap(players) {
+        const map = {};
+        if (Array.isArray(players)) {
+          players.forEach((p, idx) => {
+            if (p && p.id && p.name) {
+              map[String(p.id)] = {
+                id: String(p.id),
+                name: String(p.name),
+                joinedAt: Number(p.joinedAt) || idx + 1,
+                manualCost: p.manualCost === null || p.manualCost === undefined || p.manualCost === '' ? '' : Number(p.manualCost)
+              };
+            }
+          });
+        }
+        return map;
+      }
+
+      function serializeEventForFirebase(ev) {
+        return {
+          id: String(ev.id),
+          createdAt: extractCreatedTimestamp(ev) || Date.now(),
+          location: String(ev.location || ''),
+          venueRatePerHour: Number(ev.venueRatePerHour) || 200,
+          date: String(ev.date || ''),
+          time: normalizeHourString(ev.time),
+          courts: Number(ev.courts) || 1,
+          hoursPerCourt: Number(ev.hoursPerCourt) || 1,
+          hasCustomCourtTimes: Boolean(ev.hasCustomCourtTimes),
+          courtSchedules: ev.hasCustomCourtTimes && Array.isArray(ev.courtSchedules) ? ev.courtSchedules : [],
+          maxPlayers: Number(ev.maxPlayers) || 6,
+          players: serializePlayersMap(ev.players),
+          courtCost: ev.courtCost === '' || ev.courtCost === null || ev.courtCost === undefined ? '' : Number(ev.courtCost),
+          shuttleCost: ev.shuttleCost === '' || ev.shuttleCost === null || ev.shuttleCost === undefined ? '' : Number(ev.shuttleCost)
+        };
+      }
+
+      function formatFirebaseError(err) {
+        const msg = String((err && (err.code || err.message)) || '').toLowerCase();
+        if (msg.includes('permission_denied') || msg.includes('permission denied') || msg.includes('401') || msg.includes('403')) {
+          return 'ไม่มีสิทธิ์อ่าน/เขียนฐานข้อมูล — กรุณาเปิดสิทธิ์ .read และ .write ในแท็บ Rules ของ Firebase';
+        }
+        return 'การซิงก์ข้อมูลฐานข้อมูลขัดข้องชั่วคราว กรุณาตรวจสอบอินเทอร์เน็ต';
+      }
+
+      function applyRemoteRoot(rawRoot) {
+        const rootObj = rawRoot && typeof rawRoot === 'object' ? rawRoot : {};
+        state.events = normalizeEventsFromFirebase(rootObj.events);
+        if (rootObj.venueSettings && typeof rootObj.venueSettings === 'object' && rootObj.venueSettings.initialized) {
+          state.venuesInitialized = true;
+          state.venues = normalizeVenuesList(rootObj.venueSettings.list);
+        } else {
+          state.venues = mergeStarterAndSavedVenues(rootObj.venues, state.events);
+        }
+        if (!state.activeEventId || !state.events.some((ev) => ev.id === state.activeEventId)) {
+          state.activeEventId = state.events[0] ? state.events[0].id : null;
+        }
+        state.syncMode = 'connected';
+        state.syncError = '';
+        saveState();
+        render();
+        if (!createEventModal.hidden) {
+          populateVenueSelect(eventLocationSelect.value, venueHourlyRateInput.value);
+          if (!venueManagerPanel.hidden) {
+            renderVenueManager();
+          }
+        }
+      }
+
+      function fetchLatestRoot(seq) {
+        return fetch(FIREBASE_DATABASE_URL + '/' + DB_ROOT_PATH + '.json', { cache: 'no-store' })
+          .then(function (res) {
+            if (!res.ok) {
+              throw new Error(res.status === 401 || res.status === 403 ? 'permission_denied' : 'http_' + res.status);
+            }
+            return res.json();
+          })
+          .then(function (data) {
+            if (seq !== connectionSeq) return;
+            applyRemoteRoot(data);
+          });
+      }
+
+      function connectFirebase() {
+        connectionSeq += 1;
+        const mySeq = connectionSeq;
+        state.syncMode = 'connecting';
+        state.syncError = '';
+        render();
+
+        const rootEndpoint = FIREBASE_DATABASE_URL + '/' + DB_ROOT_PATH + '.json';
+
+        fetchLatestRoot(mySeq)
+          .then(function () {
+            if (mySeq !== connectionSeq) return;
+
+            if (typeof window.EventSource === 'function') {
+              const es = new window.EventSource(rootEndpoint);
+              restEventSource = es;
+
+              const handleStreamUpdate = function (evt) {
+                if (mySeq !== connectionSeq) return;
+                try {
+                  const parsed = JSON.parse(evt.data);
+                  if (parsed && parsed.path === '/' && evt.type === 'put') {
+                    applyRemoteRoot(parsed.data);
+                    return;
+                  }
+                } catch (e) {}
+                fetchLatestRoot(mySeq).catch(function () {});
+              };
+
+              es.addEventListener('put', handleStreamUpdate);
+              es.addEventListener('patch', handleStreamUpdate);
+              es.addEventListener('cancel', function () {
+                if (mySeq !== connectionSeq) return;
+                state.syncMode = 'error';
+                state.syncError = formatFirebaseError({ message: 'permission_denied' });
+                render();
+              });
+            } else {
+              fallbackPollTimer = setInterval(function () {
+                fetchLatestRoot(mySeq).catch(function () {});
+              }, 4000);
+            }
+          })
+          .catch(function (err) {
+            if (mySeq !== connectionSeq) return;
+            state.syncMode = 'error';
+            state.syncError = formatFirebaseError(err);
+            render();
+          });
+      }
+
+      // Formatting Helpers
+      function formatCurrency(amount) {
+        const safe = Number.isFinite(amount) ? amount : 0;
+        return '฿' + safe.toLocaleString('th-TH', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+      }
+
+      // Format for plain inputs or uncurrency displays
+      function formatPlainNumber(amount) {
+        const safe = Number.isFinite(amount) ? amount : 0;
+        return Number.isInteger(Math.round(safe * 100) / 100)
+          ? String(Math.round(safe))
+          : safe.toFixed(2);
+      }
+
+      function getThaiDayOfWeek(dateStr) {
+        if (!dateStr) return '';
+        const parts = dateStr.split('-');
+        if (parts.length !== 3) return '';
+        const d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+        return THAI_DAY_NAMES[d.getDay()] || '';
+      }
+
+      function formatTimeRange(startTimeStr, durationHours) {
+        const cleanStart = normalizeHourString(startTimeStr);
+        const startHr = parseInt(cleanStart.split(':')[0], 10);
+        const totalMinutes = startHr * 60 + Math.round((Number(durationHours) || 1) * 60);
+        const endHr = Math.floor(totalMinutes / 60) % 24;
+        const endMin = totalMinutes % 60;
+        const endFormatted = String(endHr).padStart(2, '0') + ':' + String(endMin).padStart(2, '0');
+        return `${cleanStart}–${endFormatted} น. (${durationHours} ชม.)`;
+      }
+
+      function formatThaiDate(dateStr, timeStr) {
+        if (!dateStr) return '-';
+        const cleanTime = normalizeHourString(timeStr);
+        const parts = dateStr.split('-');
+        if (parts.length !== 3) return dateStr + (cleanTime ? ' · ' + cleanTime + ' น.' : '');
+        const year = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1;
+        const day = parseInt(parts[2], 10);
+        const dateObj = new Date(year, month, day);
+        const dayName = THAI_DAY_NAMES[dateObj.getDay()];
+        const thaiDate = dateObj.toLocaleDateString('th-TH', {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric'
+        });
+        return cleanTime ? `${dayName} ${thaiDate} · ${cleanTime} น.` : `${dayName} ${thaiDate}`;
+      }
+
+      function formatShortTabDate(dateStr) {
+        if (!dateStr) return '';
+        const parts = dateStr.split('-');
+        if (parts.length !== 3) return dateStr;
+        const dateObj = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+        const dayName = THAI_DAY_NAMES[dateObj.getDay()];
+        const shortDate = dateObj.toLocaleDateString('th-TH', { day: 'numeric', month: 'short' });
+        return `${dayName} ${shortDate}`;
+      }
+
+      function getActiveEvent() {
+        return state.events.find((ev) => ev.id === state.activeEventId) || null;
+      }
+
+      function getAllVenuesList() {
+        return state.venues;
+      }
+
+      function saveVenueIfNeeded(venueName, ratePerHour) {
+        const trimmed = (venueName || '').trim();
+        if (!trimmed) return;
+        const rate = Number(ratePerHour) || 200;
+        const existing = state.venues.find((v) => v.name === trimmed);
+        if (!existing) {
+          state.venues.push({ name: trimmed, ratePerHour: rate });
+          persistVenuesToFirebase();
+        } else if (existing.ratePerHour !== rate) {
+          existing.ratePerHour = rate;
+          persistVenuesToFirebase();
+        }
+      }
+
+      // Calculate total court hours for an event
+      function computeTotalCourtHours(ev) {
+        if (!ev) return 0;
+        if (ev.hasCustomCourtTimes && Array.isArray(ev.courtSchedules) && ev.courtSchedules.length > 0) {
+          return ev.courtSchedules.reduce((sum, s) => sum + (Number(s.hours) || 0), 0);
+        }
+        return (Number(ev.courts) || 1) * (Number(ev.hoursPerCourt) || 1);
+      }
+
+      // Expense Split Engine - Excludes waiting list members from cost calculation
+      function calculateSplitCosts(activeEvent) {
+        const players = activeEvent ? activeEvent.players : [];
+        const maxPlayersLimit = activeEvent ? Number(activeEvent.maxPlayers) || 6 : 6;
+        const mainPlayers = players.slice(0, maxPlayersLimit);
+        const mainPlayerCount = mainPlayers.length;
+
+        // Auto calculate default court cost if not set
+        const defaultRate = Number(activeEvent && activeEvent.venueRatePerHour) || 200;
+        const totalCourtHours = computeTotalCourtHours(activeEvent);
+        const autoComputedCourtCost = totalCourtHours * defaultRate;
+
+        const courtCost = (activeEvent && activeEvent.courtCost !== '' && activeEvent.courtCost !== null && activeEvent.courtCost !== undefined)
+          ? Number(activeEvent.courtCost)
+          : autoComputedCourtCost;
+
+        const shuttleCost = Number(activeEvent && activeEvent.shuttleCost) || 0;
+        const totalCost = courtCost + shuttleCost;
+
+        if (mainPlayerCount === 0) {
+          return {
+            totalCost,
+            courtCost,
+            shuttleCost,
+            shares: {},
+            autoPerPerson: 0,
+            manualCount: 0,
+            autoCount: 0,
+            manualSum: 0,
+            overAllocated: false
+          };
+        }
+
+        const manualPlayers = mainPlayers.filter((p) => p.manualCost !== null && p.manualCost !== undefined);
+        const autoPlayers = mainPlayers.filter((p) => p.manualCost === null || p.manualCost === undefined);
+
+        const manualSum = manualPlayers.reduce((sum, p) => sum + Number(p.manualCost || 0), 0);
+        const overAllocated = manualSum > totalCost + 0.001;
+        const remainingCost = Math.max(0, totalCost - manualSum);
+        const autoPerPerson = autoPlayers.length > 0 ? remainingCost / autoPlayers.length : 0;
+
+        const shares = {};
+        mainPlayers.forEach((p) => {
+          if (p.manualCost !== null && p.manualCost !== undefined) {
+            shares[p.id] = Number(p.manualCost);
+          } else {
+            shares[p.id] = autoPerPerson;
+          }
+        });
+
+        players.slice(maxPlayersLimit).forEach((p) => {
+          shares[p.id] = 0;
+        });
+
+        return {
+          totalCost,
+          courtCost,
+          shuttleCost,
+          shares,
+          autoPerPerson,
+          manualCount: manualPlayers.length,
+          autoCount: autoPlayers.length,
+          manualSum,
+          overAllocated
+        };
+      }
+
+      // Check if shuttlecock cost has been entered by admin
+      function isShuttleCostConcluded(activeEvent) {
+        return (
+          activeEvent !== null &&
+          activeEvent !== undefined &&
+          activeEvent.shuttleCost !== '' &&
+          activeEvent.shuttleCost !== null &&
+          activeEvent.shuttleCost !== undefined
+        );
+      }
+
+      // DOM Elements
+      const rolePlayerBtn = document.getElementById('rolePlayerBtn');
+      const roleAdminBtn = document.getElementById('roleAdminBtn');
+      const firebaseSyncDot = document.getElementById('firebaseSyncDot');
+      const firebaseErrorBanner = document.getElementById('firebaseErrorBanner');
+      const firebaseErrorText = document.getElementById('firebaseErrorText');
+
+      const eventsBar = document.getElementById('eventsBar');
+      const eventTabs = document.getElementById('eventTabs');
+      const openCreateModalBtn = document.getElementById('openCreateModalBtn');
+      const emptyState = document.getElementById('emptyState');
+      const emptyCreateBtn = document.getElementById('emptyCreateBtn');
+      const eventWorkspace = document.getElementById('eventWorkspace');
+
+      const activeEventTitle = document.getElementById('activeEventTitle');
+      const activeEventRateBadge = document.getElementById('activeEventRateBadge');
+      const adminEventActions = document.getElementById('adminEventActions');
+      const editEventBtn = document.getElementById('editEventBtn');
+      const deleteEventBtn = document.getElementById('deleteEventBtn');
+      const specDateTime = document.getElementById('specDateTime');
+      const specCourts = document.getElementById('specCourts');
+      const specHours = document.getElementById('specHours');
+      const specCapacity = document.getElementById('specCapacity');
+      const customCourtScheduleStrip = document.getElementById('customCourtScheduleStrip');
+
+      const capacityIndicator = document.getElementById('capacityIndicator');
+      const capacityProgressFill = document.getElementById('capacityProgressFill');
+      const signupForm = document.getElementById('signupForm');
+      const playerNameInput = document.getElementById('playerNameInput');
+      const signupSubmitBtn = document.getElementById('signupSubmitBtn');
+      const signupError = document.getElementById('signupError');
+      const manualEditHint = document.getElementById('manualEditHint');
+      const playerListEmpty = document.getElementById('playerListEmpty');
+      const playerList = document.getElementById('playerList');
+
+      const expenseForm = document.getElementById('expenseForm');
+      const courtCostInput = document.getElementById('courtCostInput');
+      const shuttleCostInput = document.getElementById('shuttleCostInput');
+      const expenseError = document.getElementById('expenseError');
+      const expenseWaitingState = document.getElementById('expenseWaitingState');
+      const expenseSummaryPanel = document.getElementById('expenseSummaryPanel');
+
+      const displayCourtCost = document.getElementById('displayCourtCost');
+      const displayShuttleCost = document.getElementById('displayShuttleCost');
+      const displayPlayerCount = document.getElementById('displayPlayerCount');
+      const manualSummaryRow = document.getElementById('manualSummaryRow');
+      const manualSummaryLabel = document.getElementById('manualSummaryLabel');
+      const displayManualSum = document.getElementById('displayManualSum');
+      const displayTotalCost = document.getElementById('displayTotalCost');
+      const perPersonLabel = document.getElementById('perPersonLabel');
+      const displayPerPerson = document.getElementById('displayPerPerson');
+
+      const createEventModal = document.getElementById('createEventModal');
+      const createModalTitle = document.getElementById('createModalTitle');
+      const createEventForm = document.getElementById('createEventForm');
+      const closeModalBtn = document.getElementById('closeModalBtn');
+      const cancelModalBtn = document.getElementById('cancelModalBtn');
+      const submitModalBtn = document.getElementById('submitModalBtn');
+      const createEventError = document.getElementById('createEventError');
+
+      const eventLocationSelect = document.getElementById('eventLocationSelect');
+      const customLocationField = document.getElementById('customLocationField');
+      const eventLocationInput = document.getElementById('eventLocationInput');
+      const toggleVenueManagerBtn = document.getElementById('toggleVenueManagerBtn');
+      const venueManagerPanel = document.getElementById('venueManagerPanel');
+      const venueManageList = document.getElementById('venueManageList');
+      const venueHourlyRateInput = document.getElementById('venueHourlyRateInput');
+      const eventDateInput = document.getElementById('eventDateInput');
+      const eventDateDayBadge = document.getElementById('eventDateDayBadge');
+      const eventTimeSelect = document.getElementById('eventTimeSelect');
+      const slidersGridWrap = document.getElementById('slidersGridWrap');
+      const eventCourtsInput = document.getElementById('eventCourtsInput');
+      const uniformHoursSliderField = document.getElementById('uniformHoursSliderField');
+      const eventHoursInput = document.getElementById('eventHoursInput');
+      const courtsValueBadge = document.getElementById('courtsValueBadge');
+      const hoursValueBadge = document.getElementById('hoursValueBadge');
+      const customCourtTimesToggle = document.getElementById('customCourtTimesToggle');
+      const perCourtScheduleList = document.getElementById('perCourtScheduleList');
+      const eventMaxPlayersInput = document.getElementById('eventMaxPlayersInput');
+
+      // Shuttlecock Helper Inputs
+      const shuttleUnitPriceInput = document.getElementById('shuttleUnitPriceInput');
+      const shuttleQtyInput = document.getElementById('shuttleQtyInput');
+      const copySummaryBtn = document.getElementById('copySummaryBtn');
+      const downloadSummaryImgBtn = document.getElementById('downloadSummaryImgBtn');
+
+      // Slip Template DOM Handles
+      const slipCaptureTemplate = document.getElementById('slipCaptureTemplate');
+      const slipLocation = document.getElementById('slipLocation');
+      const slipDate = document.getElementById('slipDate');
+      const slipCourtCost = document.getElementById('slipCourtCost');
+      const slipShuttleCost = document.getElementById('slipShuttleCost');
+      const slipPlayerCount = document.getElementById('slipPlayerCount');
+      const slipTotalCost = document.getElementById('slipTotalCost');
+      const slipPlayersContainer = document.getElementById('slipPlayersContainer');
+      const slipPerPerson = document.getElementById('slipPerPerson');
+
+      // Shuttle helper computation
+      function updateShuttleCostFromHelper() {
+        const price = parseFloat(shuttleUnitPriceInput.value) || 0;
+        const qty = parseFloat(shuttleQtyInput.value) || 0;
+        if (price > 0 && qty >= 0) {
+          shuttleCostInput.value = formatPlainNumber(price * qty);
+          handleExpenseChange();
+        }
+      }
+      shuttleUnitPriceInput.addEventListener('input', updateShuttleCostFromHelper);
+      shuttleQtyInput.addEventListener('input', updateShuttleCostFromHelper);
+
+      // Date day-of-week live updater
+      function updateDateDayBadge() {
+        const day = getThaiDayOfWeek(eventDateInput.value);
+        eventDateDayBadge.textContent = day ? `วัน${day}` : '-';
+      }
+      eventDateInput.addEventListener('input', updateDateDayBadge);
+      eventDateInput.addEventListener('change', updateDateDayBadge);
+
+      // Copy summary to LINE - Super concise format, strictly omitting waiting list
+      copySummaryBtn.addEventListener('click', () => {
+        const activeEvent = getActiveEvent();
+        if (!activeEvent) return;
+
+        if (!isShuttleCostConcluded(activeEvent)) {
+          alert('กรุณารอแอดมินกรอกสรุปค่าลูกแบดก่อนคัดลอกยอดเงินส่ง LINE');
+          return;
+        }
+
+        const split = calculateSplitCosts(activeEvent);
+        const maxPlayersLimit = Number(activeEvent.maxPlayers) || 6;
+        const mainPlayers = activeEvent.players.slice(0, maxPlayersLimit);
+
+        let txt = `🏸 ก๊วนแบด: ${activeEvent.location}\n`;
+        txt += `📅 ${formatThaiDate(activeEvent.date, activeEvent.time)}\n`;
+        txt += `💰 ยอดรวม: ${formatCurrency(split.totalCost)} (สนาม ${formatCurrency(split.courtCost)} + ลูก ${formatCurrency(split.shuttleCost)})\n`;
+        txt += `-------------------\n`;
+
+        mainPlayers.forEach((p, idx) => {
+          const share = split.shares[p.id] || 0;
+          const isManual = p.manualCost !== null && p.manualCost !== undefined;
+          txt += `${idx + 1}. ${p.name} - ${formatCurrency(share)}${isManual ? ' (ยอดเฉพาะ)' : ''}\n`;
+        });
+
+        txt += `-------------------\n`;
+        txt += `จ่ายคนละ ${formatCurrency(split.autoPerPerson)} (ขอบคุณทุกคนครับ! 🙏)`;
+
+        if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+          navigator.clipboard.writeText(txt).then(() => {
+            const originalText = copySummaryBtn.textContent;
+            copySummaryBtn.textContent = '✓ คัดลอกแบบกระชับแล้ว! นำไปวางใน LINE ได้เลย';
+            copySummaryBtn.style.background = 'var(--emerald)';
+            copySummaryBtn.style.color = '#ffffff';
+            setTimeout(() => {
+              copySummaryBtn.textContent = originalText;
+              copySummaryBtn.style.background = '';
+              copySummaryBtn.style.color = '';
+            }, 2500);
+          }).catch(() => {
+            alert('ไม่สามารถคัดลอกโดยอัตโนมัติได้ กรุณาคัดลอกด้วยตนเอง');
+          });
+        } else {
+          alert(txt);
+        }
+      });
+
+      // Share compact PNG Slip image directly to LINE (Web Share API with files -> Clipboard image fallback -> Download fallback)
+      function flashShareBtnStatus(msg, isError) {
+        const defaultText = '📤 แชร์รูปสลิปเข้า LINE ทันที';
+        downloadSummaryImgBtn.textContent = msg;
+        if (isError) {
+          downloadSummaryImgBtn.style.background = 'var(--danger)';
+        }
+        setTimeout(() => {
+          downloadSummaryImgBtn.textContent = defaultText;
+          downloadSummaryImgBtn.style.background = 'linear-gradient(135deg, #06c755 0%, #05a847 100%)';
+        }, 2800);
+      }
+
+      downloadSummaryImgBtn.addEventListener('click', () => {
+        const activeEvent = getActiveEvent();
+        if (!activeEvent) return;
+
+        if (!isShuttleCostConcluded(activeEvent)) {
+          flashShareBtnStatus('⚠️ รอแอดมินกรอกค่าลูกแบดก่อนแชร์สลิป', true);
+          return;
+        }
+
+        if (typeof window.html2canvas !== 'function') {
+          flashShareBtnStatus('⚠️ ระบบสร้างภาพยังไม่พร้อม กรุณาลองใหม่', true);
+          return;
+        }
+
+        const split = calculateSplitCosts(activeEvent);
+        const maxPlayersLimit = Number(activeEvent.maxPlayers) || 6;
+        const mainPlayers = activeEvent.players.slice(0, maxPlayersLimit);
+
+        // Prep the compact slip DOM fields
+        slipLocation.textContent = activeEvent.location;
+        slipDate.textContent = formatThaiDate(activeEvent.date, activeEvent.time);
+        slipCourtCost.textContent = formatCurrency(split.courtCost);
+        slipShuttleCost.textContent = formatCurrency(split.shuttleCost);
+        slipPlayerCount.textContent = `${mainPlayers.length} คน`;
+        slipTotalCost.textContent = formatCurrency(split.totalCost);
+        slipPerPerson.textContent = formatCurrency(split.autoPerPerson);
+
+        slipPlayersContainer.innerHTML = '';
+        mainPlayers.forEach((p, idx) => {
+          const shareVal = split.shares[p.id] || 0;
+          const isManual = p.manualCost !== null && p.manualCost !== undefined;
+
+          const row = document.createElement('div');
+          row.style.display = 'flex';
+          row.style.justifyContent = 'space-between';
+          row.style.alignItems = 'center';
+          row.style.gap = '6px';
+          row.style.fontSize = '0.75rem';
+          row.style.color = '#334155';
+          row.style.borderBottom = '1px solid #f1f5f9';
+          row.style.paddingBottom = '2px';
+
+          const left = document.createElement('span');
+          left.style.overflow = 'hidden';
+          left.style.textOverflow = 'ellipsis';
+          left.style.whiteSpace = 'nowrap';
+          left.textContent = `${idx + 1}. ${p.name}`;
+          if (isManual) {
+            const tag = document.createElement('span');
+            tag.style.cssText = 'font-size:0.62rem; color:#b45309; background:#fef3c7; padding:0px 4px; border-radius:4px; font-weight:600; margin-left:4px;';
+            tag.textContent = 'ยอดเฉพาะ';
+            left.appendChild(tag);
+          }
+          row.appendChild(left);
+
+          const right = document.createElement('span');
+          right.style.fontWeight = '700';
+          right.style.fontVariantNumeric = 'tabular-nums';
+          right.style.flexShrink = '0';
+          right.textContent = formatPlainNumber(shareVal) + ' บ.';
+          row.appendChild(right);
+
+          slipPlayersContainer.appendChild(row);
+        });
+
+        downloadSummaryImgBtn.textContent = '⏳ กำลังเตรียมรูปสลิป...';
+        downloadSummaryImgBtn.disabled = true;
+
+        window.html2canvas(slipCaptureTemplate, {
+          scale: 1.5, // Compact crisp resolution (~414px width) so it isn't oversized in LINE chat
+          useCORS: true,
+          backgroundColor: '#ffffff'
+        }).then((canvas) => {
+          canvas.toBlob(async (blob) => {
+            downloadSummaryImgBtn.disabled = false;
+            downloadSummaryImgBtn.textContent = '📤 แชร์รูปสลิปเข้า LINE ทันที';
+
+            if (!blob) {
+              flashShareBtnStatus('⚠️ ไม่สามารถสร้างรูปสลิปได้', true);
+              return;
+            }
+
+            const fileName = `สรุปยอดก๊วนแบด_${activeEvent.location}_${activeEvent.date}.png`;
+            const file = new File([blob], fileName, { type: 'image/png' });
+
+            // 1. Direct OS Share Sheet (Mobile iOS / Android -> Pick LINE directly without saving)
+            if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [file] }))) {
+              try {
+                await navigator.share({
+                  files: [file],
+                  title: `สรุปยอดก๊วนแบด ${activeEvent.location}`
+                });
+                flashShareBtnStatus('✓ แชร์รูปสลิปเรียบร้อยแล้ว!', false);
+                return;
+              } catch (shareErr) {
+                if (shareErr && shareErr.name === 'AbortError') {
+                  return; // User closed share sheet intentionally
+                }
+                // Otherwise fall through to Clipboard / Download fallback
+              }
+            }
+
+            // 2. Desktop / Fallback: Copy image directly to Clipboard so user can paste (Ctrl+V) in LINE without saving
+            if (navigator.clipboard && typeof window.ClipboardItem === 'function') {
+              try {
+                await navigator.clipboard.write([
+                  new window.ClipboardItem({ 'image/png': blob })
+                ]);
+                flashShareBtnStatus('✓ คัดลอกรูปแล้ว! กดวาง (Ctrl+V) ในแชท LINE ได้เลย', false);
+                return;
+              } catch (clipErr) {
+                // Fall through to file download fallback
+              }
+            }
+
+            // 3. Final fallback if neither Web Share nor Clipboard Image is permitted
+            try {
+              const url = URL.createObjectURL(blob);
+              const link = document.createElement('a');
+              link.download = fileName;
+              link.href = url;
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              setTimeout(() => URL.revokeObjectURL(url), 3000);
+              flashShareBtnStatus('✓ เตรียมรูปสลิปพร้อมส่งแล้ว', false);
+            } catch (dlErr) {
+              flashShareBtnStatus('⚠️ พรีวิวจำกัดการแชร์ (ใช้งานจริงได้เมื่อเปิดเว็บแยก)', true);
+            }
+          }, 'image/png');
+        }).catch(() => {
+          downloadSummaryImgBtn.disabled = false;
+          flashShareBtnStatus('⚠️ ไม่สามารถประมวลผลรูปภาพได้ในขณะนี้', true);
+        });
+      });
+
+      function renderSyncIndicator() {
+        firebaseSyncDot.className = 'sync-dot';
+        if (state.syncMode === 'connected') {
+          firebaseSyncDot.classList.add('connected');
+          firebaseSyncDot.title = 'ซิงก์ข้อมูลเรียลไทม์แล้ว';
+        } else if (state.syncMode === 'connecting') {
+          firebaseSyncDot.classList.add('connecting');
+          firebaseSyncDot.title = 'กำลังเชื่อมต่อฐานข้อมูล...';
+        } else if (state.syncMode === 'error') {
+          firebaseSyncDot.classList.add('error');
+          firebaseSyncDot.title = 'การเชื่อมต่อฐานข้อมูลขัดข้อง';
+        }
+
+        if (state.syncError) {
+          firebaseErrorText.textContent = state.syncError;
+          firebaseErrorBanner.hidden = false;
+        } else {
+          firebaseErrorBanner.hidden = true;
+        }
+      }
+
+      function updateCalculatedAmountsInDOM(activeEvent) {
+        if (!activeEvent) return;
+        const shuttleConcluded = isShuttleCostConcluded(activeEvent);
+        const split = calculateSplitCosts(activeEvent);
+        const playerCount = activeEvent.players.length;
+
+        displayCourtCost.textContent = formatCurrency(split.courtCost);
+        displayShuttleCost.textContent = shuttleConcluded ? formatCurrency(split.shuttleCost) : 'รอสรุป';
+        displayPlayerCount.textContent = `${Math.min(playerCount, Number(activeEvent.maxPlayers) || 6)} คน`;
+        displayTotalCost.textContent = shuttleConcluded ? formatCurrency(split.totalCost) : 'รอสรุปค่าลูก';
+
+        if (split.manualCount > 0 && shuttleConcluded) {
+          manualSummaryRow.hidden = false;
+          manualSummaryLabel.textContent = `ยอดกำหนดเอง (${split.manualCount} คน)`;
+          displayManualSum.textContent = formatCurrency(split.manualSum);
+        } else {
+          manualSummaryRow.hidden = true;
+        }
+
+        if (split.overAllocated && shuttleConcluded) {
+          expenseError.textContent = 'ยอดที่กำหนดเองรวมกันสูงกว่ายอดค่าใช้จ่ายรวมทั้งหมด';
+          expenseError.hidden = false;
+        } else if (expenseError.textContent.includes('ยอดที่กำหนดเอง')) {
+          expenseError.hidden = true;
+        }
+
+        if (!shuttleConcluded) {
+          perPersonLabel.textContent = 'ยอดจ่ายต่อคน';
+          displayPerPerson.textContent = 'รอสรุปค่าลูกแบด';
+          displayPerPerson.style.fontSize = '1.25rem';
+          displayPerPerson.style.color = '#a7f3d0';
+        } else {
+          displayPerPerson.style.fontSize = '1.6rem';
+          displayPerPerson.style.color = '#6ee7b7';
+          if (playerCount === 0) {
+            perPersonLabel.textContent = 'จ่ายคนละ';
+            displayPerPerson.textContent = '฿0.00';
+          } else if (split.manualCount === 0) {
+            perPersonLabel.textContent = 'จ่ายคนละ';
+            displayPerPerson.textContent = formatCurrency(split.autoPerPerson);
+          } else if (split.autoCount > 0) {
+            perPersonLabel.textContent = `หารเฉลี่ยคนที่เหลือ (${split.autoCount} คน)`;
+            displayPerPerson.textContent = formatCurrency(split.autoPerPerson);
+          } else {
+            perPersonLabel.textContent = 'กำหนดยอดรายคนครบทุกคนแล้ว';
+            displayPerPerson.textContent = formatCurrency(split.manualSum);
+          }
+        }
+
+        const rows = playerList.querySelectorAll('.player-row');
+        rows.forEach((row) => {
+          const pid = row.getAttribute('data-player-id');
+          const player = activeEvent.players.find((p) => p.id === pid);
+          if (!player) return;
+
+          const isManual = player.manualCost !== null && player.manualCost !== undefined;
+          const shareVal = split.shares[pid] || 0;
+
+          const readOnlyShare = row.querySelector('.player-share');
+          if (readOnlyShare) {
+            readOnlyShare.textContent = shuttleConcluded ? formatCurrency(shareVal) : '';
+          }
+
+          const modeTag = row.querySelector('.share-mode-tag');
+          if (modeTag) {
+            modeTag.hidden = !isManual || !shuttleConcluded;
+          }
+
+          const editorWrap = row.querySelector('.admin-share-editor');
+          if (editorWrap) {
+            editorWrap.classList.toggle('is-manual', isManual);
+            const input = editorWrap.querySelector('.manual-share-input');
+            const resetBtn = editorWrap.querySelector('.reset-share-btn');
+            if (input) {
+              input.placeholder = shuttleConcluded ? formatPlainNumber(split.autoPerPerson) : 'รอสรุป';
+              if (document.activeElement !== input) {
+                input.value = isManual ? String(player.manualCost) : '';
+              }
+            }
+            if (resetBtn) {
+              resetBtn.hidden = !isManual;
+            }
+          }
+        });
+      }
+
+      function render() {
+        const isAdmin = state.role === 'admin';
+
+        const activeManualInput =
+          document.activeElement && document.activeElement.classList.contains('manual-share-input')
+            ? document.activeElement
+            : null;
+        const focusedPlayerId = activeManualInput
+          ? activeManualInput.getAttribute('data-player-id')
+          : null;
+
+        rolePlayerBtn.classList.toggle('active', !isAdmin);
+        rolePlayerBtn.setAttribute('aria-selected', String(!isAdmin));
+        roleAdminBtn.classList.toggle('active', isAdmin);
+        roleAdminBtn.setAttribute('aria-selected', String(isAdmin));
+
+        renderSyncIndicator();
+
+        if (state.events.length === 0) {
+          eventsBar.hidden = true;
+          eventWorkspace.hidden = true;
+          emptyState.hidden = false;
+          return;
+        }
+
+        emptyState.hidden = true;
+        eventsBar.hidden = false;
+        eventWorkspace.hidden = false;
+        openCreateModalBtn.hidden = !isAdmin;
+
+        let activeEvent = getActiveEvent();
+        if (!activeEvent) {
+          state.activeEventId = state.events[0].id;
+          activeEvent = state.events[0];
+        }
+
+        // Render Event Pills
+        eventTabs.innerHTML = '';
+        state.events.forEach((ev) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'event-tab' + (ev.id === activeEvent.id ? ' active' : '');
+          btn.setAttribute('role', 'tab');
+          btn.setAttribute('aria-selected', String(ev.id === activeEvent.id));
+          const shortDate = formatShortTabDate(ev.date);
+          btn.textContent = shortDate ? `${shortDate} · ${ev.location}` : ev.location;
+          btn.addEventListener('click', () => {
+            state.activeEventId = ev.id;
+            state.confirmDeleteId = null;
+            signupError.hidden = true;
+            saveState();
+            render();
+          });
+          eventTabs.appendChild(btn);
+        });
+
+        // Render Event Hero
+        specDateTime.textContent = formatThaiDate(activeEvent.date, activeEvent.time);
+        activeEventTitle.textContent = activeEvent.location;
+
+        const rate = Number(activeEvent.venueRatePerHour) || 200;
+        activeEventRateBadge.textContent = `฿${rate} / ชม.`;
+
+        adminEventActions.hidden = !isAdmin;
+        if (state.confirmDeleteId === activeEvent.id) {
+          deleteEventBtn.textContent = 'ยืนยันลบ?';
+          deleteEventBtn.className = 'btn btn-danger-confirm';
+        } else {
+          deleteEventBtn.textContent = 'ลบอีเวนต์';
+          deleteEventBtn.className = 'btn btn-danger-ghost';
+        }
+
+        specCourts.textContent = `${activeEvent.courts} คอร์ท`;
+        specCapacity.textContent = `${activeEvent.maxPlayers} คน`;
+
+        // Render Uniform vs Per-Court Custom Schedule
+        if (activeEvent.hasCustomCourtTimes && Array.isArray(activeEvent.courtSchedules) && activeEvent.courtSchedules.length > 0) {
+          const totalCourtHours = activeEvent.courtSchedules.reduce((sum, s) => sum + (Number(s.hours) || 0), 0);
+          specHours.textContent = `รวม ${totalCourtHours} ชม.`;
+          customCourtScheduleStrip.innerHTML = '';
+          activeEvent.courtSchedules.forEach((sched, idx) => {
+            const pill = document.createElement('span');
+            pill.className = 'court-schedule-pill';
+            const cNo = sched.courtNo || idx + 1;
+            const rangeText = formatTimeRange(sched.startTime || activeEvent.time, sched.hours || activeEvent.hoursPerCourt);
+            const strong = document.createElement('strong');
+            strong.textContent = `สนาม ${cNo}:`;
+            pill.appendChild(strong);
+            pill.appendChild(document.createTextNode(' ' + rangeText));
+            customCourtScheduleStrip.appendChild(pill);
+          });
+          customCourtScheduleStrip.hidden = false;
+        } else {
+          specHours.textContent = `${activeEvent.hoursPerCourt} ชม./สนาม`;
+          customCourtScheduleStrip.hidden = true;
+          customCourtScheduleStrip.innerHTML = '';
+        }
+
+        // Capacity Progress
+        const playerCount = activeEvent.players.length;
+        const maxPlayers = Math.max(1, Number(activeEvent.maxPlayers) || 1);
+        const isFull = playerCount >= maxPlayers;
+        const pct = Math.min(100, Math.round((Math.min(playerCount, maxPlayers) / maxPlayers) * 100));
+
+        capacityIndicator.textContent = `${playerCount} / ${activeEvent.maxPlayers} คน`;
+        capacityIndicator.classList.toggle('full', isFull);
+        capacityProgressFill.style.width = `${pct}%`;
+        capacityProgressFill.classList.toggle('full', isFull);
+
+        playerNameInput.disabled = state.isSubmittingSignup;
+        signupSubmitBtn.disabled = state.isSubmittingSignup;
+        playerNameInput.placeholder = isFull
+          ? 'ก๊วนเต็มแล้ว (ลงชื่อเป็นตัวสำรองต่อท้ายได้)'
+          : 'ชื่อเล่นของคุณ...';
+
+        const shuttleConcluded = isShuttleCostConcluded(activeEvent);
+        const split = calculateSplitCosts(activeEvent);
+
+        manualEditHint.hidden = !isAdmin || playerCount === 0 || !shuttleConcluded;
+
+        const currentDomIds = Array.from(playerList.querySelectorAll('.player-row')).map((r) =>
+          r.getAttribute('data-player-id')
+        );
+        const nextIds = activeEvent.players.map((p) => p.id);
+        const sameRowsStructure =
+          focusedPlayerId &&
+          isAdmin &&
+          shuttleConcluded &&
+          currentDomIds.length === nextIds.length &&
+          currentDomIds.every((id, i) => id === nextIds[i]);
+
+        if (!sameRowsStructure) {
+          if (playerCount === 0) {
+            playerListEmpty.hidden = false;
+            playerList.hidden = true;
+            playerList.innerHTML = '';
+          } else {
+            playerListEmpty.hidden = true;
+            playerList.hidden = false;
+            playerList.innerHTML = '';
+
+            activeEvent.players.forEach((player, idx) => {
+              const li = document.createElement('li');
+              li.className = 'player-row';
+              li.setAttribute('data-player-id', player.id);
+
+              const info = document.createElement('div');
+              info.className = 'player-info';
+
+              const indexBadge = document.createElement('span');
+              const isWaitingList = idx >= maxPlayers;
+
+              if (isWaitingList) {
+                indexBadge.className = 'player-index waiting';
+                indexBadge.textContent = 'สำรอง';
+                indexBadge.title = `ตัวสำรองอันดับที่ ${idx - maxPlayers + 1}`;
+              } else {
+                indexBadge.className = 'player-index tone-' + (idx % 6);
+                indexBadge.textContent = String(idx + 1);
+              }
+
+              const nameSpan = document.createElement('span');
+              nameSpan.className = 'player-name';
+              nameSpan.textContent = player.name;
+
+              info.appendChild(indexBadge);
+              info.appendChild(nameSpan);
+              li.appendChild(info);
+
+              const rightGroup = document.createElement('div');
+              rightGroup.className = 'player-right-group';
+
+              const isManual = player.manualCost !== null && player.manualCost !== undefined;
+
+              if (shuttleConcluded) {
+                if (isWaitingList) {
+                  const waitingTag = document.createElement('span');
+                  waitingTag.className = 'share-mode-tag';
+                  waitingTag.style.background = '#e2e8f0';
+                  waitingTag.style.color = '#475569';
+                  waitingTag.textContent = 'ตัวสำรอง';
+                  rightGroup.appendChild(waitingTag);
+                } else if (isAdmin) {
+                  const editorWrap = document.createElement('div');
+                  editorWrap.className = 'admin-share-editor' + (isManual ? ' is-manual' : '');
+
+                  const prefix = document.createElement('span');
+                  prefix.className = 'currency-prefix';
+                  prefix.textContent = '฿';
+
+                  const manualInput = document.createElement('input');
+                  manualInput.type = 'number';
+                  manualInput.min = '0';
+                  manualInput.step = 'any';
+                  manualInput.inputMode = 'decimal';
+                  manualInput.className = 'manual-share-input';
+                  manualInput.setAttribute('data-player-id', player.id);
+                  manualInput.setAttribute('aria-label', `ยอดจ่ายของ ${player.name}`);
+                  manualInput.placeholder = formatPlainNumber(split.autoPerPerson);
+                  manualInput.value = isManual ? String(player.manualCost) : '';
+
+                  const resetBtn = document.createElement('button');
+                  resetBtn.type = 'button';
+                  resetBtn.className = 'reset-share-btn';
+                  resetBtn.textContent = 'ออโต้';
+                  resetBtn.title = 'กลับไปหารเฉลี่ยอัตโนมัติ';
+                  resetBtn.hidden = !isManual;
+
+                  manualInput.addEventListener('input', () => {
+                    const raw = manualInput.value.trim();
+                    if (raw === '') {
+                      player.manualCost = null;
+                    } else {
+                      const parsedVal = Number(raw);
+                      if (Number.isFinite(parsedVal) && parsedVal >= 0) {
+                        player.manualCost = parsedVal;
+                      }
+                    }
+                    saveState();
+                    updateCalculatedAmountsInDOM(activeEvent);
+                    schedulePlayerManualCostSync(activeEvent.id, player.id, player.manualCost);
+                  });
+
+                  resetBtn.addEventListener('click', () => {
+                    player.manualCost = null;
+                    manualInput.value = '';
+                    saveState();
+                    updateCalculatedAmountsInDOM(activeEvent);
+                    schedulePlayerManualCostSync(activeEvent.id, player.id, null);
+                  });
+
+                  editorWrap.appendChild(prefix);
+                  editorWrap.appendChild(manualInput);
+                  editorWrap.appendChild(resetBtn);
+                  rightGroup.appendChild(editorWrap);
+                } else {
+                  const shareWrap = document.createElement('div');
+                  shareWrap.className = 'player-share-wrap';
+
+                  const modeTag = document.createElement('span');
+                  modeTag.className = 'share-mode-tag';
+                  modeTag.textContent = 'กำหนดเอง';
+                  modeTag.hidden = !isManual;
+
+                  const shareSpan = document.createElement('span');
+                  shareSpan.className = 'player-share';
+                  shareSpan.textContent = formatCurrency(split.shares[player.id] || 0);
+
+                  shareWrap.appendChild(modeTag);
+                  shareWrap.appendChild(shareSpan);
+                  rightGroup.appendChild(shareWrap);
+                }
+              }
+
+              if (isAdmin) {
+                const removeBtn = document.createElement('button');
+                removeBtn.type = 'button';
+                removeBtn.className = 'btn btn-danger-ghost';
+                removeBtn.textContent = 'ลบ';
+                removeBtn.setAttribute('aria-label', `ลบรายชื่อ ${player.name}`);
+                removeBtn.addEventListener('click', () => {
+                  removePlayerFromEvent(activeEvent, player.id);
+                });
+                rightGroup.appendChild(removeBtn);
+              }
+
+              if (rightGroup.childNodes.length > 0) {
+                li.appendChild(rightGroup);
+              }
+              playerList.appendChild(li);
+            });
+          }
+        }
+
+        // Expense Inputs
+        expenseForm.hidden = !isAdmin;
+        if (document.activeElement !== courtCostInput) {
+          courtCostInput.value = activeEvent.courtCost !== '' && activeEvent.courtCost !== null ? activeEvent.courtCost : formatPlainNumber(split.courtCost);
+        }
+        if (document.activeElement !== shuttleCostInput) {
+          shuttleCostInput.value = activeEvent.shuttleCost !== '' && activeEvent.shuttleCost !== null ? activeEvent.shuttleCost : '';
+        }
+
+        if (!isAdmin && !shuttleConcluded) {
+          expenseWaitingState.hidden = false;
+          expenseSummaryPanel.hidden = true;
+        } else {
+          expenseWaitingState.hidden = true;
+          expenseSummaryPanel.hidden = false;
+        }
+
+        updateCalculatedAmountsInDOM(activeEvent);
+      }
+
+      // Role Switch Handlers (Direct 1-click switch, no admin password)
+      rolePlayerBtn.addEventListener('click', () => {
+        state.role = 'player';
+        state.confirmDeleteId = null;
+        render();
+      });
+
+      roleAdminBtn.addEventListener('click', () => {
+        state.role = 'admin';
+        state.confirmDeleteId = null;
+        render();
+      });
+
+      // Populate Venue Dropdown with predetermined rates
+      function populateVenueSelect(selectedLocation, defaultRate) {
+        eventLocationSelect.innerHTML = '';
+        const allVenues = getAllVenuesList();
+
+        allVenues.forEach((v) => {
+          const opt = document.createElement('option');
+          opt.value = v.name;
+          opt.textContent = `${v.name} (${v.ratePerHour} บ./ชม.)`;
+          opt.setAttribute('data-rate', String(v.ratePerHour));
+          eventLocationSelect.appendChild(opt);
+        });
+
+        const customOpt = document.createElement('option');
+        customOpt.value = '__custom__';
+        customOpt.textContent = '+ เพิ่มชื่อสนามแบดมินตันใหม่...';
+        customOpt.setAttribute('data-rate', '200');
+        eventLocationSelect.appendChild(customOpt);
+
+        if (selectedLocation === '__custom__') {
+          eventLocationSelect.value = '__custom__';
+          customLocationField.hidden = false;
+          if (defaultRate) venueHourlyRateInput.value = defaultRate;
+        } else if (selectedLocation) {
+          const matched = allVenues.find((v) => v.name === selectedLocation);
+          if (matched) {
+            eventLocationSelect.value = selectedLocation;
+            customLocationField.hidden = true;
+            eventLocationInput.value = '';
+            venueHourlyRateInput.value = defaultRate || matched.ratePerHour || 200;
+          } else {
+            eventLocationSelect.value = '__custom__';
+            customLocationField.hidden = false;
+            eventLocationInput.value = selectedLocation;
+            venueHourlyRateInput.value = defaultRate || 200;
+          }
+        } else {
+          eventLocationSelect.selectedIndex = 0;
+          const isCustomSelected = eventLocationSelect.value === '__custom__';
+          customLocationField.hidden = !isCustomSelected;
+          eventLocationInput.value = '';
+          const firstRate = eventLocationSelect.options[0] ? eventLocationSelect.options[0].getAttribute('data-rate') : '200';
+          venueHourlyRateInput.value = firstRate;
+        }
+      }
+
+      eventLocationSelect.addEventListener('change', () => {
+        if (eventLocationSelect.value === '__custom__') {
+          customLocationField.hidden = false;
+          eventLocationInput.focus();
+        } else {
+          customLocationField.hidden = true;
+          const opt = eventLocationSelect.selectedOptions[0];
+          if (opt && opt.getAttribute('data-rate')) {
+            venueHourlyRateInput.value = opt.getAttribute('data-rate');
+          }
+        }
+      });
+
+      // Render list of all saved venues in the inline venue manager
+      function renderVenueManager() {
+        venueManageList.innerHTML = '';
+        const allVenues = getAllVenuesList();
+
+        if (allVenues.length === 0) {
+          const p = document.createElement('p');
+          p.style.margin = '4px 0';
+          p.style.color = 'var(--subtle)';
+          p.textContent = 'ลบรายชื่อสนามหมดแล้ว สามารถพิมพ์เพิ่มสนามใหม่ด้านล่างได้เลย';
+          venueManageList.appendChild(p);
+          return;
+        }
+
+        allVenues.forEach((venueObj) => {
+          const row = document.createElement('div');
+          row.style.display = 'flex';
+          row.style.alignItems = 'center';
+          row.style.justifyContent = 'space-between';
+          row.style.gap = '8px';
+          row.style.background = 'var(--surface)';
+          row.style.border = '1px solid var(--border)';
+          row.style.borderRadius = '8px';
+          row.style.padding = '5px 10px';
+
+          const nameSpan = document.createElement('span');
+          nameSpan.style.fontWeight = '600';
+          nameSpan.style.color = 'var(--ink)';
+          nameSpan.textContent = `${venueObj.name} (${venueObj.ratePerHour} บ./ชม.)`;
+          row.appendChild(nameSpan);
+
+          const delBtn = document.createElement('button');
+          delBtn.type = 'button';
+          delBtn.className = 'btn btn-danger-ghost';
+          delBtn.style.minHeight = '26px';
+          delBtn.style.padding = '2px 10px';
+          delBtn.style.fontSize = '0.75rem';
+          delBtn.style.fontWeight = '600';
+          delBtn.style.color = 'var(--danger)';
+          delBtn.style.background = 'var(--danger-soft)';
+          delBtn.textContent = 'ลบออก';
+          delBtn.setAttribute('aria-label', `ลบสนาม ${venueObj.name}`);
+          delBtn.addEventListener('click', () => {
+            const currentSelected = eventLocationSelect.value;
+            const currentCustomText = eventLocationInput.value;
+            state.venues = state.venues.filter((v) => v.name !== venueObj.name);
+            persistVenuesToFirebase();
+
+            if (currentSelected === '__custom__') {
+              populateVenueSelect('__custom__', venueHourlyRateInput.value);
+              eventLocationInput.value = currentCustomText;
+            } else {
+              populateVenueSelect(currentSelected === venueObj.name ? '' : currentSelected);
+            }
+            renderVenueManager();
+          });
+
+          row.appendChild(delBtn);
+          venueManageList.appendChild(row);
+        });
+      }
+
+      toggleVenueManagerBtn.addEventListener('click', () => {
+        const isHidden = venueManagerPanel.hidden;
+        venueManagerPanel.hidden = !isHidden;
+        if (!venueManagerPanel.hidden) {
+          renderVenueManager();
+        }
+      });
+
+      function syncDraftCourtSchedulesCount(courtsCount) {
+        const defaultStart = normalizeHourString(eventTimeSelect.value);
+        const defaultHours = parseFloat(eventHoursInput.value) || 2;
+        while (state.draftCourtSchedules.length < courtsCount) {
+          state.draftCourtSchedules.push({
+            courtNo: state.draftCourtSchedules.length + 1,
+            startTime: defaultStart,
+            hours: defaultHours
+          });
+        }
+        if (state.draftCourtSchedules.length > courtsCount) {
+          state.draftCourtSchedules = state.draftCourtSchedules.slice(0, courtsCount);
+        }
+        state.draftCourtSchedules.forEach((item, idx) => {
+          item.courtNo = idx + 1;
+        });
+      }
+
+      function renderPerCourtScheduleInputs() {
+        const isCustom = customCourtTimesToggle.checked;
+        const courtsCount = parseInt(eventCourtsInput.value, 10) || 1;
+
+        uniformHoursSliderField.hidden = isCustom;
+        slidersGridWrap.classList.toggle('single-col', isCustom);
+        perCourtScheduleList.hidden = !isCustom;
+
+        if (!isCustom) {
+          perCourtScheduleList.innerHTML = '';
+          return;
+        }
+
+        syncDraftCourtSchedulesCount(courtsCount);
+        perCourtScheduleList.innerHTML = '';
+
+        state.draftCourtSchedules.forEach((sched, idx) => {
+          const row = document.createElement('div');
+          row.className = 'per-court-row';
+
+          const label = document.createElement('span');
+          label.className = 'per-court-name';
+          label.textContent = `สนามที่ ${idx + 1}`;
+          row.appendChild(label);
+
+          const startSelect = document.createElement('select');
+          startSelect.className = 'per-court-select';
+          startSelect.setAttribute('aria-label', `เวลาเริ่มสนามที่ ${idx + 1}`);
+          HOUR_OPTIONS.forEach((hr) => {
+            const opt = document.createElement('option');
+            opt.value = hr;
+            opt.textContent = `เริ่ม ${hr} น.`;
+            startSelect.appendChild(opt);
+          });
+          startSelect.value = normalizeHourString(sched.startTime);
+          startSelect.addEventListener('change', () => {
+            sched.startTime = startSelect.value;
+          });
+          row.appendChild(startSelect);
+
+          const hoursSelect = document.createElement('select');
+          hoursSelect.className = 'per-court-select';
+          hoursSelect.setAttribute('aria-label', `จำนวนชั่วโมงสนามที่ ${idx + 1}`);
+          DURATION_OPTIONS.forEach((dur) => {
+            const opt = document.createElement('option');
+            opt.value = String(dur);
+            opt.textContent = `${dur} ชม.`;
+            hoursSelect.appendChild(opt);
+          });
+          hoursSelect.value = String(sched.hours || 2);
+          hoursSelect.addEventListener('change', () => {
+            sched.hours = parseFloat(hoursSelect.value) || 2;
+          });
+          row.appendChild(hoursSelect);
+
+          perCourtScheduleList.appendChild(row);
+        });
+      }
+
+      function syncSliderBadges(updateCapacityAuto) {
+        const courts = parseInt(eventCourtsInput.value, 10) || 1;
+        const hours = parseFloat(eventHoursInput.value) || 1;
+        courtsValueBadge.textContent = `${courts} สนาม`;
+        hoursValueBadge.textContent = `${hours} ชม.`;
+        if (updateCapacityAuto) {
+          eventMaxPlayersInput.value = String(courts * 6);
+        }
+        if (customCourtTimesToggle.checked) {
+          renderPerCourtScheduleInputs();
+        }
+      }
+
+      eventCourtsInput.addEventListener('input', () => {
+        syncSliderBadges(true);
+      });
+
+      eventHoursInput.addEventListener('input', () => {
+        syncSliderBadges(false);
+      });
+
+      customCourtTimesToggle.addEventListener('change', () => {
+        if (customCourtTimesToggle.checked) {
+          const courts = parseInt(eventCourtsInput.value, 10) || 1;
+          const defaultStart = normalizeHourString(eventTimeSelect.value);
+          const defaultHours = parseFloat(eventHoursInput.value) || 2;
+          if (state.draftCourtSchedules.length === 0) {
+            for (let i = 0; i < courts; i++) {
+              state.draftCourtSchedules.push({
+                courtNo: i + 1,
+                startTime: defaultStart,
+                hours: defaultHours
+              });
+            }
+          }
+        }
+        renderPerCourtScheduleInputs();
+      });
+
+      // Open Modal: Create Mode (Direct 1-click, no password)
+      function openCreateModalDirect() {
+        state.role = 'admin';
+        state.editingEventId = null;
+        state.draftCourtSchedules = [];
+        createEventError.hidden = true;
+        createEventForm.reset();
+
+        createModalTitle.textContent = 'สร้างอีเวนต์ตีแบดใหม่';
+        submitModalBtn.textContent = 'สร้างอีเวนต์';
+
+        populateVenueSelect('', 200);
+        venueManagerPanel.hidden = true;
+
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        eventDateInput.value = `${yyyy}-${mm}-${dd}`;
+        updateDateDayBadge();
+
+        eventTimeSelect.value = '18:00';
+        eventCourtsInput.value = '2';
+        eventHoursInput.value = '2';
+        customCourtTimesToggle.checked = false;
+        renderPerCourtScheduleInputs();
+        syncSliderBadges(true);
+
+        createEventModal.hidden = false;
+        render();
+      }
+
+      // Open Modal: Edit Mode
+      function openEditModal() {
+        const activeEvent = getActiveEvent();
+        if (!activeEvent) return;
+
+        state.role = 'admin';
+        state.editingEventId = activeEvent.id;
+        createEventError.hidden = true;
+
+        createModalTitle.textContent = 'แก้ไขข้อมูลอีเวนต์';
+        submitModalBtn.textContent = 'บันทึกการแก้ไข';
+
+        populateVenueSelect(activeEvent.location, activeEvent.venueRatePerHour);
+        venueManagerPanel.hidden = true;
+        
+        eventDateInput.value = activeEvent.date;
+        updateDateDayBadge();
+
+        const normalizedHr = normalizeHourString(activeEvent.time);
+        if (!Array.from(eventTimeSelect.options).some((o) => o.value === normalizedHr)) {
+          const extraOpt = document.createElement('option');
+          extraOpt.value = normalizedHr;
+          extraOpt.textContent = normalizedHr + ' น.';
+          eventTimeSelect.appendChild(extraOpt);
+        }
+        eventTimeSelect.value = normalizedHr;
+
+        const courts = Math.min(10, Math.max(1, Number(activeEvent.courts) || 2));
+        const hours = Math.min(6, Math.max(1, Number(activeEvent.hoursPerCourt) || 2));
+        eventCourtsInput.value = String(courts);
+        eventHoursInput.value = String(hours);
+
+        customCourtTimesToggle.checked = Boolean(activeEvent.hasCustomCourtTimes);
+        state.draftCourtSchedules = activeEvent.hasCustomCourtTimes && Array.isArray(activeEvent.courtSchedules)
+          ? activeEvent.courtSchedules.map((s, idx) => ({
+              courtNo: idx + 1,
+              startTime: normalizeHourString(s.startTime || normalizedHr),
+              hours: Number(s.hours) || hours
+            }))
+          : [];
+
+        renderPerCourtScheduleInputs();
+        syncSliderBadges(false);
+        eventMaxPlayersInput.value = String(activeEvent.maxPlayers || courts * 6);
+
+        createEventModal.hidden = false;
+        render();
+      }
+
+      function closeCreateModal() {
+        createEventModal.hidden = true;
+        state.editingEventId = null;
+      }
+
+      openCreateModalBtn.addEventListener('click', openCreateModalDirect);
+      emptyCreateBtn.addEventListener('click', openCreateModalDirect);
+      editEventBtn.addEventListener('click', openEditModal);
+      closeModalBtn.addEventListener('click', closeCreateModal);
+      cancelModalBtn.addEventListener('click', closeCreateModal);
+
+      createEventModal.addEventListener('click', (e) => {
+        if (e.target === createEventModal) closeCreateModal();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          if (!createEventModal.hidden) closeCreateModal();
+        }
+      });
+
+      function checkHttpOk(res) {
+        if (!res.ok) {
+          throw new Error(res.status === 401 || res.status === 403 ? 'permission_denied' : 'http_' + res.status);
+        }
+        return res;
+      }
+
+      function persistNewEvent(newEvent) {
+        state.events.push(newEvent);
+        state.activeEventId = newEvent.id;
+        saveState();
+
+        const payload = serializeEventForFirebase(newEvent);
+        fetch(FIREBASE_DATABASE_URL + '/' + DB_EVENTS_PATH + '/' + encodeURIComponent(newEvent.id) + '.json', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+          .then(checkHttpOk)
+          .catch((err) => {
+            state.syncMode = 'error';
+            state.syncError = formatFirebaseError(err);
+            render();
+          });
+      }
+
+      function persistEditedEvent(eventId, patchFields) {
+        const target = state.events.find((ev) => ev.id === eventId);
+        if (!target) return;
+        Object.assign(target, patchFields);
+        saveState();
+
+        fetch(FIREBASE_DATABASE_URL + '/' + DB_EVENTS_PATH + '/' + encodeURIComponent(eventId) + '.json', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(patchFields)
+        })
+          .then(checkHttpOk)
+          .catch((err) => {
+            state.syncMode = 'error';
+            state.syncError = formatFirebaseError(err);
+            render();
+          });
+      }
+
+      function persistDeleteEvent(eventId) {
+        state.events = state.events.filter((ev) => ev.id !== eventId);
+        state.confirmDeleteId = null;
+        state.activeEventId = state.events[0] ? state.events[0].id : null;
+        saveState();
+
+        fetch(FIREBASE_DATABASE_URL + '/' + DB_EVENTS_PATH + '/' + encodeURIComponent(eventId) + '.json', {
+          method: 'DELETE'
+        })
+          .then(checkHttpOk)
+          .catch((err) => {
+            state.syncMode = 'error';
+            state.syncError = formatFirebaseError(err);
+            render();
+          });
+      }
+
+      function schedulePlayerManualCostSync(eventId, playerId, manualCostVal) {
+        const timerKey = eventId + '__' + playerId;
+        if (manualShareTimers[timerKey]) {
+          clearTimeout(manualShareTimers[timerKey]);
+        }
+        manualShareTimers[timerKey] = setTimeout(() => {
+          const serializedVal = manualCostVal === null || manualCostVal === undefined ? '' : Number(manualCostVal);
+          fetch(
+            FIREBASE_DATABASE_URL +
+              '/' +
+              DB_EVENTS_PATH +
+              '/' +
+              encodeURIComponent(eventId) +
+              '/players/' +
+              encodeURIComponent(playerId) +
+              '.json',
+            {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ manualCost: serializedVal })
+            }
+          )
+            .then(checkHttpOk)
+            .catch((err) => {
+              state.syncMode = 'error';
+              state.syncError = formatFirebaseError(err);
+              render();
+            });
+        }, 250);
+      }
+
+      function removePlayerFromEvent(activeEvent, playerId) {
+        if (state.role !== 'admin') return;
+        signupError.hidden = true;
+        activeEvent.players = activeEvent.players.filter((p) => p.id !== playerId);
+        saveState();
+        render();
+
+        fetch(
+          FIREBASE_DATABASE_URL +
+            '/' +
+            DB_EVENTS_PATH +
+            '/' +
+            encodeURIComponent(activeEvent.id) +
+            '/players/' +
+            encodeURIComponent(playerId) +
+            '.json',
+          { method: 'DELETE' }
+        )
+          .then(checkHttpOk)
+          .catch((err) => {
+            state.syncMode = 'error';
+            state.syncError = formatFirebaseError(err);
+            render();
+          });
+      }
+
+      // Create / Edit Event Form Submit
+      createEventForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const isCustom = eventLocationSelect.value === '__custom__';
+        const location = isCustom ? eventLocationInput.value.trim() : eventLocationSelect.value.trim();
+        const venueRatePerHour = parseFloat(venueHourlyRateInput.value) || 200;
+        const date = eventDateInput.value;
+        const time = normalizeHourString(eventTimeSelect.value);
+        const courts = parseInt(eventCourtsInput.value, 10);
+        const hoursPerCourt = parseFloat(eventHoursInput.value);
+        const hasCustomCourtTimes = Boolean(customCourtTimesToggle.checked);
+        const maxPlayers = parseInt(eventMaxPlayersInput.value, 10);
+
+        if (!location) {
+          createEventError.textContent = 'กรุณาเลือกหรือระบุชื่อสนามแบดมินตัน';
+          createEventError.hidden = false;
+          if (isCustom) eventLocationInput.focus();
+          return;
+        }
+        if (!date || !time) {
+          createEventError.textContent = 'กรุณาระบุวันและเวลาเริ่มให้ครบถ้วน';
+          createEventError.hidden = false;
+          return;
+        }
+        if (!Number.isInteger(maxPlayers) || maxPlayers < 1) {
+          createEventError.textContent = 'จำนวนคนที่รองรับต้องตั้งแต่ 1 คนขึ้นไป';
+          createEventError.hidden = false;
+          eventMaxPlayersInput.focus();
+          return;
+        }
+
+        saveVenueIfNeeded(location, venueRatePerHour);
+
+        let courtSchedules = [];
+        if (hasCustomCourtTimes) {
+          syncDraftCourtSchedulesCount(courts);
+          courtSchedules = state.draftCourtSchedules.map((s, idx) => ({
+            courtNo: idx + 1,
+            startTime: normalizeHourString(s.startTime || time),
+            hours: Number(s.hours) || hoursPerCourt
+          }));
+        }
+
+        const totalCourtHours = hasCustomCourtTimes
+          ? courtSchedules.reduce((sum, s) => sum + (Number(s.hours) || 0), 0)
+          : courts * hoursPerCourt;
+        const autoCourtCost = totalCourtHours * venueRatePerHour;
+
+        if (state.editingEventId) {
+          persistEditedEvent(state.editingEventId, {
+            location,
+            venueRatePerHour,
+            date,
+            time,
+            courts,
+            hoursPerCourt,
+            hasCustomCourtTimes,
+            courtSchedules,
+            maxPlayers,
+            courtCost: autoCourtCost
+          });
+        } else {
+          const nowTs = Date.now();
+          const newEvent = {
+            id: 'ev_' + nowTs + '_' + Math.random().toString(36).slice(2, 7),
+            createdAt: nowTs,
+            location,
+            venueRatePerHour,
+            date,
+            time,
+            courts,
+            hoursPerCourt,
+            hasCustomCourtTimes,
+            courtSchedules,
+            maxPlayers,
+            players: [],
+            courtCost: autoCourtCost,
+            shuttleCost: ''
+          };
+          persistNewEvent(newEvent);
+        }
+
+        closeCreateModal();
+        render();
+      });
+
+      // Delete Event
+      deleteEventBtn.addEventListener('click', () => {
+        const activeEvent = getActiveEvent();
+        if (!activeEvent) return;
+
+        if (state.confirmDeleteId !== activeEvent.id) {
+          state.confirmDeleteId = activeEvent.id;
+          render();
+          return;
+        }
+
+        persistDeleteEvent(activeEvent.id);
+        render();
+      });
+
+      // Player Sign-up Submit
+      signupForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const activeEvent = getActiveEvent();
+        if (!activeEvent || state.isSubmittingSignup) return;
+
+        const name = playerNameInput.value.trim();
+        if (!name) {
+          signupError.textContent = 'กรุณาพิมพ์ชื่อเล่นก่อนกดลงชื่อ';
+          signupError.hidden = false;
+          playerNameInput.focus();
+          return;
+        }
+
+        const isDuplicateLocal = activeEvent.players.some(
+          (p) => p.name.toLowerCase() === name.toLowerCase()
+        );
+        if (isDuplicateLocal) {
+          signupError.textContent = `มีชื่อ "${name}" ในรายชื่อแล้ว`;
+          signupError.hidden = false;
+          playerNameInput.focus();
+          return;
+        }
+
+        const newPlayer = {
+          id: 'pl_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+          name,
+          joinedAt: Date.now(),
+          manualCost: null
+        };
+
+        const targetEventId = activeEvent.id;
+        const eventUrl =
+          FIREBASE_DATABASE_URL + '/' + DB_EVENTS_PATH + '/' + encodeURIComponent(targetEventId) + '.json';
+        const playerUrl =
+          FIREBASE_DATABASE_URL +
+          '/' +
+          DB_EVENTS_PATH +
+          '/' +
+          encodeURIComponent(targetEventId) +
+          '/players/' +
+          encodeURIComponent(newPlayer.id) +
+          '.json';
+
+        state.isSubmittingSignup = true;
+        signupError.hidden = true;
+        render();
+
+        fetch(eventUrl, { cache: 'no-store' })
+          .then(checkHttpOk)
+          .then((res) => res.json())
+          .then((latestEvent) => {
+            if (!latestEvent) {
+              throw new Error('event_missing');
+            }
+            const latestPlayers = normalizePlayersList(latestEvent.players);
+            if (latestPlayers.some((p) => p.name.toLowerCase() === name.toLowerCase())) {
+              throw new Error('duplicate_name');
+            }
+            return fetch(playerUrl, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                id: newPlayer.id,
+                name: newPlayer.name,
+                joinedAt: newPlayer.joinedAt,
+                manualCost: ''
+              })
+            }).then(checkHttpOk);
+          })
+          .then(() => {
+            state.isSubmittingSignup = false;
+            const currentEv = state.events.find((ev) => ev.id === targetEventId);
+            if (currentEv && !currentEv.players.some((p) => p.id === newPlayer.id)) {
+              currentEv.players.push(newPlayer);
+              saveState();
+            }
+            playerNameInput.value = '';
+            signupError.hidden = true;
+            render();
+            playerNameInput.focus();
+          })
+          .catch((err) => {
+            state.isSubmittingSignup = false;
+            if (err && err.message === 'duplicate_name') {
+              signupError.textContent = `มีชื่อ "${name}" ในรายชื่อแล้ว`;
+              signupError.hidden = false;
+            } else if (err && err.message === 'event_missing') {
+              signupError.textContent = 'อีเวนต์นี้ถูกลบไปแล้ว';
+              signupError.hidden = false;
+            } else {
+              state.syncMode = 'error';
+              state.syncError = formatFirebaseError(err);
+            }
+            fetchLatestRoot(connectionSeq).catch(function () {});
+            render();
+          });
+      });
+
+      // Live Expense Inputs
+      function handleExpenseChange() {
+        const activeEvent = getActiveEvent();
+        if (!activeEvent) return;
+
+        const rawCourt = courtCostInput.value.trim();
+        const rawShuttle = shuttleCostInput.value.trim();
+
+        const courtVal = rawCourt === '' ? 0 : Number(rawCourt);
+        const shuttleVal = rawShuttle === '' ? 0 : Number(rawShuttle);
+
+        if (courtVal < 0 || shuttleVal < 0 || Number.isNaN(courtVal) || Number.isNaN(shuttleVal)) {
+          expenseError.textContent = 'กรุณากรอกยอดเงินตั้งแต่ 0 ขึ้นไป';
+          expenseError.hidden = false;
+          return;
+        }
+
+        expenseError.hidden = true;
+        const nextCourt = rawCourt === '' ? '' : courtVal;
+        const nextShuttle = rawShuttle === '' ? '' : shuttleVal;
+        activeEvent.courtCost = nextCourt;
+        activeEvent.shuttleCost = nextShuttle;
+        saveState();
+        render();
+
+        const targetEventId = activeEvent.id;
+        if (expenseSyncTimer) clearTimeout(expenseSyncTimer);
+        expenseSyncTimer = setTimeout(() => {
+          const updatePayload = {
+            courtCost: nextCourt,
+            shuttleCost: nextShuttle
+          };
+          fetch(FIREBASE_DATABASE_URL + '/' + DB_EVENTS_PATH + '/' + encodeURIComponent(targetEventId) + '.json', {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatePayload)
+          })
+            .then(checkHttpOk)
+            .catch((err) => {
+              state.syncMode = 'error';
+              state.syncError = formatFirebaseError(err);
+              render();
+            });
+        }, 200);
+      }
+
+      courtCostInput.addEventListener('input', handleExpenseChange);
+      shuttleCostInput.addEventListener('input', handleExpenseChange);
+      expenseForm.addEventListener('submit', (e) => e.preventDefault());
+
+      // Initialize App
+      loadState();
+      connectFirebase();
+    })();
+  </script>
+</body>
+</html>
