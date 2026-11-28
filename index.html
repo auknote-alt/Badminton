@@ -1585,13 +1585,8 @@
               <span id="displayPerPerson" class="per-person-amount">฿0.00</span>
             </div>
 
-            <!-- Compact copy button for LINE -->
-            <button type="button" id="copySummaryBtn" class="btn btn-secondary" style="width: 100%; margin-top: 10px; font-size: 0.85rem; min-height: 36px; padding: 6px 12px; gap: 6px;">
-              📋 คัดลอกสรุปสำหรับส่งเข้ากลุ่ม LINE
-            </button>
-            
             <!-- Share compact slip image directly to LINE -->
-            <button type="button" id="downloadSummaryImgBtn" class="btn btn-primary" style="width: 100%; margin-top: 8px; font-size: 0.85rem; min-height: 36px; padding: 6px 12px; gap: 6px; background: linear-gradient(135deg, #06c755 0%, #05a847 100%); border: none; box-shadow: 0 3px 10px rgba(6, 199, 85, 0.24);">
+            <button type="button" id="downloadSummaryImgBtn" class="btn btn-primary" style="width: 100%; margin-top: 10px; font-size: 0.85rem; min-height: 36px; padding: 6px 12px; gap: 6px; background: linear-gradient(135deg, #06c755 0%, #05a847 100%); border: none; box-shadow: 0 3px 10px rgba(6, 199, 85, 0.24);">
               📤 แชร์รูปสลิปเข้า LINE ทันที
             </button>
           </div>
@@ -1752,6 +1747,29 @@
     </div>
   </div>
 
+  <!-- Admin password prompt -->
+  <div id="adminPassModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="adminPassTitle" hidden>
+    <div class="modal" style="max-width: 380px;">
+      <div class="modal-header">
+        <h2 id="adminPassTitle" class="modal-title">🔒 เข้าโหมดแอดมิน</h2>
+        <button type="button" id="closeAdminPassBtn" class="btn btn-danger-ghost" aria-label="ปิดหน้าต่าง">
+          ✕
+        </button>
+      </div>
+      <form id="adminPassForm" novalidate>
+        <div class="field">
+          <label for="adminPassInput">รหัสผ่านแอดมิน</label>
+          <input type="password" id="adminPassInput" inputmode="numeric" autocomplete="off" maxlength="24" placeholder="กรอกรหัสผ่าน">
+        </div>
+        <p id="adminPassError" class="form-error" style="margin-top: 8px;" hidden></p>
+        <div class="modal-actions">
+          <button type="button" id="cancelAdminPassBtn" class="btn btn-secondary" style="min-height: 36px; padding: 6px 14px; font-size: 0.875rem;">ยกเลิก</button>
+          <button type="submit" id="submitAdminPassBtn" class="btn btn-primary" style="min-height: 36px; padding: 6px 16px; font-size: 0.875rem;">ยืนยัน</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Compact Slip Template Hidden Container for PNG rendering & LINE sharing -->
   <div id="slipCaptureTemplate" style="position: absolute; left: -9999px; top: -9999px; width: 276px; background: #ffffff; padding: 14px 16px; border-radius: 14px; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'IBM Plex Sans Thai', sans-serif; color: #1d1d1f; border: 1px solid #e2e8f0;">
     <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px;">
@@ -1790,9 +1808,18 @@
       <div id="slipPlayersContainer" style="display: flex; flex-direction: column; gap: 3px;"></div>
     </div>
 
-    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); color: #ffffff; border-radius: 9px; padding: 9px 12px; display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
-      <span style="font-size: 0.74rem; color: rgba(255,255,255,0.88); font-weight: 500;">จ่ายคนละ</span>
-      <span id="slipPerPerson" style="font-size: 1.15rem; font-weight: 700; color: #6ee7b7; font-variant-numeric: tabular-nums;">฿0.00</span>
+    <div style="display: flex; align-items: stretch; gap: 8px;">
+      <div style="flex: 1; min-width: 0; background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); color: #ffffff; border-radius: 9px; padding: 9px 12px; display: flex; flex-direction: column; justify-content: center; gap: 2px;">
+        <span style="font-size: 0.72rem; color: rgba(255,255,255,0.88); font-weight: 500;">จ่ายคนละ</span>
+        <span id="slipPerPerson" style="font-size: 1.3rem; font-weight: 700; color: #6ee7b7; font-variant-numeric: tabular-nums; letter-spacing: -0.02em;">฿0.00</span>
+        <span style="font-size: 0.6rem; color: rgba(255,255,255,0.62); font-weight: 500; margin-top: 3px;">โอนเข้าพร้อมเพย์ด้านขวา</span>
+      </div>
+      <div style="width: 96px; flex-shrink: 0; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 9px; padding: 4px 4px 3px; text-align: center;">
+        <img src="data:image/png;base64,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" alt="PromptPay QR" style="width: 100%; height: auto; display: block; border-radius: 3px;">
+        <div style="font-size: 0.56rem; font-weight: 700; color: #0f172a; margin-top: 3px; line-height: 1.25; letter-spacing: -0.01em;">สแกนจ่ายพร้อมเพย์</div>
+        <div style="font-size: 0.6rem; font-weight: 700; color: #0f172a; font-variant-numeric: tabular-nums; line-height: 1.2;">086-605-7980</div>
+        <div style="font-size: 0.5rem; color: #64748b; font-weight: 500; line-height: 1.2;">นางสาววิภาวี วิเศษสังข์</div>
+      </div>
     </div>
 
     <div style="text-align: center; margin-top: 8px; font-size: 0.62rem; color: #94a3b8; font-weight: 600;">
@@ -1809,6 +1836,7 @@
       const DB_ROOT_PATH = 'badminton_club_v1';
       const DB_EVENTS_PATH = 'badminton_club_v1/events';
       const DB_VENUE_SETTINGS_PATH = 'badminton_club_v1/venueSettings';
+      const ADMIN_PASSWORD = '0000'; // รหัสผ่านเข้าโหมดแอดมิน
 
       // Preset sample venues with predetermined hourly rates
       const SAMPLE_VENUES = [
@@ -2395,6 +2423,12 @@
       const cancelModalBtn = document.getElementById('cancelModalBtn');
       const submitModalBtn = document.getElementById('submitModalBtn');
       const createEventError = document.getElementById('createEventError');
+      const adminPassModal = document.getElementById('adminPassModal');
+      const adminPassForm = document.getElementById('adminPassForm');
+      const adminPassInput = document.getElementById('adminPassInput');
+      const adminPassError = document.getElementById('adminPassError');
+      const closeAdminPassBtn = document.getElementById('closeAdminPassBtn');
+      const cancelAdminPassBtn = document.getElementById('cancelAdminPassBtn');
 
       const eventLocationSelect = document.getElementById('eventLocationSelect');
       const customLocationField = document.getElementById('customLocationField');
@@ -2419,7 +2453,6 @@
       // Shuttlecock Helper Inputs
       const shuttleUnitPriceInput = document.getElementById('shuttleUnitPriceInput');
       const shuttleQtyInput = document.getElementById('shuttleQtyInput');
-      const copySummaryBtn = document.getElementById('copySummaryBtn');
       const downloadSummaryImgBtn = document.getElementById('downloadSummaryImgBtn');
 
       // Slip Template DOM Handles
@@ -2452,53 +2485,6 @@
       }
       eventDateInput.addEventListener('input', updateDateDayBadge);
       eventDateInput.addEventListener('change', updateDateDayBadge);
-
-      // Copy summary to LINE - Super concise format, strictly omitting waiting list
-      copySummaryBtn.addEventListener('click', () => {
-        const activeEvent = getActiveEvent();
-        if (!activeEvent) return;
-
-        if (!isShuttleCostConcluded(activeEvent)) {
-          alert('กรุณารอแอดมินกรอกสรุปค่าลูกแบดก่อนคัดลอกยอดเงินส่ง LINE');
-          return;
-        }
-
-        const split = calculateSplitCosts(activeEvent);
-        const maxPlayersLimit = Number(activeEvent.maxPlayers) || 6;
-        const mainPlayers = activeEvent.players.slice(0, maxPlayersLimit);
-
-        let txt = `🏸 ก๊วนแบด: ${activeEvent.location}\n`;
-        txt += `📅 ${formatThaiDate(activeEvent.date, activeEvent.time)}\n`;
-        txt += `💰 ยอดรวม: ${formatCurrency(split.totalCost)} (สนาม ${formatCurrency(split.courtCost)} + ลูก ${formatCurrency(split.shuttleCost)})\n`;
-        txt += `-------------------\n`;
-
-        mainPlayers.forEach((p, idx) => {
-          const share = split.shares[p.id] || 0;
-          const isManual = p.manualCost !== null && p.manualCost !== undefined;
-          txt += `${idx + 1}. ${p.name} - ${formatCurrency(share)}${isManual ? ' (ยอดเฉพาะ)' : ''}\n`;
-        });
-
-        txt += `-------------------\n`;
-        txt += `จ่ายคนละ ${formatCurrency(split.autoPerPerson)} (ขอบคุณทุกคนครับ! 🙏)`;
-
-        if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
-          navigator.clipboard.writeText(txt).then(() => {
-            const originalText = copySummaryBtn.textContent;
-            copySummaryBtn.textContent = '✓ คัดลอกแบบกระชับแล้ว! นำไปวางใน LINE ได้เลย';
-            copySummaryBtn.style.background = 'var(--emerald)';
-            copySummaryBtn.style.color = '#ffffff';
-            setTimeout(() => {
-              copySummaryBtn.textContent = originalText;
-              copySummaryBtn.style.background = '';
-              copySummaryBtn.style.color = '';
-            }, 2500);
-          }).catch(() => {
-            alert('ไม่สามารถคัดลอกโดยอัตโนมัติได้ กรุณาคัดลอกด้วยตนเอง');
-          });
-        } else {
-          alert(txt);
-        }
-      });
 
       // Share compact PNG Slip image directly to LINE (Web Share API with files -> Clipboard image fallback -> Download fallback)
       function flashShareBtnStatus(msg, isError) {
@@ -2541,41 +2527,58 @@
         slipPerPerson.textContent = formatCurrency(split.autoPerPerson);
 
         slipPlayersContainer.innerHTML = '';
-        mainPlayers.forEach((p, idx) => {
-          const shareVal = split.shares[p.id] || 0;
+        // Collapse players who pay the same amount into one line so the slip image stays compact
+        const amountGroups = [];
+        mainPlayers.forEach((p) => {
+          const shareVal = Math.round((Number(split.shares[p.id]) || 0) * 100) / 100;
           const isManual = p.manualCost !== null && p.manualCost !== undefined;
-
-          const row = document.createElement('div');
-          row.style.display = 'flex';
-          row.style.justifyContent = 'space-between';
-          row.style.alignItems = 'center';
-          row.style.gap = '6px';
-          row.style.fontSize = '0.75rem';
-          row.style.color = '#334155';
-          row.style.borderBottom = '1px solid #f1f5f9';
-          row.style.paddingBottom = '2px';
-
-          const left = document.createElement('span');
-          left.style.overflow = 'hidden';
-          left.style.textOverflow = 'ellipsis';
-          left.style.whiteSpace = 'nowrap';
-          left.textContent = `${idx + 1}. ${p.name}`;
-          if (isManual) {
-            const tag = document.createElement('span');
-            tag.style.cssText = 'font-size:0.62rem; color:#b45309; background:#fef3c7; padding:0px 4px; border-radius:4px; font-weight:600; margin-left:4px;';
-            tag.textContent = 'ยอดเฉพาะ';
-            left.appendChild(tag);
+          const groupKey = shareVal.toFixed(2) + (isManual ? '|manual' : '|auto');
+          let grp = amountGroups.find((g) => g.key === groupKey);
+          if (!grp) {
+            grp = { key: groupKey, amount: shareVal, names: [], allManual: true };
+            amountGroups.push(grp);
           }
-          row.appendChild(left);
+          grp.names.push(p.name);
+          grp.allManual = grp.allManual && isManual;
+        });
 
-          const right = document.createElement('span');
-          right.style.fontWeight = '700';
-          right.style.fontVariantNumeric = 'tabular-nums';
-          right.style.flexShrink = '0';
-          right.textContent = formatPlainNumber(shareVal) + ' บ.';
-          row.appendChild(right);
+        amountGroups.forEach((grp) => {
+          const block = document.createElement('div');
+          block.style.borderBottom = '1px solid #f1f5f9';
+          block.style.paddingBottom = '3px';
 
-          slipPlayersContainer.appendChild(row);
+          const head = document.createElement('div');
+          head.style.display = 'flex';
+          head.style.justifyContent = 'space-between';
+          head.style.alignItems = 'baseline';
+          head.style.gap = '6px';
+          head.style.fontSize = '0.7rem';
+          head.style.fontWeight = '700';
+          head.style.color = '#0f172a';
+          head.style.fontVariantNumeric = 'tabular-nums';
+          head.style.lineHeight = '1.3';
+          head.textContent = grp.names.length > 1
+            ? `${grp.names.length} คน × ${formatPlainNumber(grp.amount)} = ${formatPlainNumber(grp.amount * grp.names.length)} บ.`
+            : `${formatPlainNumber(grp.amount)} บ.`;
+          block.appendChild(head);
+
+          const names = document.createElement('div');
+          names.style.fontSize = '0.66rem';
+          names.style.lineHeight = '1.4';
+          names.style.fontWeight = '500';
+          names.style.color = '#475569';
+          names.style.wordBreak = 'break-word';
+          names.style.marginTop = '1px';
+          names.textContent = grp.names.join(', ');
+          if (grp.allManual) {
+            const tag = document.createElement('span');
+            tag.style.cssText = 'font-size:0.6rem; color:#b45309; background:#fef3c7; padding:0px 4px; border-radius:4px; font-weight:600; margin-left:4px;';
+            tag.textContent = 'ยอดเฉพาะ';
+            names.appendChild(tag);
+          }
+          block.appendChild(names);
+
+          slipPlayersContainer.appendChild(block);
         });
 
         downloadSummaryImgBtn.textContent = '⏳ กำลังเตรียมรูปสลิป...';
@@ -3057,10 +3060,70 @@
         render();
       });
 
-      roleAdminBtn.addEventListener('click', () => {
+      // ---- Admin password gate ----
+      let pendingAdminAction = null;
+
+      function requestAdminAccess(nextAction) {
+        if (state.role === 'admin') {
+          if (typeof nextAction === 'function') nextAction();
+          return;
+        }
+        pendingAdminAction = typeof nextAction === 'function' ? nextAction : null;
+        adminPassInput.value = '';
+        adminPassError.hidden = true;
+        adminPassModal.hidden = false;
+        setTimeout(() => adminPassInput.focus(), 60);
+      }
+
+      function closeAdminPassModal() {
+        adminPassModal.hidden = true;
+        adminPassInput.value = '';
+        adminPassError.hidden = true;
+        pendingAdminAction = null;
+      }
+
+      function submitAdminPassword() {
+        if (adminPassInput.value.trim() !== ADMIN_PASSWORD) {
+          adminPassError.textContent = 'รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่';
+          adminPassError.hidden = false;
+          adminPassInput.value = '';
+          adminPassInput.focus();
+          return;
+        }
         state.role = 'admin';
         state.confirmDeleteId = null;
+        const act = pendingAdminAction;
+        closeAdminPassModal();
         render();
+        if (typeof act === 'function') act();
+      }
+
+      adminPassForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        submitAdminPassword();
+      });
+      adminPassInput.addEventListener('input', () => {
+        adminPassError.hidden = true;
+        // พิมพ์รหัสถูกครบแล้วเข้าโหมดแอดมินทันที ไม่ต้องกดปุ่มยืนยัน
+        if (adminPassInput.value.trim() === ADMIN_PASSWORD) {
+          submitAdminPassword();
+          return;
+        }
+        // พิมพ์ครบจำนวนหลักแล้วแต่ไม่ตรง = แจ้งเตือนทันทีและล้างช่องให้พิมพ์ใหม่
+        if (adminPassInput.value.length >= ADMIN_PASSWORD.length) {
+          adminPassError.textContent = 'รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่';
+          adminPassError.hidden = false;
+          adminPassInput.value = '';
+        }
+      });
+      closeAdminPassBtn.addEventListener('click', closeAdminPassModal);
+      cancelAdminPassBtn.addEventListener('click', closeAdminPassModal);
+      adminPassModal.addEventListener('click', (e) => {
+        if (e.target === adminPassModal) closeAdminPassModal();
+      });
+
+      roleAdminBtn.addEventListener('click', () => {
+        requestAdminAccess(null);
       });
 
       // Populate Venue Dropdown with predetermined rates
@@ -3394,8 +3457,8 @@
         state.editingEventId = null;
       }
 
-      openCreateModalBtn.addEventListener('click', openCreateModalDirect);
-      emptyCreateBtn.addEventListener('click', openCreateModalDirect);
+      openCreateModalBtn.addEventListener('click', () => requestAdminAccess(openCreateModalDirect));
+      emptyCreateBtn.addEventListener('click', () => requestAdminAccess(openCreateModalDirect));
       editEventBtn.addEventListener('click', openEditModal);
       closeModalBtn.addEventListener('click', closeCreateModal);
       cancelModalBtn.addEventListener('click', closeCreateModal);
@@ -3407,6 +3470,7 @@
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
           if (!createEventModal.hidden) closeCreateModal();
+          if (!adminPassModal.hidden) closeAdminPassModal();
         }
       });
 
