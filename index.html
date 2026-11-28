@@ -1838,6 +1838,8 @@
       const DB_VENUE_SETTINGS_PATH = 'badminton_club_v1/venueSettings';
       const ADMIN_PASSWORD = '0000'; // รหัสผ่านเข้าโหมดแอดมิน
       const ADMIN_AUTH_STORAGE_KEY = 'badminton_club_admin_authed_v1'; // จำเครื่องที่เคยใส่รหัสถูกแล้ว
+      const ADMIN_DEVICE_TOKEN_KEY = 'badminton_club_admin_device_token_v1'; // token ประจำเครื่องนี้
+      const DB_ADMIN_DEVICES_PATH = 'badminton_club_v1/adminDevices'; // รายชื่อเครื่องที่เคยใส่รหัสถูก (จำฝั่งเซิร์ฟเวอร์)
 
       // Preset sample venues with predetermined hourly rates
       const SAMPLE_VENUES = [
@@ -3061,6 +3063,78 @@
         render();
       });
 
+      // ---- จำเครื่องแอดมิน (ฝั่งเซิร์ฟเวอร์) ----
+      // ปัญหา: iPhone/Safari ลบ localStorage ได้เอง (ITP ลบหลังไม่เข้าเว็บ 7 วัน,
+      // โหมด Private, in-app browser ของ LINE/FB, หรือเปิด "Block All Cookies")
+      // จึงจำฝั่งเซิร์ฟเวอร์ด้วย เพื่อให้เครื่องที่เคยใส่รหัสถูกยังเข้าแอดมินได้แม้ storage หาย
+
+      function adminDeviceFingerprint() {
+        const parts = [
+          navigator.userAgent || '',
+          navigator.language || '',
+          navigator.platform || '',
+          screen.width || 0,
+          screen.height || 0,
+          screen.colorDepth || 0,
+          window.devicePixelRatio || 0,
+          new Date().getTimezoneOffset(),
+          navigator.hardwareConcurrency || ''
+        ].join('|');
+        let h = 5381;
+        for (let i = 0; i < parts.length; i++) {
+          h = ((h << 5) + h + parts.charCodeAt(i)) | 0;
+        }
+        return 'fp_' + (h >>> 0).toString(36);
+      }
+
+      function getAdminDeviceKeys() {
+        const keys = [];
+        try {
+          let token = window.localStorage.getItem(ADMIN_DEVICE_TOKEN_KEY);
+          if (!token) {
+            token = 'tk_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 10);
+            window.localStorage.setItem(ADMIN_DEVICE_TOKEN_KEY, token);
+          }
+          keys.push(token);
+        } catch (err) {}
+        keys.push(adminDeviceFingerprint());
+        return keys;
+      }
+
+      function rememberAdminDevice() {
+        try { window.localStorage.setItem(ADMIN_AUTH_STORAGE_KEY, '1'); } catch (err) {}
+        const payload = JSON.stringify({ rememberedAt: Date.now(), ua: navigator.userAgent || '' });
+        getAdminDeviceKeys().forEach((key) => {
+          fetch(FIREBASE_DATABASE_URL + '/' + DB_ADMIN_DEVICES_PATH + '/' + encodeURIComponent(key) + '.json', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: payload
+          }).catch(() => {});
+        });
+      }
+
+      function restoreRememberedAdmin() {
+        try {
+          if (window.localStorage.getItem(ADMIN_AUTH_STORAGE_KEY) === '1') {
+            state.role = 'admin';
+          }
+        } catch (err) {}
+        // เช็คฝั่งเซิร์ฟเวอร์ด้วย (เผื่อ storage ฝั่งเครื่องหายไป)
+        const keys = getAdminDeviceKeys();
+        keys.forEach((key) => {
+          fetch(FIREBASE_DATABASE_URL + '/' + DB_ADMIN_DEVICES_PATH + '/' + encodeURIComponent(key) + '.json', { cache: 'no-store' })
+            .then((res) => (res.ok ? res.json() : null))
+            .then((data) => {
+              if (data) {
+                state.role = 'admin';
+                try { window.localStorage.setItem(ADMIN_AUTH_STORAGE_KEY, '1'); } catch (err) {}
+                render();
+              }
+            })
+            .catch(() => {});
+        });
+      }
+
       // ---- Admin password gate ----
       let pendingAdminAction = null;
 
@@ -3094,7 +3168,7 @@
         state.role = 'admin';
         state.confirmDeleteId = null;
         // จำไว้ว่าเครื่องนี้เคยใส่รหัสถูกแล้ว ครั้งต่อไปเข้าโหมดแอดมินได้เลยไม่ต้องถามรหัสซ้ำ
-        try { window.localStorage.setItem(ADMIN_AUTH_STORAGE_KEY, '1'); } catch (err) {}
+        rememberAdminDevice();
         const act = pendingAdminAction;
         closeAdminPassModal();
         render();
@@ -3849,11 +3923,7 @@
       // Initialize App
       loadState();
       // เครื่องนี้เคยใส่รหัสแอดมินถูกแล้วหรือเปล่า? ถ้าเคย เข้าโหมดแอดมินให้เลย
-      try {
-        if (window.localStorage.getItem(ADMIN_AUTH_STORAGE_KEY) === '1') {
-          state.role = 'admin';
-        }
-      } catch (err) {}
+      restoreRememberedAdmin();
       connectFirebase();
     })();
   </script>
