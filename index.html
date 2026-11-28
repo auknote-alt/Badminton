@@ -1837,6 +1837,7 @@
       const DB_EVENTS_PATH = 'badminton_club_v1/events';
       const DB_VENUE_SETTINGS_PATH = 'badminton_club_v1/venueSettings';
       const ADMIN_PASSWORD = '0000'; // รหัสผ่านเข้าโหมดแอดมิน
+      const ADMIN_AUTH_STORAGE_KEY = 'badminton_club_admin_authed_v1'; // จำเครื่องที่เคยใส่รหัสถูกแล้ว
 
       // Preset sample venues with predetermined hourly rates
       const SAMPLE_VENUES = [
@@ -3092,6 +3093,8 @@
         }
         state.role = 'admin';
         state.confirmDeleteId = null;
+        // จำไว้ว่าเครื่องนี้เคยใส่รหัสถูกแล้ว ครั้งต่อไปเข้าโหมดแอดมินได้เลยไม่ต้องถามรหัสซ้ำ
+        try { window.localStorage.setItem(ADMIN_AUTH_STORAGE_KEY, '1'); } catch (err) {}
         const act = pendingAdminAction;
         closeAdminPassModal();
         render();
@@ -3845,6 +3848,12 @@
 
       // Initialize App
       loadState();
+      // เครื่องนี้เคยใส่รหัสแอดมินถูกแล้วหรือเปล่า? ถ้าเคย เข้าโหมดแอดมินให้เลย
+      try {
+        if (window.localStorage.getItem(ADMIN_AUTH_STORAGE_KEY) === '1') {
+          state.role = 'admin';
+        }
+      } catch (err) {}
       connectFirebase();
     })();
   </script>
